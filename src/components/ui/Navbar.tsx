@@ -16,7 +16,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const supabase = createClient();
 
-  useEffect(() => {
+  const fetchProfile = () => {
     supabase.auth.getUser().then((result: any) => {
       const u = result.data?.user;
       if (u) {
@@ -29,8 +29,17 @@ export default function Navbar() {
           .then((res: any) => {
             if (res.data) setProfile(res.data);
           });
+      } else {
+        setUser(null);
+        setProfile(null);
       }
     });
+  };
+
+  useEffect(() => {
+    fetchProfile();
+    window.addEventListener("profile-updated", fetchProfile);
+    return () => window.removeEventListener("profile-updated", fetchProfile);
   }, [pathname]);
 
   const handleLogout = async () => {

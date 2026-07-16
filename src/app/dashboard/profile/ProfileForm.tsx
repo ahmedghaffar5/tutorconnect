@@ -38,7 +38,8 @@ export default function ProfileForm({
     }
 
     toast.success("Profile updated");
-    router.refresh();
+    window.dispatchEvent(new Event("profile-updated"));
+    router.push("/dashboard");
   };
 
   return (
