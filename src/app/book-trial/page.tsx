@@ -6,6 +6,13 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import toast from "react-hot-toast";
 
+const plans: Record<string, { name: string; type: string; amount?: number }> = {
+  trial: { name: "Free Trial", type: "trial" },
+  single: { name: "Single Session ($25)", type: "paid", amount: 25 },
+  monthly: { name: "Monthly Package ($199)", type: "paid", amount: 199 },
+  premium: { name: "Premium Monthly ($349)", type: "paid", amount: 349 },
+};
+
 const tutors = [
   { id: "1", name: "Dr. Sarah Ahmed", subjects: ["Quran & Arabic"] },
   { id: "2", name: "Prof. John Smith", subjects: ["Mathematics"] },
@@ -14,7 +21,7 @@ const tutors = [
   { id: "5", name: "Mr. David Chen", subjects: ["Coding", "Computer Science"] },
 ];
 
-const subjects = [
+const subjectsList = [
   "Mathematics", "English", "Science", "Computer Science", "Coding",
   "Quran", "Urdu", "Physics", "Chemistry", "Biology",
 ];
@@ -22,13 +29,13 @@ const subjects = [
 function BookingForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const preselectedPlan = searchParams.get("plan") || "trial";
   const preselectedTutor = searchParams.get("tutor") || "";
-  const preselectedType = searchParams.get("type") || "trial";
 
   const [form, setForm] = useState({
+    plan: preselectedPlan,
     tutorId: preselectedTutor,
     subject: "",
-    bookingType: preselectedType,
     date: "",
     time: "",
     studentName: "",
@@ -36,6 +43,8 @@ function BookingForm() {
     notes: "",
   });
   const [loading, setLoading] = useState(false);
+
+  const selectedPlan = plans[form.plan] || plans.trial;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +65,8 @@ function BookingForm() {
       student_id: user.id,
       tutor_id: form.tutorId,
       subject: form.subject,
-      booking_type: form.bookingType,
+      booking_type: selectedPlan.type,
+      plan: form.plan,
       scheduled_at: `${form.date}T${form.time}`,
       status: "pending",
       student_name: form.studentName,
@@ -79,24 +89,37 @@ function BookingForm() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
-            {form.bookingType === "trial" ? "Book a Free Trial" : "Book a Class"}
+            {selectedPlan.type === "trial" ? "Book a Free Trial" : "Book a Class"}
           </h1>
-          <p className="mt-2 text-gray-600">
-            {form.bookingType === "trial"
+          <p className="mt-2 text-gray-500">
+            {selectedPlan.type === "trial"
               ? "Try a free 30-minute session with any tutor"
-              : "Schedule a paid tutoring session"}
+              : `Selected plan: ${selectedPlan.name}`}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Select Plan</label>
+              <select
+                value={form.plan}
+                onChange={(e) => setForm({ ...form, plan: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none bg-white"
+              >
+                {Object.entries(plans).map(([id, p]) => (
+                  <option key={id} value={id}>{p.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Select Tutor</label>
               <select
                 value={form.tutorId}
                 onChange={(e) => setForm({ ...form, tutorId: e.target.value })}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none bg-white"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none bg-white"
               >
                 <option value="">Choose a tutor</option>
                 {tutors.map((t) => (
@@ -111,24 +134,12 @@ function BookingForm() {
                 value={form.subject}
                 onChange={(e) => setForm({ ...form, subject: e.target.value })}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none bg-white"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none bg-white"
               >
                 <option value="">Choose a subject</option>
-                {subjects.map((s) => (
+                {subjectsList.map((s) => (
                   <option key={s} value={s}>{s}</option>
                 ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Class Type</label>
-              <select
-                value={form.bookingType}
-                onChange={(e) => setForm({ ...form, bookingType: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none bg-white"
-              >
-                <option value="trial">Free Trial</option>
-                <option value="paid">Paid Class ($25)</option>
               </select>
             </div>
 
@@ -139,7 +150,7 @@ function BookingForm() {
                 value={form.date}
                 onChange={(e) => setForm({ ...form, date: e.target.value })}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
               />
             </div>
 
@@ -150,7 +161,7 @@ function BookingForm() {
                 value={form.time}
                 onChange={(e) => setForm({ ...form, time: e.target.value })}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
               />
             </div>
 
@@ -162,7 +173,7 @@ function BookingForm() {
                 onChange={(e) => setForm({ ...form, studentName: e.target.value })}
                 placeholder="Student's full name"
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
               />
             </div>
 
@@ -174,7 +185,7 @@ function BookingForm() {
                 onChange={(e) => setForm({ ...form, studentAge: e.target.value })}
                 placeholder="Age"
                 min={1}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none"
               />
             </div>
           </div>
@@ -186,16 +197,16 @@ function BookingForm() {
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
               rows={3}
               placeholder="Any specific requirements or topics you'd like to cover"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none resize-none"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none resize-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-emerald-700 transition-colors disabled:opacity-50"
+            className="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
-            {loading ? "Submitting..." : form.bookingType === "trial" ? "Book Free Trial" : "Book & Pay"}
+            {loading ? "Submitting..." : selectedPlan.type === "trial" ? "Book Free Trial" : `Book - ${selectedPlan.name}`}
           </button>
         </form>
       </div>

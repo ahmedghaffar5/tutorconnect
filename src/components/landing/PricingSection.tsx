@@ -3,6 +3,7 @@ import { Check, ArrowRight } from "lucide-react";
 
 const plans = [
   {
+    id: "trial",
     name: "Trial Class",
     price: "Free",
     period: "",
@@ -11,6 +12,7 @@ const plans = [
     featured: false,
   },
   {
+    id: "single",
     name: "Single Session",
     price: "$25",
     period: "/session",
@@ -19,6 +21,7 @@ const plans = [
     featured: true,
   },
   {
+    id: "monthly",
     name: "Monthly",
     price: "$199",
     period: "/month",
@@ -27,6 +30,7 @@ const plans = [
     featured: false,
   },
   {
+    id: "premium",
     name: "Premium",
     price: "$349",
     period: "/month",
@@ -51,18 +55,28 @@ export default function PricingSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {plans.map((plan) => (
             <div
-              key={plan.name}
-              className={`rounded-2xl p-6 flex flex-col ${plan.featured ? "bg-blue-600 text-white ring-4 ring-blue-100 scale-105 shadow-xl" : "bg-white border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all"}`}
+              key={plan.id}
+              className={`rounded-2xl p-6 flex flex-col ${
+                plan.featured
+                  ? "bg-blue-600 text-white ring-4 ring-blue-100 scale-105 shadow-xl"
+                  : "bg-white border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all"
+              }`}
             >
               <h3 className="text-lg font-bold">{plan.name}</h3>
               <div className="mt-3 flex items-baseline gap-1">
                 <span className="text-3xl font-bold">{plan.price}</span>
-                {plan.period && <span className={`text-sm ${plan.featured ? "text-blue-200" : "text-gray-500"}`}>{plan.period}</span>}
+                {plan.period && (
+                  <span className={`text-sm ${plan.featured ? "text-blue-200" : "text-gray-500"}`}>
+                    {plan.period}
+                  </span>
+                )}
               </div>
               <ul className="mt-6 space-y-3 flex-1">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${plan.featured ? "bg-blue-500" : "bg-blue-100"}`}>
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      plan.featured ? "bg-blue-500" : "bg-blue-100"
+                    }`}>
                       <Check className={`h-3 w-3 ${plan.featured ? "text-white" : "text-blue-600"}`} />
                     </div>
                     {f}
@@ -70,8 +84,12 @@ export default function PricingSection() {
                 ))}
               </ul>
               <Link
-                href="/book-trial"
-                className={`mt-6 block text-center py-3 rounded-xl font-semibold text-sm transition-all ${plan.featured ? "bg-white text-blue-600 hover:bg-gray-100" : "bg-blue-600 text-white hover:bg-blue-700"}`}
+                href={`/book-trial?plan=${plan.id}`}
+                className={`mt-6 block text-center py-3 rounded-xl font-semibold text-sm transition-all ${
+                  plan.featured
+                    ? "bg-white text-blue-600 hover:bg-gray-100"
+                    : "bg-blue-600 text-white hover:bg-blue-700"
+                }`}
               >
                 {plan.cta}
               </Link>
