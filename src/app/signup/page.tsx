@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { createAdminClient } from "@/lib/supabase/admin";
 import toast from "react-hot-toast";
 
 export default function SignupPage() {
@@ -16,9 +17,9 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const handleSignup = async (e: React.FormEvent) => {
-    const supabase = await createClient();
     e.preventDefault();
     setLoading(true);
+    const supabase = await createClient();
 
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: form.email,
@@ -40,10 +41,10 @@ export default function SignupPage() {
         role: form.role,
       });
 
-      if (dbError) toast.error("Profile creation failed");
+      if (dbError) toast.error("Profile creation failed: " + dbError.message);
     }
 
-    toast.success("Account created! Check your email to confirm.");
+    toast.success("Account created! Sign in.");
     router.push("/login");
   };
 
