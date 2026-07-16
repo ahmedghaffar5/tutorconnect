@@ -10,11 +10,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-primary: #059669;
-  --color-primary-dark: #047857;
-  --color-primary-light: #d1fae5;
-  --color-secondary: #eab308;
-  --color-accent: #f59e0b;
+  --color-primary: #2563eb;
+  --color-primary-dark: #1e40af;
+  --color-primary-light: #dbeafe;
+  --color-secondary: #f59e0b;
+  --color-accent: #f97316;
 }
 
 body {
