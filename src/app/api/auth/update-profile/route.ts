@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       }
 
       await supabase.auth.updateUser({
-        data: { full_name: fullName },
+        data: { full_name: fullName, phone: phone || "" },
       });
     }
 

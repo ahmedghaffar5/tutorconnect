@@ -19,7 +19,7 @@ export default async function ProfilePage() {
   const meta = user.user_metadata as Record<string, string> | undefined;
 
   const fullName = profile?.full_name || meta?.full_name || user.email?.split("@")[0] || "";
-  const phone = profile?.phone || "";
+  const phone = profile?.phone || meta?.phone || "";
   const role = profile?.role || meta?.role || "student";
 
   return (
