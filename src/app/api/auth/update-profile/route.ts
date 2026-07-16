@@ -22,6 +22,10 @@ export async function POST(request: Request) {
       if (rpcError) {
         return NextResponse.json({ error: rpcError.message }, { status: 500 });
       }
+
+      await supabase.auth.updateUser({
+        data: { full_name: fullName },
+      });
     }
 
     return NextResponse.json({ success: true });

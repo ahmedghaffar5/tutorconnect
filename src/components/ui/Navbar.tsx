@@ -16,24 +16,20 @@ export default function Navbar() {
   const pathname = usePathname();
   const supabase = createClient();
 
-  const fetchProfile = () => {
-    supabase.auth.getUser().then((result: any) => {
-      const u = result.data?.user;
-      if (u) {
-        setUser(u);
-        supabase
-          .from("users")
-          .select("*")
-          .eq("id", u.id)
-          .single()
-          .then((res: any) => {
-            if (res.data) setProfile(res.data);
-          });
-      } else {
-        setUser(null);
-        setProfile(null);
-      }
-    });
+  const fetchProfile = async () => {
+    const { data: authData } = await supabase.auth.getUser();
+    const u = authData?.user;
+    if (!u) { setUser(null); setProfile(null); return; }
+    setUser(u);
+    const meta = u.user_metadata as Record<string, string> | undefined;
+    const { data: dbProfile } = await supabase.from("users").select("*").eq("id", u.id).single();
+    if (dbProfile) {
+      setProfile(dbProfile);
+    } else if (meta) {
+      setProfile({ full_name: meta.full_name || u.email || "User", role: meta.role || "student" });
+    } else {
+      setProfile({ full_name: u.email || "User", role: "student" });
+    }
   };
 
   useEffect(() => {
