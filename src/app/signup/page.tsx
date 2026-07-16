@@ -19,27 +19,32 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
 
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: form.email,
-        password: form.password,
-        fullName: form.fullName,
-        role: form.role,
-      }),
-    });
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+          fullName: form.fullName,
+          role: form.role,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) {
-      toast.error(data.error || "Signup failed");
+      if (!res.ok) {
+        toast.error(data.error || "Signup failed");
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Account created! Sign in.");
+      router.push("/login");
+    } catch {
+      toast.error("Network error. Please try again.");
       setLoading(false);
-      return;
     }
-
-    toast.success("Account created! Sign in.");
-    router.push("/login");
   };
 
   return (

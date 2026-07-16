@@ -22,15 +22,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to create user" }, { status: 500 });
     }
 
-    const { error: dbError } = await supabase.from("users").insert({
-      id: authData.user.id,
+    const { error: rpcError } = await supabase.rpc("create_user_profile", {
+      user_id: authData.user.id,
       full_name: fullName,
       email,
       role,
     });
 
-    if (dbError) {
-      return NextResponse.json({ error: dbError.message }, { status: 500 });
+    if (rpcError) {
+      return NextResponse.json({ error: rpcError.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
