@@ -13,7 +13,9 @@ export default async function DashboardPage() {
     .eq("id", user.id)
     .single();
 
-  if (profile?.role === "tutor") redirect("/dashboard/tutor");
-  if (profile?.role === "admin") redirect("/dashboard/admin");
+  const role = profile?.role || (user.user_metadata?.role as string) || "student";
+
+  if (role === "tutor") redirect("/dashboard/tutor");
+  if (role === "admin") redirect("/dashboard/admin");
   redirect("/dashboard/student");
 }

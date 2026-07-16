@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
 import toast from "react-hot-toast";
 
 export default function SignupPage() {
@@ -15,32 +14,28 @@ export default function SignupPage() {
   });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const supabase = await createClient();
 
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-      options: { data: { full_name: form.fullName, role: form.role } },
+    const res = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: form.email,
+        password: form.password,
+        fullName: form.fullName,
+        role: form.role,
+      }),
     });
 
-    if (authError) {
-      toast.error(authError.message);
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.error || "Signup failed");
       setLoading(false);
       return;
-    }
-
-    if (authData.user) {
-      const { error: dbError } = await supabase.from("users").insert({
-        id: authData.user.id,
-        full_name: form.fullName,
-        email: form.email,
-        role: form.role,
-      });
-
-      if (dbError) toast.error("Profile creation failed: " + dbError.message);
     }
 
     toast.success("Account created! Sign in.");
@@ -57,9 +52,7 @@ export default function SignupPage() {
 
         <form onSubmit={handleSignup} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Full Name
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
             <input
               type="text"
               value={form.fullName}
@@ -71,9 +64,7 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
             <input
               type="email"
               value={form.email}
@@ -85,9 +76,7 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input
               type="password"
               value={form.password}
@@ -100,13 +89,11 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              I am a
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">I am a</label>
             <select
               value={form.role}
               onChange={(e) => setForm({ ...form, role: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none transition-all bg-white"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none bg-white"
             >
               <option value="student">Student</option>
               <option value="parent">Parent</option>
@@ -124,9 +111,7 @@ export default function SignupPage() {
 
           <div className="text-center text-sm text-gray-500">
             Already have an account?{" "}
-            <Link href="/login" className="text-emerald-600 hover:underline font-medium">
-              Sign in
-            </Link>
+            <Link href="/login" className="text-emerald-600 hover:underline font-medium">Sign in</Link>
           </div>
         </form>
       </div>

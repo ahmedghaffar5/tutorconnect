@@ -17,21 +17,26 @@ function LoginForm() {
     e.preventDefault();
     setLoading(true);
 
-    const supabase = await createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const supabase = await createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      toast.error(error.message);
+      if (error) {
+        toast.error(error.message);
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Logged in successfully");
+      router.push(searchParams.get("redirect") || "/dashboard");
+      router.refresh();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Login failed");
       setLoading(false);
-      return;
     }
-
-    toast.success("Logged in successfully");
-    router.push(searchParams.get("redirect") || "/dashboard");
-    router.refresh();
   };
 
   return (
