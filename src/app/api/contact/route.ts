@@ -14,10 +14,10 @@ export async function POST(request: Request) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    const { error } = await supabase.from("contact_messages").insert({
-      name,
-      email,
-      message,
+    const { error } = await supabase.rpc("insert_contact_message", {
+      p_name: name,
+      p_email: email,
+      p_message: message,
     });
 
     if (error) {
