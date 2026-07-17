@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import nodemailer from "nodemailer";
 
 export async function POST(request: Request) {
   try {
@@ -26,32 +25,42 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: dbError.message }, { status: 500 });
     }
 
-    // Send email notification via Gmail SMTP
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.SMTP_EMAIL,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
+    // Try to send email notification (optional - skip if SMTP not configured)
+    const smtpEmail = process.env.SMTP_EMAIL;
+    const smtpPass = process.env.SMTP_PASSWORD;
 
-    await transporter.sendMail({
-      from: process.env.SMTP_EMAIL,
-      to: "ahmed.ghaffar555@gmail.com",
-      subject: `New Contact Message from ${name}`,
-      html: `
-        <h2>New Contact Message</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p style="background:#f3f4f6;padding:16px;border-radius:8px;">${message}</p>
-        <hr>
-        <p style="color:#6b7280;font-size:12px;">Sent via TutorConnect Contact Form</p>
-      `,
-    });
+    if (smtpEmail && smtpPass) {
+      try {
+        const nodemailer = await import("nodemailer");
+        const transporter = nodemailer.default.createTransport({
+          service: "gmail",
+          auth: { user: smtpEmail, pass: smtpPass },
+        });
+        await transporter.sendMail({
+          from: smtpEmail,
+          to: "ahmed.ghaffar555@gmail.com",
+          subject: `New Contact Message from ${name}`,
+          html: `
+            <h2>New Contact Message</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Message:</strong></p>
+            <p style="background:#f3f4f6;padding:16px;border-radius:8px;">${message}</p>
+            <hr>
+            <p style="color:#6b7280;font-size:12px;">Sent via TutorConnect Contact Form</p>
+          `,
+        });
+      } catch {
+        // Email failed but form submission succeeded - that's fine
+        console.warn("Failed to send email notification");
+      }
+    }
 
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Something went wrong" },
+      { status: 500 }
+    );
   }
 }
