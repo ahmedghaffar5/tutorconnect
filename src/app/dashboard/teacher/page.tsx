@@ -103,11 +103,11 @@ export default async function TeacherDashboard() {
               </div>
               {application && (
                 <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                  application.status === "pending" ? "bg-yellow-100 text-yellow-700" :
+                  application.status === "submitted" || application.status === "under_review" ? "bg-yellow-100 text-yellow-700" :
                   application.status === "rejected" ? "bg-red-100 text-red-700" :
                   "bg-emerald-100 text-emerald-700"
                 }`}>
-                  {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
+                  {application.status.replace(/_/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}
                 </span>
               )}
             </div>
