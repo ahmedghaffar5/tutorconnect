@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import { Users, GraduationCap, Calendar, DollarSign, CheckCircle, XCircle, Mail, MessageSquare } from "lucide-react";
 import LogoutButton from "@/components/ui/LogoutButton";
@@ -17,25 +16,32 @@ export default async function AdminDashboard() {
 
   if (userRole !== "admin") redirect("/dashboard");
 
-  // Use admin client for admin-only data (bypasses RLS)
-  const admin = createAdminClient();
-
-  const { count: totalStudents } = (await admin
+  const { count: totalStudents } = (await supabase
     .from("users").select("*", { count: "exact", head: true }).eq("role", "student")) || { count: 0 };
 
-  const { count: totalTutors } = (await admin
+  const { count: totalTutors } = (await supabase
     .from("users").select("*", { count: "exact", head: true }).eq("role", "tutor")) || { count: 0 };
 
-  const { data: tutors } = await admin.from("tutors").select("*");
+  const { data: tutors } = await supabase.from("tutors").select("*");
 
-  const { count: totalBookings } = (await admin
+  const { count: totalBookings } = (await supabase
     .from("bookings").select("*", { count: "exact", head: true })) || { count: 0 };
 
-  const { data: allBookings } = await admin
+  const { data: allBookings } = await supabase
     .from("bookings").select("*").order("created_at", { ascending: false }).limit(20);
 
-  const { data: contactMessages } = await admin
-    .from("contact_messages").select("*").order("created_at", { ascending: false }).limit(20);
+  let contactMessages: any[] = [];
+  try {
+    const { data, error } = await supabase
+      .from("contact_messages")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(20);
+    if (error) console.error("contact_messages error:", error.message);
+    if (data) contactMessages = data;
+  } catch (e) {
+    console.error("contact_messages exception:", e);
+  }
 
   const pendingTutors = tutors?.filter((t) => !t.is_approved) || [];
 
@@ -78,7 +84,7 @@ export default async function AdminDashboard() {
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <Mail className="h-6 w-6 text-blue-600 mb-2" />
-            <p className="text-2xl font-bold text-gray-900">{contactMessages?.length || 0}</p>
+            <p className="text-2xl font-bold text-gray-900">{contactMessages.length}</p>
             <p className="text-sm text-gray-500">Messages</p>
           </div>
         </div>
@@ -93,7 +99,7 @@ export default async function AdminDashboard() {
           </div>
         )}
 
-        {contactMessages && contactMessages.length > 0 && (
+        {contactMessages.length > 0 && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
             <div className="p-6 border-b border-gray-100 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
