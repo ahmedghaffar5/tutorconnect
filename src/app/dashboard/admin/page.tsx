@@ -8,30 +8,40 @@ export default async function AdminDashboard() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  // Check role from DB, fallback to auth metadata
   const { data: profile } = await supabase
     .from("users").select("role").eq("id", user.id).single();
 
-  if (profile?.role !== "admin") redirect("/dashboard");
+  const userRole = profile?.role || (user.user_metadata as any)?.role;
+
+  if (userRole !== "admin") redirect("/dashboard");
 
   const { count: totalStudents } = await supabase
-    .from("users").select("*", { count: "exact", head: true }).eq("role", "student");
+    .from("users").select("*", { count: "exact", head: true }).eq("role", "student") || { count: 0 };
 
   const { count: totalTutors } = await supabase
-    .from("users").select("*", { count: "exact", head: true }).eq("role", "tutor");
+    .from("users").select("*", { count: "exact", head: true }).eq("role", "tutor") || { count: 0 };
 
   const { data: tutors } = await supabase.from("tutors").select("*");
 
   const { count: totalBookings } = await supabase
-    .from("bookings").select("*", { count: "exact", head: true });
+    .from("bookings").select("*", { count: "exact", head: true }) || { count: 0 };
 
   const { data: allBookings } = await supabase
     .from("bookings").select("*").order("created_at", { ascending: false }).limit(20);
 
-  const { data: contactMessages } = await supabase
-    .from("contact_messages").select("*").order("created_at", { ascending: false }).limit(20);
+  // Try to fetch contact messages (table may not exist yet)
+  let contactMessages: any[] = [];
+  try {
+    const { data } = await supabase
+      .from("contact_messages")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(20);
+    if (data) contactMessages = data;
+  } catch {}
 
   const pendingTutors = tutors?.filter((t) => !t.is_approved) || [];
-  const unreadMessages = contactMessages?.filter((m) => !m.is_read) || [];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -72,7 +82,7 @@ export default async function AdminDashboard() {
           </div>
           <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <Mail className="h-6 w-6 text-blue-600 mb-2" />
-            <p className="text-2xl font-bold text-gray-900">{unreadMessages.length}</p>
+            <p className="text-2xl font-bold text-gray-900">{contactMessages.length}</p>
             <p className="text-sm text-gray-500">Messages</p>
           </div>
         </div>
@@ -83,18 +93,15 @@ export default async function AdminDashboard() {
               <XCircle className="h-5 w-5" />
               Pending Tutor Approvals ({pendingTutors.length})
             </h2>
-            <p className="text-amber-700 text-sm mt-1">
-              Tutors awaiting your approval before they appear publicly.
-            </p>
+            <p className="text-amber-700 text-sm mt-1">Tutors awaiting your approval before they appear publicly.</p>
           </div>
         )}
 
-        {/* Contact Messages Section */}
-        {contactMessages && contactMessages.length > 0 && (
+        {contactMessages.length > 0 && (
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-8">
             <div className="p-6 border-b border-gray-100 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                <MessageSquare className="h-5 w-5 text-blue-600" /> Recent Messages
+                <MessageSquare className="h-5 w-5 text-blue-600" /> Messages
               </h2>
               <span className="text-sm text-gray-400">{contactMessages.length} total</span>
             </div>
@@ -121,7 +128,6 @@ export default async function AdminDashboard() {
           <div className="p-6 border-b border-gray-100">
             <h2 className="text-lg font-semibold text-gray-900">Recent Bookings</h2>
           </div>
-
           {allBookings && allBookings.length > 0 ? (
             <div className="divide-y divide-gray-100">
               {allBookings.map((booking) => (
