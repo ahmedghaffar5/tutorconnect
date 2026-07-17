@@ -107,6 +107,11 @@ export default function Navbar() {
                       <Link href={getDashboardLink()} onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
                         <User className="h-4 w-4" /> Dashboard
                       </Link>
+                      {profile?.role !== "tutor" && profile?.role !== "admin" && (
+                        <Link href="/apply" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-emerald-600 hover:bg-emerald-50">
+                          <GraduationCap className="h-4 w-4" /> Become a Tutor
+                        </Link>
+                      )}
                       <Link href="/dashboard/profile" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50">
                         <Settings className="h-4 w-4" /> Profile Settings
                       </Link>
@@ -156,6 +161,11 @@ export default function Navbar() {
                 <Link href={getDashboardLink()} className="flex items-center gap-3 px-3 py-2.5 text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMenuOpen(false)}>
                   <User className="h-4 w-4" /> Dashboard
                 </Link>
+                {profile?.role !== "tutor" && profile?.role !== "admin" && (
+                  <Link href="/apply" className="flex items-center gap-3 px-3 py-2.5 text-emerald-600 hover:bg-emerald-50 rounded-lg" onClick={() => setMenuOpen(false)}>
+                    <GraduationCap className="h-4 w-4" /> Become a Tutor
+                  </Link>
+                )}
                 <Link href="/dashboard/profile" className="flex items-center gap-3 px-3 py-2.5 text-gray-700 hover:bg-gray-50 rounded-lg" onClick={() => setMenuOpen(false)}>
                   <Settings className="h-4 w-4" /> Profile Settings
                 </Link>

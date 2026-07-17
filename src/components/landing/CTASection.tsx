@@ -19,6 +19,12 @@ export default function CTASection() {
             Book Free Trial
           </Link>
           <Link
+            href="/apply"
+            className="bg-white text-blue-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-100 transition-all shadow-lg"
+          >
+            Become a Tutor
+          </Link>
+          <Link
             href="/contact"
             className="bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-white/20 transition-all border border-white/20"
           >
