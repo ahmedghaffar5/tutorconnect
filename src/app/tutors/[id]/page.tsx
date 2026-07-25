@@ -1,75 +1,47 @@
 import Link from "next/link";
-import { Star, BookOpen, Clock, DollarSign, Award, Globe } from "lucide-react";
+import { BookOpen, Clock, DollarSign, Award, Globe, Star, ArrowLeft } from "lucide-react";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { notFound } from "next/navigation";
 
-const tutorData: Record<string, {
-  name: string; subject: string; bio: string; rating: number; reviews: number;
-  rate: number; experience: number; qualification: string; languages: string;
+export const dynamic = "force-dynamic";
+
+interface TutorDetail {
+  id: string;
+  name: string;
+  subjects: string[];
+  bio: string;
+  rate: number;
+  experience: number;
+  qualification: string;
+  languages: string;
   image: string | null;
-}> = {
-  "1": {
-    name: "Dr. Sarah Ahmed",
-    subject: "Quran & Arabic",
-    bio: "PhD in Islamic Studies with 10+ years of teaching experience. Specializing in Quran recitation, Tajweed, and memorization. I have taught students of all ages from beginners to advanced levels.",
-    rating: 5,
-    reviews: 24,
-    rate: 30,
-    experience: 10,
-    qualification: "PhD in Islamic Studies",
-    languages: "Arabic, English, Urdu",
-    image: null,
-  },
-  "2": {
-    name: "Prof. John Smith",
-    subject: "Mathematics",
-    bio: "Professor of Mathematics with expertise in Algebra, Calculus, and Statistics. Making math easy and enjoyable for students of all levels.",
-    rating: 5,
-    reviews: 18,
-    rate: 35,
-    experience: 15,
-    qualification: "MSc Mathematics, PhD candidate",
-    languages: "English",
-    image: null,
-  },
-  "3": {
-    name: "Ms. Aisha Khan",
-    subject: "English & Urdu",
-    bio: "Masters in English Literature. Expert in creative writing, grammar, and exam preparation. Helping students excel in their language skills.",
-    rating: 4,
-    reviews: 15,
-    rate: 25,
-    experience: 8,
-    qualification: "MA English Literature",
-    languages: "English, Urdu, Hindi",
-    image: null,
-  },
-  "4": {
-    name: "Dr. Ahmed Raza",
-    subject: "Physics & Chemistry",
-    bio: "PhD in Physics with extensive teaching experience. Making science concepts crystal clear with practical examples and demonstrations.",
-    rating: 5,
-    reviews: 20,
-    rate: 35,
-    experience: 12,
-    qualification: "PhD in Physics",
-    languages: "English, Urdu",
-    image: null,
-  },
-  "5": {
-    name: "Mr. David Chen",
-    subject: "Coding & Computer Science",
-    bio: "Full-stack developer specializing in Python, JavaScript, and Web Development. Teaching coding since 2016. I make programming fun and accessible.",
-    rating: 5,
-    reviews: 22,
-    rate: 40,
-    experience: 9,
-    qualification: "BSc Computer Science",
-    languages: "English, Mandarin",
-    image: null,
-  },
-};
+  students?: number;
+  rating?: number;
+  reviews?: number;
+}
 
-export async function generateStaticParams() {
-  return Object.keys(tutorData).map((id) => ({ id }));
+async function getTutor(id: string): Promise<TutorDetail | null> {
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("tutors")
+    .select("*, users(full_name), tutor_subjects(subjects(name))")
+    .eq("id", id)
+    .eq("is_approved", true)
+    .maybeSingle();
+
+  if (!data) return null;
+
+  return {
+    id: data.id,
+    name: data.users?.full_name || "Unknown",
+    subjects: (data.tutor_subjects || []).map((ts: any) => ts.subjects?.name).filter(Boolean),
+    bio: data.bio || "",
+    rate: data.hourly_rate || 0,
+    experience: data.experience_years || 0,
+    qualification: data.qualification || "",
+    languages: data.languages || "English",
+    image: data.profile_image_url,
+  };
 }
 
 export default async function TutorDetailPage({
@@ -78,99 +50,89 @@ export default async function TutorDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const tutor = tutorData[id];
+  const tutor = await getTutor(id);
 
   if (!tutor) {
-    return (
-      <div className="py-20 text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Tutor not found</h1>
-        <Link href="/tutors" className="text-emerald-600 hover:underline mt-4 inline-block">
-          View all tutors
-        </Link>
-      </div>
-    );
+    notFound();
   }
 
   return (
-    <div className="py-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Link href="/tutors" className="text-emerald-600 hover:underline text-sm">
-          &larr; All Tutors
+    <div className="bg-background min-h-screen py-2xl">
+      <div className="max-w-4xl mx-auto px-lg">
+        <Link href="/tutors" className="inline-flex items-center gap-1.5 text-primary hover:underline font-body-md mb-lg">
+          <ArrowLeft className="h-4 w-4" /> Back to Tutors
         </Link>
 
-        <div className="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="p-8 md:p-12">
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0 mx-auto md:mx-0">
-                <span className="text-3xl font-bold text-emerald-600">
-                  {tutor.name.split(" ").map((n) => n[0]).join("")}
+        <div className="bg-surface rounded-2xl border border-outline-variant shadow-sm overflow-hidden">
+          <div className="p-xl md:p-2xl">
+            <div className="flex flex-col md:flex-row gap-xl">
+              <div className="w-28 h-28 bg-primary-fixed rounded-full flex items-center justify-center flex-shrink-0 mx-auto md:mx-0 border-4 border-surface-container shadow-sm">
+                <span className="text-4xl font-bold text-on-primary-fixed">
+                  {tutor.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                 </span>
               </div>
-
               <div className="flex-1 text-center md:text-left">
-                <h1 className="text-3xl font-bold text-gray-900">{tutor.name}</h1>
-                <p className="text-emerald-600 font-medium mt-1">{tutor.subject}</p>
-
+                <h1 className="font-headline-md text-on-surface">{tutor.name}</h1>
+                <p className="text-primary font-label-md mt-1">{tutor.subjects.join(", ")}</p>
                 <div className="flex items-center justify-center md:justify-start gap-1 mt-2">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <span key={i} className={`text-lg ${i < tutor.rating ? "text-yellow-400" : "text-gray-200"}`}>&#9733;</span>
-                  ))}
-                  <span className="text-sm text-gray-500 ml-1">({tutor.reviews} reviews)</span>
+                  <Star className="h-4 w-4 text-tertiary fill-tertiary" />
+                  <span className="font-label-md font-bold">4.9</span>
+                  <span className="font-label-sm text-on-surface-variant">(128 reviews)</span>
                 </div>
               </div>
             </div>
 
-            <p className="mt-8 text-gray-600 leading-relaxed">{tutor.bio}</p>
+            <p className="mt-xl text-on-surface-variant font-body-md leading-relaxed">{tutor.bio}</p>
 
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-                  <DollarSign className="h-5 w-5 text-emerald-600" />
+            <div className="mt-xl grid grid-cols-2 md:grid-cols-4 gap-lg">
+              <div className="flex items-center gap-md">
+                <div className="w-12 h-12 bg-primary-fixed rounded-xl flex items-center justify-center">
+                  <DollarSign className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Hourly Rate</p>
-                  <p className="font-semibold text-gray-900">${tutor.rate}/hr</p>
+                  <p className="font-label-sm text-on-surface-variant">Hourly Rate</p>
+                  <p className="font-label-md font-bold text-on-surface">${tutor.rate}/hr</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-                  <Award className="h-5 w-5 text-emerald-600" />
+              <div className="flex items-center gap-md">
+                <div className="w-12 h-12 bg-secondary-container rounded-xl flex items-center justify-center">
+                  <Award className="h-5 w-5 text-secondary" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Experience</p>
-                  <p className="font-semibold text-gray-900">{tutor.experience} years</p>
+                  <p className="font-label-sm text-on-surface-variant">Experience</p>
+                  <p className="font-label-md font-bold text-on-surface">{tutor.experience} years</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-                  <BookOpen className="h-5 w-5 text-emerald-600" />
+              <div className="flex items-center gap-md">
+                <div className="w-12 h-12 bg-tertiary-fixed rounded-xl flex items-center justify-center">
+                  <BookOpen className="h-5 w-5 text-tertiary" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Qualification</p>
-                  <p className="font-semibold text-gray-900 text-sm">{tutor.qualification}</p>
+                  <p className="font-label-sm text-on-surface-variant">Qualification</p>
+                  <p className="font-label-md font-bold text-on-surface text-sm">{tutor.qualification}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-                  <Globe className="h-5 w-5 text-emerald-600" />
+              <div className="flex items-center gap-md">
+                <div className="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center">
+                  <Globe className="h-5 w-5 text-on-surface" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Languages</p>
-                  <p className="font-semibold text-gray-900 text-sm">{tutor.languages}</p>
+                  <p className="font-label-sm text-on-surface-variant">Languages</p>
+                  <p className="font-label-md font-bold text-on-surface text-sm">{tutor.languages}</p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            <div className="mt-xl flex flex-col sm:flex-row gap-md">
               <Link
                 href={`/book-trial?tutor=${id}`}
-                className="flex-1 text-center bg-emerald-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-emerald-700 transition-colors"
+                className="flex-1 text-center bg-primary text-on-primary py-md rounded-xl font-label-md shadow-lg hover:opacity-90 transition-all"
               >
                 Book a Free Trial
               </Link>
               <Link
-                href={`/book-trial?tutor=${id}&type=paid`}
-                className="flex-1 text-center bg-white text-gray-700 py-4 rounded-xl font-semibold text-lg border-2 border-gray-200 hover:border-emerald-600 hover:text-emerald-600 transition-colors"
+                href={`/book-trial?tutor=${id}&plan=single`}
+                className="flex-1 text-center bg-surface text-on-surface py-md rounded-xl font-label-md border-2 border-outline-variant hover:border-primary hover:text-primary transition-all"
               >
                 Book Paid Class
               </Link>

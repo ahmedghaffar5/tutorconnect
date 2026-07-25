@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuminaTutor | Message Center</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#6ffbbe",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-secondary-fixed": "#002113",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "primary": "#3525cd",
+                    "surface-variant": "#d3e4fe",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-container": "#ffd4a4",
+                    "outline-variant": "#c7c4d8",
+                    "secondary": "#006c49",
+                    "primary-container": "#4f46e5",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "tertiary-container": "#885500",
+                    "surface-dim": "#cbdbf5",
+                    "outline": "#777587",
+                    "tertiary-fixed": "#ffddb8",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-container": "#00714d",
+                    "surface": "#f8f9ff",
+                    "on-surface": "#0b1c30",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-container": "#6cf8bb",
+                    "on-background": "#0b1c30",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-primary-container": "#dad7ff",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#213145",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container": "#e5eeff",
+                    "surface-tint": "#4d44e3",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "tertiary": "#684000",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#464555",
+                    "on-primary-fixed": "#0f0069",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "base": "4px",
+                    "2xl": "48px",
+                    "container-max": "1280px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "3xl": "64px"
+            },
+            "fontFamily": {
+                    "label-md": ["Geist"],
+                    "label-sm": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "headline-sm": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "display-lg-mobile": ["Geist"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-md": ["30px", {"lineHeight": "38px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500&display=swap');
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        
+        .message-bubble-in {
+            border-radius: 16px 16px 16px 4px;
+        }
+        .message-bubble-out {
+            border-radius: 16px 16px 4px 16px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container overflow-hidden">
+<!-- Shell Container -->
+<div class="flex h-screen w-full overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 bottom-0 flex flex-col z-40 bg-surface-container-low h-screen w-64 shadow-md transition-all duration-300 ease-in-out">
+<div class="p-lg">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">LuminaTutor</span>
+</div>
+<!-- User Profile (SideNav Header) -->
+<div class="px-md py-sm flex items-center gap-3 mb-md">
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20" data-alt="A professional studio portrait of a friendly young man named Alex Rivers, with short styled brown hair and a kind expression. He is wearing a minimalist navy blue sweater against a soft, out-of-focus modern office background. The lighting is warm and cinematic, reflecting a premium learner aesthetic in a high-end educational platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWkBijPxPeaVJcRPhZkemjH8SPlbNKZu5P_jnfQujOfSMq0H_vvXzgDaq2K4PQ5LPiTscA4oXyphXiD4VNiA7YhV1i0cFoikpYeoVsMmsESGPaKOqNQry5nRsnDewJUoE-ORDV5m9RO2JOGNd-Tomq0IlEDiHKNRci1D2SDe4_REK5om1OxY03fBuLKlQetSPs3gpYqbzPuhTfOpkMwO6kaoKhLgp-b-F9soUDv6uofHZKLnDQn8KYTPOfirvQVLm9Blr1FtGCLO8o"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-secondary border-2 border-surface rounded-full"></div>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold text-on-surface">Alex Rivers</p>
+<p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-medium">Premium Learner</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">My Lessons</span>
+</a>
+<a class="bg-primary-container text-on-primary-container rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span class="font-label-md text-label-md">Messages</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pb-lg border-t border-outline-variant/30 pt-sm">
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined text-error">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area (Messaging Interface) -->
+<main class="flex flex-1 ml-64 overflow-hidden relative">
+<!-- Conversation List Sidebar (Internal to Messaging) -->
+<section class="w-80 flex flex-col border-r border-outline-variant/30 bg-surface">
+<div class="p-lg space-y-md">
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">Messages</h1>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search chats..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar px-sm">
+<!-- Chat Items -->
+<div class="flex flex-col gap-1">
+<!-- Active Conversation -->
+<button class="flex items-center gap-4 p-4 rounded-2xl bg-primary/5 border border-primary/10 text-left transition-all duration-200">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Close-up portrait of a brilliant senior educator, Dr. Sarah Jenkins, with glasses and a friendly, encouraging smile. She is in a home library setting with rows of classic books behind her, softly lit by a warm table lamp. The image conveys wisdom, mentorship, and high-quality academic support in a modern digital learning environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqAzqCBw1A0CR2no3vQBivwpijiAu5-6NGiXR_0DvcfTFPCoCigSExhBRszYzuZj-2xMwy5WN05O4qUxBmqNmJFQskN2zAjQBgtvz3UEKShgeyYFX_FsmKQEfkUqHj_GlOoARyFEu-xGK2B2pSxzaOMc74znXpu9bNN3Al4zQTxfKTHAnNqgis4E5RtEBIVw4MdTlD1OH_dq9u7merZQUzveQ6iB2XEgnnW7jh8eLsFcorMgVf38FPQEkIY2c7Gon0BqVMsqZlzbeR"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-secondary border-2 border-white rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<h4 class="font-label-md text-label-md font-bold text-on-surface truncate">Dr. Sarah Jenkins</h4>
+<span class="text-[10px] text-on-surface-variant">2m ago</span>
+</div>
+<p class="text-body-sm font-medium text-primary truncate">Uploaded the Calculus notes...</p>
+</div>
+</button>
+<!-- Inactive Conversation -->
+<button class="flex items-center gap-4 p-4 rounded-2xl hover:bg-surface-container-high text-left transition-all duration-200">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover grayscale-[40%]" data-alt="A profile photo of Marcus Thorne, a youthful and energetic physics tutor. He is wearing a casual grey hoodie and has a tech-savvy vibe, sitting in a bright workspace with a white magnetic board and neon lighting accents in the background. His expression is enthusiastic and ready to teach." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOA9CEm6NP86A2VYf9N8Bfa9Cinwx1DUV528-SJzwmeVucdUg97cQNBiBCWZTIJ_7WGhQ0vp6G6a9rT-mdks5_oRcKSXADaO0vRLf77NUAyFxCS0vt9FRt-uz7ULmDFatZmmGx4T05nPb-rwg87fafvYIBGbesfjfK7WlKz7Eqf-ohMWKNAOU6ODQo28GcL38MIZPHiukRgkjG_r5T3QSK4IW2vBX2Zfd842uzYgwn93yn1fEeGssTx4_n0klxNhuCc_srgg4ziLVA"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-outline-variant border-2 border-white rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<h4 class="font-label-md text-label-md font-bold text-on-surface-variant truncate">Marcus Thorne</h4>
+<span class="text-[10px] text-on-surface-variant">1h ago</span>
+</div>
+<p class="text-body-sm text-on-surface-variant truncate">See you on Thursday for our lab.</p>
+</div>
+</button>
+<button class="flex items-center gap-4 p-4 rounded-2xl hover:bg-surface-container-high text-left transition-all duration-200">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover grayscale-[40%]" data-alt="A professional headshot of Elena Rossi, a language tutor with a vibrant personality. She has long dark hair and is wearing a colorful scarf. The background is a clean, modern apartment with large windows and plants, bathed in natural sunlight. Her look is approachable and culturally diverse." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_005lJHa2_pt6uvXt0sDM7sPMdaM5UJs0Q0zTmh9jQIfFrBC-4YtUBBIGQAjkvD8fcThs7Jmz_fkdoJj4VrNM3wzSfPVF_5sm8myg1b8aJ0Fe5fGhKFxrh3uaZjtUIoY7yp71zYbUEEj48tc2mBDvAOaO6fY_2DEoXmCBZjRAYwS03ElRbtufVjbLxuZvRbcR8tV1aKeNCc70rPgt4oi_6GVEcnyG06kXelAO87TKsn5IHkZnNSAf4GllY1QfF5IVU9kvg-VhGQH2"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-outline-variant border-2 border-white rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-0.5">
+<h4 class="font-label-md text-label-md font-bold text-on-surface-variant truncate">Elena Rossi</h4>
+<span class="text-[10px] text-on-surface-variant">Yesterday</span>
+</div>
+<p class="text-body-sm text-on-surface-variant truncate">¡Perfecto! The homework looks...</p>
+</div>
+</button>
+</div>
+</div>
+</section>
+<!-- Chat Window Content -->
+<section class="flex-1 flex flex-col bg-surface-container-lowest">
+<!-- Chat Header -->
+<header class="h-20 flex items-center justify-between px-lg border-b border-outline-variant/30 glass sticky top-0 z-10">
+<div class="flex items-center gap-md">
+<div class="relative">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A warm, professional headshot of Dr. Sarah Jenkins, an experienced mathematics professor. She has kind eyes, silver-streaked hair, and is wearing a sophisticated teal blazer. The setting is a cozy, intellectual study filled with books and soft ambient light, reflecting an atmosphere of dedicated mentorship and high-level education." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5pyay2gVp7BhTZCU9VY9hj9iDAc_o9ySFK0OpeVtlcTojf9hlikzShFemfCkHTaLY6gdHm7WhU1cx5N3hbXtt3iV5aF5TDLO5U-Y1BY48ivPk8gYd8Po85e6TYW4nk8lXPxMAzg9oa3TVXYAA-gdovifzNLR2b_zzYKg0OjBeA93n7M37sgdLGmi4_fwTCUI7kMZosnWeoFb5-3YJW6Knci-Fg00EHTeUVMtVLsOOIsBA9pU1-vqyZqk7cLrtkzEAjidu4s6VcyCA"/>
+</div>
+<div>
+<h3 class="font-label-md text-label-md font-bold text-on-surface leading-tight">Dr. Sarah Jenkins</h3>
+<p class="text-[11px] text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                                Active now
+                            </p>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:scale-[1.02] active:scale-95 transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm">event_available</span>
+                            Schedule Next Lesson
+                        </button>
+<div class="w-px h-6 bg-outline-variant mx-1"></div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">video_call</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Messages Display Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-lg flex flex-col gap-6">
+<!-- Date Divider -->
+<div class="flex items-center gap-4 py-sm">
+<div class="flex-1 h-px bg-outline-variant/30"></div>
+<span class="text-[11px] font-bold text-on-surface-variant tracking-widest uppercase">Today, Oct 24</span>
+<div class="flex-1 h-px bg-outline-variant/30"></div>
+</div>
+<!-- Message In -->
+<div class="flex gap-4 max-w-[80%]">
+<img class="w-8 h-8 rounded-full object-cover mt-1 flex-shrink-0" data-alt="A high-resolution profile icon for a female professor, Sarah Jenkins. She has a serene, knowledgeable expression and is wearing academic attire. The lighting is soft and flattering, focused on a modern academic theme with a neutral professional background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm48iZbVvmCsAPxjnBdhJDxC0MAup2TkZXqlovTIcuW0HgZbREagbhvujHAxjR8zOgbGYiqwpNjc0Rr1F5420gpUVlcEJbtlxsiil66avCWtxzjzUJX9vBQf2ULoOKtN7e-g-MU-oTyhq3Y6RhS--xckD1CT0kq8Nv9NCc5Vh6PQIRKK1i7V7OXm6pqW9yI78FV_Gi45Vw61zIE1CKI7Q2lYMM5nEjV4P_G45gmMcAfxeUd-e1zg9g0vS8CAhkrHyIFMVnpYGyikYg"/>
+<div class="flex flex-col gap-1">
+<div class="bg-surface-container-highest text-on-surface p-4 message-bubble-in shadow-sm">
+<p class="text-body-md">Hello Alex! I've reviewed your work on Advanced Derivatives. You've made significant progress since last week.</p>
+</div>
+<span class="text-[10px] text-on-surface-variant ml-1">10:15 AM</span>
+</div>
+</div>
+<!-- Message Out -->
+<div class="flex flex-row-reverse gap-4 max-w-[80%] ml-auto">
+<div class="flex flex-col items-end gap-1">
+<div class="bg-primary text-on-primary p-4 message-bubble-out shadow-sm">
+<p class="text-body-md">Thanks, Dr. Jenkins! I'm still a bit stuck on the chain rule applications for trigonometric functions. Could we go over that next?</p>
+</div>
+<span class="text-[10px] text-on-surface-variant mr-1">10:18 AM</span>
+</div>
+</div>
+<!-- Message In with Attachment & Action -->
+<div class="flex gap-4 max-w-[85%]">
+<img class="w-8 h-8 rounded-full object-cover mt-1 flex-shrink-0" data-alt="A portrait icon of Sarah Jenkins, a professional tutor. She is smiling gently at the camera, conveying a sense of patience and expertise. The background is slightly blurred, showing a contemporary office space with warm lighting and a touch of professional greenery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk67VLCwfWWV-y0ShcSDUdFDiaYcAFuSO0x4Olt7Sh1NOnUrrNaOKE_dxCLsDpyVAtOJ3GXNVxB5affAb4jxpkyP0srrryTYFZRQ-yNTGM7fod41E8tSdC4CLjHO9aIIv9Dc_-NGk-7PzhKTCUHa7--iI74u5bSxHgX5l8Grc-RxrkYq7fLyHY17hZsZnnC9nSsTJgSp9jJT0EbcWx6Y7C2Sy_61PCAKoXvgiD2u6ZQz98vSExhwj2W7FU1ICHra7522XgZ-5PyMrq"/>
+<div class="flex flex-col gap-2">
+<div class="bg-surface-container-highest text-on-surface p-4 message-bubble-in shadow-sm">
+<p class="text-body-md">Absolutely. I've uploaded a specialized practice set and the annotated notes from our last session. Take a look before our next meet.</p>
+</div>
+<!-- Attachment Cards -->
+<div class="flex flex-wrap gap-sm">
+<div class="flex items-center gap-3 p-3 bg-surface border border-outline-variant rounded-xl min-w-[240px] hover:border-primary transition-colors cursor-pointer group">
+<div class="w-10 h-10 bg-error-container/20 text-error flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md font-bold text-on-surface truncate">Trig_Calculus_Practice.pdf</p>
+<p class="text-[11px] text-on-surface-variant">1.4 MB • Practice Set</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">download</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface border border-outline-variant rounded-xl min-w-[240px] hover:border-primary transition-colors cursor-pointer group">
+<div class="w-10 h-10 bg-primary-container/20 text-primary flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md font-bold text-on-surface truncate">Session_Notes_Oct21.docx</p>
+<p class="text-[11px] text-on-surface-variant">842 KB • Notes</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">download</span>
+</div>
+</div>
+<!-- Integrated Lesson Link Card -->
+<div class="bg-primary/5 border border-primary/20 p-4 rounded-2xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">video_chat</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold text-on-surface">Calculus II: Advanced Review</p>
+<p class="text-body-sm text-on-surface-variant">Thursday, Oct 26 • 3:00 PM - 4:30 PM</p>
+</div>
+</div>
+<button class="px-4 py-2 bg-surface text-primary border border-primary font-label-md text-label-md rounded-lg hover:bg-primary hover:text-on-primary transition-all">
+                                    Add to Calendar
+                                </button>
+</div>
+<span class="text-[10px] text-on-surface-variant ml-1">10:22 AM</span>
+</div>
+</div>
+</div>
+<!-- Chat Input Area -->
+<div class="p-lg bg-surface border-t border-outline-variant/30">
+<div class="relative glass rounded-2xl border border-outline-variant p-2 flex items-end gap-2 shadow-lg">
+<div class="flex gap-1 pb-1">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined">add_circle</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container-high">
+<span class="material-symbols-outlined">sentiment_satisfied</span>
+</button>
+</div>
+<textarea class="flex-1 py-3 px-1 bg-transparent border-none focus:ring-0 resize-none font-body-md text-on-surface min-h-[48px] max-h-32 custom-scrollbar" placeholder="Type a message or share a file..." rows="1"></textarea>
+<button class="flex-shrink-0 w-11 h-11 bg-primary text-on-primary rounded-xl flex items-center justify-center hover:shadow-lg hover:translate-y-[-2px] transition-all active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+<div class="mt-3 flex gap-4 px-2">
+<p class="text-[11px] text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+                            Quick actions: /schedule, /file, /link
+                        </p>
+</div>
+</div>
+</section>
+<!-- Contextual Resource Sidebar (Floating/Hideable) -->
+<section class="w-72 bg-surface-container-low border-l border-outline-variant/30 hidden xl:flex flex-col p-lg gap-lg">
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface mb-md">Shared Files</h4>
+<div class="space-y-sm">
+<div class="flex items-center gap-3 p-2 hover:bg-surface-container-high rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-error">picture_as_pdf</span>
+<div class="min-w-0">
+<p class="text-body-sm font-medium text-on-surface truncate">Curriculum_Plan.pdf</p>
+<p class="text-[10px] text-on-surface-variant">Oct 15, 2023</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 hover:bg-surface-container-high rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-primary">description</span>
+<div class="min-w-0">
+<p class="text-body-sm font-medium text-on-surface truncate">Homework_Week2.docx</p>
+<p class="text-[10px] text-on-surface-variant">Oct 18, 2023</p>
+</div>
+</div>
+<button class="w-full py-2 text-center text-primary font-label-sm text-label-sm hover:underline">View all 14 files</button>
+</div>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface mb-md">Lesson Link Integration</h4>
+<div class="p-4 bg-surface rounded-xl border border-outline-variant/50">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-sm">link</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Interactive Whiteboard</p>
+</div>
+<p class="text-body-sm font-medium text-on-surface mb-4">Dr. Sarah's Calculus Canvas</p>
+<a class="block w-full py-2 bg-secondary text-on-secondary rounded-lg text-center font-label-md text-label-md hover:opacity-90 transition-opacity" href="#">Open Canvas</a>
+</div>
+</div>
+<div class="mt-auto">
+<div class="bg-surface-container-highest p-4 rounded-2xl">
+<p class="font-label-md text-label-md font-bold text-on-surface-variant mb-2">Next Session</p>
+<p class="text-body-lg font-bold text-on-surface">Thursday, 3:00 PM</p>
+<p class="text-body-sm text-on-surface-variant mb-4">In 2 days</p>
+<button class="w-full py-2 bg-surface border border-outline-variant rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-lowest transition-colors">Reschedule</button>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple textarea auto-resize
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.01]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.01]');
+        });
+    </script>
+</body></html>

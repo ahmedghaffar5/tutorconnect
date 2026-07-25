@@ -4,65 +4,55 @@ const testimonials = [
   {
     name: "Fatima Hassan",
     role: "Parent",
-    text: "TutorConnect helped my daughter improve her Quran recitation tremendously. The tutor is patient and knowledgeable. Highly recommend!",
-    rating: 5,
     initials: "FH",
-    color: "bg-blue-100 text-blue-600",
+    quote: "TutorConnect helped my daughter improve her Quran recitation tremendously. The tutor is patient and knowledgeable. Highly recommend!",
+    color: "bg-primary-fixed text-on-primary-fixed",
   },
   {
     name: "Omar Farooq",
     role: "Student",
-    text: "I was struggling with Calculus until I found my tutor here. Now I'm getting A's! The one-on-one attention made all the difference.",
-    rating: 5,
     initials: "OF",
-    color: "bg-green-100 text-green-600",
+    quote: "I was struggling with Calculus until I found my tutor here. Now I'm getting A's! The one-on-one attention made all the difference.",
+    color: "bg-secondary-container text-on-secondary-container",
   },
   {
     name: "Ayesha Begum",
     role: "Parent",
-    text: "The trial class was free and my son loved his coding tutor. We signed up for the monthly package right away. Best decision ever!",
-    rating: 5,
     initials: "AB",
-    color: "bg-purple-100 text-purple-600",
+    quote: "The trial class was free and my son loved his coding tutor. We signed up for the monthly package right away. Best decision ever!",
+    color: "bg-tertiary-fixed text-on-tertiary-fixed",
   },
 ];
 
 export default function TestimonialsSection() {
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <span className="text-blue-600 font-semibold text-sm tracking-wide uppercase">Testimonials</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
-            What Our Students Say
-          </h2>
-          <p className="mt-3 text-gray-500 text-lg">
-            Hear from students and parents who found success with TutorConnect
-          </p>
+    <section className="py-3xl bg-surface-container-low overflow-hidden relative">
+      <div className="max-w-container-max mx-auto px-lg relative z-10">
+        <div className="text-center mb-3xl">
+          <h2 className="font-headline-md text-on-surface mb-sm">What Our Students Say</h2>
+          <p className="font-body-md text-on-surface-variant">Hear from students and parents who found success with TutorConnect</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-xl">
           {testimonials.map((t) => (
-            <div key={t.name} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-blue-100 hover:shadow-lg transition-all">
-              <div className="flex items-center gap-1 mb-4">
+            <div key={t.name} className="glass-card p-xl rounded-3xl text-center">
+              <div className={`w-16 h-16 ${t.color} rounded-full flex items-center justify-center mx-auto mb-lg text-xl font-bold`}>
+                {t.initials}
+              </div>
+              <div className="flex justify-center gap-0.5 mb-md">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`h-4 w-4 ${i < t.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-200"}`} />
+                  <Star key={i} className="h-4 w-4 text-tertiary fill-tertiary" />
                 ))}
               </div>
-              <p className="text-gray-600 leading-relaxed text-sm">&ldquo;{t.text}&rdquo;</p>
-              <div className="mt-5 pt-4 border-t border-gray-200 flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center`}>
-                  <span className="text-sm font-bold">{t.initials}</span>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-gray-900">{t.name}</p>
-                  <p className="text-xs text-gray-500">{t.role}</p>
-                </div>
+              <p className="font-body-md text-on-surface-variant leading-relaxed">"{t.quote}"</p>
+              <div className="mt-lg">
+                <p className="font-label-md font-bold text-on-surface">{t.name}</p>
+                <p className="font-label-sm text-on-surface-variant">{t.role}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[800px] h-[800px] border border-outline-variant/30 rounded-full -z-0"></div>
     </section>
   );
 }

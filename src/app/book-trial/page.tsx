@@ -1,88 +1,48 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import toast from "react-hot-toast";
-import { ChevronRight, ChevronLeft, Check, Star, BookOpen, Users, GraduationCap } from "lucide-react";
+import { ChevronRight, ChevronLeft, Check, Star, Users } from "lucide-react";
 
-const departments = [
-  {
-    name: "Quran & Islamic Studies",
-    subjects: ["Quran", "Arabic", "Islamic Studies"],
-    color: "bg-emerald-50 border-emerald-200 text-emerald-700",
-    icon: "📖",
-  },
-  {
-    name: "Languages",
-    subjects: ["English", "Urdu", "Arabic"],
-    color: "bg-blue-50 border-blue-200 text-blue-700",
-    icon: "🌐",
-  },
-  {
-    name: "STEM",
-    subjects: ["Mathematics", "Physics", "Chemistry", "Biology", "Science", "Computer Science"],
-    color: "bg-purple-50 border-purple-200 text-purple-700",
-    icon: "🔬",
-  },
-  {
-    name: "Coding & Tech",
-    subjects: ["Coding", "Computer Science", "Web Development", "Python", "JavaScript"],
-    color: "bg-indigo-50 border-indigo-200 text-indigo-700",
-    icon: "💻",
-  },
-  {
-    name: "Humanities",
-    subjects: ["Urdu", "English", "History", "Geography"],
-    color: "bg-amber-50 border-amber-200 text-amber-700",
-    icon: "📚",
-  },
+interface Tutor {
+  id: string;
+  name: string;
+  subjects: string[];
+  bio: string;
+  rate: number;
+  experience: number;
+}
+
+const subjects = [
+  "Mathematics", "Data Science", "Engineering", "Languages",
+  "Computer Science", "Physics", "Chemistry", "Biology",
+  "Coding", "Quran", "English", "Urdu",
 ];
 
-const subjectsList = [
-  "Mathematics", "English", "Science", "Computer Science", "Coding",
-  "Quran", "Urdu", "Physics", "Chemistry", "Biology", "Arabic",
-  "Islamic Studies", "Web Development", "Python", "JavaScript",
-  "History", "Geography",
+const levels = ["High School", "Undergraduate", "Postgraduate", "Professional"];
+
+const plans = [
+  { id: "single", name: "Single Sprint", price: "$45", period: "per session", type: "paid", desc: "Ideal for exam preparation or solving specific conceptual blocks.", features: ["60-min Focused Session", "Recorded Video Recap"] },
+  { id: "monthly", name: "Mastery Bundle", price: "$180", period: "$36 / session", type: "paid", desc: "Save 20% with a 5-lesson pack designed for consistent growth.", features: ["5x 60-min Sessions", "Personalized Study Plan", "Priority Messaging Support"], popular: true },
+  { id: "trial", name: "Free Trial", price: "Free", period: "", type: "trial", desc: "30-minute session to meet your tutor and get started.", features: ["30-min Session", "No commitment"] },
 ];
 
-const tutors = [
-  { id: "1", name: "Dr. Sarah Ahmed", subjects: ["Quran", "Arabic"], rate: 30, rating: 5, reviews: 24, bio: "PhD in Islamic Studies. Expert in Quran recitation, Tajweed & memorization." },
-  { id: "2", name: "Prof. John Smith", subjects: ["Mathematics"], rate: 35, rating: 5, reviews: 18, bio: "Professor making math easy. Algebra, Calculus & Statistics." },
-  { id: "3", name: "Ms. Aisha Khan", subjects: ["English", "Urdu"], rate: 25, rating: 4, reviews: 15, bio: "MA English Lit. Expert in writing, grammar & exam prep." },
-  { id: "4", name: "Dr. Ahmed Raza", subjects: ["Physics", "Chemistry"], rate: 35, rating: 5, reviews: 20, bio: "PhD Physics. Making science crystal clear." },
-  { id: "5", name: "Mr. David Chen", subjects: ["Coding", "Computer Science", "Python", "JavaScript"], rate: 40, rating: 5, reviews: 22, bio: "Full-stack dev teaching Python, JS & Web Dev since 2016." },
-  { id: "6", name: "Hafiz Abdullah", subjects: ["Quran", "Arabic"], rate: 25, rating: 5, reviews: 30, bio: "Hafiz-e-Quran with Ijazah. Expert in Tajweed & Hifz." },
-  { id: "7", name: "Dr. Fatima Alvi", subjects: ["Biology", "Science"], rate: 30, rating: 4, reviews: 16, bio: "PhD Molecular Biology. Making biology fascinating." },
-  { id: "8", name: "Mr. Usman Malik", subjects: ["Urdu", "English"], rate: 20, rating: 4, reviews: 12, bio: "MA Urdu Literature. Poetry, prose & creative writing." },
-  { id: "9", name: "Dr. Maria Khan", subjects: ["Chemistry"], rate: 35, rating: 5, reviews: 19, bio: "PhD Organic Chemistry. Making chemistry easy." },
-  { id: "10", name: "Prof. Ali Hassan", subjects: ["Mathematics", "Physics"], rate: 38, rating: 5, reviews: 25, bio: "Professor with dual expertise. Conceptual teaching." },
-  { id: "11", name: "Ms. Sara John", subjects: ["Computer Science", "Coding", "Web Development"], rate: 35, rating: 4, reviews: 14, bio: "Software engineer teaching DSA, Web Dev & more." },
-  { id: "12", name: "Mr. Raza Haider", subjects: ["Science", "Biology"], rate: 22, rating: 4, reviews: 11, bio: "MSc Environmental Science. Fun experiments & learning." },
-  { id: "13", name: "Dr. Noor Ali", subjects: ["Islamic Studies", "Arabic"], rate: 28, rating: 5, reviews: 17, bio: "PhD Islamic Studies. Deep knowledge of Quran & Hadith." },
-  { id: "14", name: "Prof. Emma Wilson", subjects: ["English", "History"], rate: 30, rating: 4, reviews: 13, bio: "Professor of English & History. Essay writing expert." },
-];
-
-const plans: Record<string, { name: string; type: string; amount?: number }> = {
-  trial: { name: "Free Trial", type: "trial" },
-  single: { name: "Single Session ($25)", type: "paid", amount: 25 },
-  monthly: { name: "Monthly Package ($199)", type: "paid", amount: 199 },
-  premium: { name: "Premium Monthly ($349)", type: "paid", amount: 349 },
-};
+const timeSlots = ["09:00 AM - 10:00 AM", "11:30 AM - 12:30 PM", "02:00 PM - 03:00 PM", "04:30 PM - 05:30 PM"];
 
 function BookingForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const preselectedSubject = searchParams.get("subject") || "";
   const preselectedTutor = searchParams.get("tutor") || "";
-  const preselectedPlan = searchParams.get("plan") || "trial";
+  const preselectedPlan = searchParams.get("plan") || "";
 
-  const [step, setStep] = useState(preselectedSubject ? 1 : 0);
+  const [step, setStep] = useState(preselectedTutor || preselectedPlan ? 1 : 0);
   const [form, setForm] = useState({
-    subject: preselectedSubject,
+    subject: "",
+    level: "",
     tutorId: preselectedTutor,
-    plan: preselectedPlan,
+    plan: preselectedPlan || "trial",
     date: "",
     time: "",
     studentName: "",
@@ -90,9 +50,23 @@ function BookingForm() {
     notes: "",
   });
   const [loading, setLoading] = useState(false);
+  const [subjectMap, setSubjectMap] = useState<Record<string, string>>({});
+  const [tutors, setTutors] = useState<Tutor[]>([]);
 
-  const selectedPlan = plans[form.plan] || plans.trial;
-  const subjectTutors = tutors.filter((t) => t.subjects.includes(form.subject));
+  useEffect(() => {
+    fetch("/api/subjects").then((r) => r.json()).then((data) => {
+      if (Array.isArray(data)) {
+        const map: Record<string, string> = {};
+        data.forEach((s: any) => { map[s.name.toLowerCase()] = s.id; });
+        setSubjectMap(map);
+      }
+    });
+    fetch("/api/tutors").then((r) => r.json()).then((data) => {
+      if (Array.isArray(data)) setTutors(data);
+    });
+  }, []);
+
+  const selectedPlan = plans.find((p) => p.id === form.plan) || plans[0];
   const selectedTutor = tutors.find((t) => t.id === form.tutorId);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -106,222 +80,246 @@ function BookingForm() {
       setLoading(false);
       return;
     }
+    const subjectId = subjectMap[form.subject.toLowerCase()];
+    if (!subjectId) { toast.error("Please select a valid subject"); setLoading(false); return; }
     const { error } = await supabase.from("bookings").insert({
-      student_id: user.id, tutor_id: form.tutorId, subject: form.subject,
-      booking_type: selectedPlan.type, plan: form.plan,
-      scheduled_at: `${form.date}T${form.time}`, status: "pending",
-      student_name: form.studentName, student_age: form.studentAge ? parseInt(form.studentAge) : null, notes: form.notes,
+      student_id: user.id,
+      tutor_id: form.tutorId,
+      subject_id: subjectId,
+      booking_type: selectedPlan.type,
+      scheduled_at: `${form.date}T${form.time}`,
+      status: "pending",
+      student_name: form.studentName || user.user_metadata?.full_name,
+      notes: form.notes,
     });
     if (error) { toast.error("Booking failed"); setLoading(false); return; }
-    toast.success("Booking submitted!");
+    toast.success("Booking confirmed!");
     router.push("/dashboard");
   };
 
+  const progressPct = ((step) / 3) * 100;
+
   return (
-    <div className="py-12 bg-gray-50 min-h-screen">
-      <div className="max-w-3xl mx-auto px-4">
-        {/* Steps indicator */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          {["Subject", "Tutor", "Plan", "Details"].map((s, i) => (
-            <div key={s} className="flex items-center gap-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                i < step ? "bg-green-500 text-white" : i === step ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-400"
-              }`}>{i < step ? <Check className="h-4 w-4" /> : i + 1}</div>
-              <span className={`text-xs hidden md:block ${i === step ? "text-blue-600 font-medium" : "text-gray-400"}`}>{s}</span>
-              {i < 3 && <ChevronRight className="h-4 w-4 text-gray-300" />}
-            </div>
-          ))}
+    <div className="bg-background min-h-screen flex flex-col">
+      <main className="flex-grow w-full max-w-container-max mx-auto px-md md:px-lg py-xl">
+        <div className="mb-3xl max-w-2xl mx-auto">
+          <div className="flex justify-between items-center relative">
+            <div className="absolute top-1/2 left-0 w-full h-1 bg-surface-container-highest -translate-y-1/2 z-0 rounded-full"></div>
+            <div className="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 z-0 rounded-full transition-all duration-500" style={{ width: `${progressPct}%` }}></div>
+            {["Subject", "Plan", "Schedule", "Review"].map((s, i) => (
+              <div key={s} className="relative z-10 flex flex-col items-center gap-sm">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold shadow-md transition-colors duration-300 ${
+                  i <= step ? "bg-primary text-on-primary" : "bg-surface-container-highest text-on-surface-variant"
+                }`}>{i < step ? <Check className="h-5 w-5" /> : i + 1}</div>
+                <span className={`font-label-sm ${i <= step ? "text-on-surface" : "text-on-surface-variant"}`}>{s}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
-          {/* Step 0: Select Subject */}
+        <div className="max-w-4xl mx-auto">
           {step === 0 && (
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Choose a Subject</h2>
-              <p className="text-gray-500 mb-6">Select the subject you want to learn</p>
-              <div className="space-y-4">
-                {departments.map((dept) => (
-                  <div key={dept.name}>
-                    <h3 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <span>{dept.icon}</span> {dept.name}
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {dept.subjects.map((subj) => (
-                        <button
-                          key={subj}
-                          onClick={() => { setForm({ ...form, subject: subj, tutorId: "" }); setStep(1); }}
-                          className={`px-4 py-2 rounded-xl text-sm font-medium border transition-all ${
-                            form.subject === subj ? "bg-blue-600 text-white border-blue-600" : "bg-white text-gray-600 border-gray-200 hover:border-blue-300 hover:bg-blue-50"
-                          }`}
-                        >
-                          {subj}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-lg">
+              <div className="md:col-span-4">
+                <h1 className="font-headline-md mb-md text-on-surface">Choose Your Path</h1>
+                <p className="font-body-md text-on-surface-variant">Select the area you want to master and your current proficiency level.</p>
               </div>
-              <div className="mt-6 pt-4 border-t border-gray-100">
-                <p className="text-xs text-gray-400">Can't find your subject? <button onClick={() => router.push("/contact")} className="text-blue-600 hover:underline">Contact us</button></p>
+              <div className="md:col-span-8 flex flex-col gap-lg">
+                <div className="glass-card p-xl rounded-2xl shadow-sm">
+                  <label className="block font-label-md mb-sm text-primary">Subject Category</label>
+                  <div className="grid grid-cols-2 gap-sm">
+                    {subjects.slice(0, 4).map((s) => (
+                      <button key={s} onClick={() => { setForm({ ...form, subject: s }); }}
+                        className={`flex items-center gap-md p-md border-2 rounded-xl transition-all ${form.subject === s ? "border-primary bg-primary-container/10" : "border-outline-variant hover:border-primary"}`}>
+                        <span className="font-label-md">{s}</span>
+                      </button>
+                    ))}
+                  </div>
+                  {form.subject && (
+                    <div className="mt-md">
+                      <label className="font-label-sm text-on-surface-variant">All subjects selected:</label>
+                      <span className="ml-2 font-label-md text-primary">{form.subject}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="glass-card p-xl rounded-2xl shadow-sm">
+                  <label className="block font-label-md mb-sm text-primary">Academic Level</label>
+                  <div className="flex flex-wrap gap-sm">
+                    {levels.map((l) => (
+                      <button key={l} onClick={() => setForm({ ...form, level: l })}
+                        className={`px-lg py-sm rounded-full border font-label-md transition-colors ${form.level === l ? "border-2 border-primary bg-primary-container/10 text-primary" : "border border-outline-variant hover:bg-surface-container-high"}`}>
+                        {l}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Step 1: Select Tutor */}
           {step === 1 && (
             <div>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900">Choose a Tutor</h2>
-                  <p className="text-gray-500 text-sm mt-1">
-                    {subjectTutors.length} tutor{subjectTutors.length !== 1 ? "s" : ""} available for <span className="font-semibold text-blue-600">{form.subject}</span>
-                  </p>
-                </div>
-                <button onClick={() => setStep(0)} className="text-sm text-blue-600 hover:underline">Change Subject</button>
+              <div className="text-center mb-xl">
+                <h1 className="font-headline-md text-on-surface">Select a Learning Plan</h1>
+                <p className="font-body-md text-on-surface-variant">Whether you need a quick review or a deep dive, we have a plan for you.</p>
               </div>
-
-              {subjectTutors.length === 0 ? (
-                <div className="text-center py-12">
-                  <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500">No tutors available for this subject yet</p>
-                  <button onClick={() => setStep(0)} className="mt-4 text-blue-600 font-medium hover:underline">Choose another subject</button>
-                </div>
-              ) : (
-                <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
-                  {subjectTutors.map((tutor) => (
-                    <button
-                      key={tutor.id}
-                      onClick={() => setForm({ ...form, tutorId: tutor.id })}
-                      className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
-                        form.tutorId === tutor.id ? "border-blue-500 bg-blue-50" : "border-gray-100 hover:border-blue-200 bg-white"
-                      }`}
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-sm font-bold text-blue-600">{tutor.name.split(" ").map((n) => n[0]).join("")}</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <p className="font-semibold text-gray-900">{tutor.name}</p>
-                            <span className="text-sm font-bold text-blue-600">${tutor.rate}/hr</span>
-                          </div>
-                          <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">{tutor.bio}</p>
-                          <div className="flex items-center gap-3 mt-1">
-                            <div className="flex items-center gap-0.5">
-                              {Array.from({ length: 5 }).map((_, i) => (
-                                <Star key={i} className={`h-3 w-3 ${i < tutor.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-200"}`} />
-                              ))}
-                            </div>
-                            <span className="text-xs text-gray-400">({tutor.reviews})</span>
-                            <span className="text-xs text-gray-400">{tutor.subjects.join(", ")}</span>
-                          </div>
-                        </div>
-                        {form.tutorId === tutor.id && (
-                          <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
-                            <Check className="h-4 w-4 text-white" />
-                          </div>
-                        )}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-xl max-w-4xl mx-auto">
+                {plans.map((p) => (
+                  <button key={p.id} onClick={() => setForm({ ...form, plan: p.id })}
+                    className={`glass-card p-2xl rounded-3xl text-left transition-all relative overflow-hidden ${form.plan === p.id ? "shadow-md border-2 border-primary bg-primary-container/5" : "shadow-sm border border-outline-variant hover:border-primary"}`}>
+                    {p.popular && <div className="absolute top-0 right-10 -translate-y-1/2 bg-secondary text-on-secondary px-md py-xs rounded-full font-label-sm shadow-md">Best Value</div>}
+                    <div className="flex justify-between items-start mb-lg">
+                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${form.plan === p.id ? "bg-primary text-on-primary" : "bg-surface-container-highest text-primary"}`}>
+                        <span className="font-bold">{p.id === "trial" ? "🎁" : p.id === "single" ? "👤" : "⭐"}</span>
                       </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Step 2: Select Plan */}
-          {step === 2 && (
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Choose a Plan</h2>
-              <p className="text-gray-500 mb-6">Select how you'd like to book</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {Object.entries(plans).map(([id, p]) => (
-                  <button
-                    key={id}
-                    onClick={() => setForm({ ...form, plan: id })}
-                    className={`p-4 rounded-xl border-2 text-left transition-all ${
-                      form.plan === id ? "border-blue-500 bg-blue-50" : "border-gray-100 hover:border-blue-200 bg-white"
-                    }`}
-                  >
-                    <p className="font-semibold text-gray-900">{p.name}</p>
-                    {p.amount && <p className="text-lg font-bold text-blue-600 mt-1">${p.amount}<span className="text-sm font-normal text-gray-400">/{id === "single" ? "session" : "month"}</span></p>}
-                    {p.type === "trial" && <p className="text-lg font-bold text-green-600 mt-1">Free</p>}
+                      <div className="text-right">
+                        <span className="font-headline-sm">{p.price}</span>
+                        {p.period && <p className="font-label-sm text-on-surface-variant">{p.period}</p>}
+                      </div>
+                    </div>
+                    <h3 className="font-headline-sm mb-sm">{p.name}</h3>
+                    <p className="font-body-sm text-on-surface-variant mb-xl">{p.desc}</p>
+                    <ul className="space-y-sm">
+                      {p.features.map((f) => (
+                        <li key={f} className="flex items-center gap-sm font-body-sm text-on-surface-variant">
+                          <Check className="h-4 w-4 text-secondary" /> {f}
+                        </li>
+                      ))}
+                    </ul>
                   </button>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Step 3: Details */}
-          {step === 3 && (
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">Booking Details</h2>
-              <p className="text-gray-500 mb-6">Confirm your session details</p>
-
-              {/* Summary */}
-              <div className="bg-blue-50 rounded-xl p-4 mb-6 space-y-1 text-sm">
-                <p><span className="text-gray-500">Subject:</span> <span className="font-medium">{form.subject}</span></p>
-                <p><span className="text-gray-500">Tutor:</span> <span className="font-medium">{selectedTutor?.name}</span></p>
-                <p><span className="text-gray-500">Plan:</span> <span className="font-medium">{selectedPlan.name}</span></p>
+          {step === 2 && (
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-xl">
+              <div className="md:col-span-8">
+                <div className="glass-card p-xl rounded-3xl shadow-sm">
+                  <div className="flex justify-between items-center mb-xl">
+                    <h2 className="font-headline-sm">Select Date & Time</h2>
+                  </div>
+                  <div className="mb-lg">
+                    <label className="font-label-md block mb-sm">Date</label>
+                    <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className="w-full px-4 py-3 rounded-xl border border-outline-variant focus:border-primary outline-none bg-surface-container-lowest text-sm" />
+                  </div>
+                  <div>
+                    <label className="font-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Available Times</label>
+                    <div className="space-y-sm">
+                      {timeSlots.map((t) => (
+                        <button key={t} onClick={() => setForm({ ...form, time: t })}
+                          className={`w-full p-md text-left rounded-xl font-label-md transition-all flex justify-between items-center ${form.time === t ? "border-2 border-primary bg-primary-container/10 text-primary" : "border border-outline-variant hover:border-primary"}`}>
+                          {t}
+                          {form.time === t && <Check className="h-5 w-5 text-primary" />}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Date *</label>
-                  <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none mt-1" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Time *</label>
-                  <input type="time" value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none mt-1" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Student Name *</label>
-                  <input type="text" value={form.studentName} onChange={(e) => setForm({ ...form, studentName: e.target.value })} placeholder="Full name" required className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none mt-1" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">Student Age</label>
-                  <input type="number" value={form.studentAge} onChange={(e) => setForm({ ...form, studentAge: e.target.value })} placeholder="Age" min={1} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none mt-1" />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="text-sm font-medium text-gray-700">Notes</label>
-                  <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2} placeholder="Any specific requirements" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none mt-1 resize-none" />
+              <div className="md:col-span-4">
+                <div className="glass-card p-xl rounded-3xl shadow-sm">
+                  <h3 className="font-label-md text-primary mb-lg">Student Details</h3>
+                  <div className="space-y-md">
+                    <div>
+                      <label className="font-label-sm text-on-surface-variant">Name</label>
+                      <input type="text" value={form.studentName} onChange={(e) => setForm({ ...form, studentName: e.target.value })} placeholder="Full name" className="w-full px-4 py-2.5 rounded-xl border border-outline-variant focus:border-primary outline-none text-sm mt-1" />
+                    </div>
+                    <div>
+                      <label className="font-label-sm text-on-surface-variant">Age (optional)</label>
+                      <input type="number" value={form.studentAge} onChange={(e) => setForm({ ...form, studentAge: e.target.value })} placeholder="Age" className="w-full px-4 py-2.5 rounded-xl border border-outline-variant focus:border-primary outline-none text-sm mt-1" />
+                    </div>
+                    <div>
+                      <label className="font-label-sm text-on-surface-variant">Notes</label>
+                      <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} rows={2} placeholder="Any requirements" className="w-full px-4 py-2.5 rounded-xl border border-outline-variant focus:border-primary outline-none text-sm mt-1 resize-none"></textarea>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Navigation */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
-            <button
-              onClick={() => step > 0 ? setStep(step - 1) : router.push("/")}
-              className="flex items-center gap-1.5 px-4 py-2.5 text-gray-600 hover:bg-gray-50 rounded-xl transition-colors text-sm"
-            >
-              <ChevronLeft className="h-4 w-4" /> {step > 0 ? "Back" : "Cancel"}
-            </button>
+          {step === 3 && (
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-xl">
+              <div className="md:col-span-7 flex flex-col gap-lg">
+                <div className="glass-card p-xl rounded-3xl shadow-sm">
+                  <h2 className="font-headline-sm mb-lg">Lesson Summary</h2>
+                  <div className="space-y-md">
+                    {selectedTutor && (
+                      <div className="flex items-center gap-md">
+                        <div className="w-14 h-14 bg-primary-fixed rounded-full flex items-center justify-center text-lg font-bold text-on-primary-fixed">
+                          {selectedTutor.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                        </div>
+                        <div>
+                          <h4 className="font-label-md">Tutor: {selectedTutor.name}</h4>
+                          <p className="font-body-sm text-on-surface-variant">{form.subject}</p>
+                        </div>
+                      </div>
+                    )}
+                    <hr className="border-outline-variant" />
+                    <div className="flex justify-between font-body-md">
+                      <span className="text-on-surface-variant">Plan</span>
+                      <span className="font-bold">{selectedPlan?.name}</span>
+                    </div>
+                    {form.date && form.time && (
+                      <div className="flex justify-between font-body-md">
+                        <span className="text-on-surface-variant">Session</span>
+                        <span className="font-bold">{form.date} at {form.time}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="glass-card p-xl rounded-3xl shadow-sm">
+                  <h3 className="font-label-md text-primary mb-md">Payment Method</h3>
+                  <div className="p-md border-2 border-primary bg-primary-container/5 rounded-xl">
+                    <p className="font-label-md">{selectedPlan?.type === "trial" ? "Free Trial - No payment required" : "Pay after session"}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="md:col-span-5">
+                <div className="bg-surface-container-high p-xl rounded-3xl shadow-md sticky top-24">
+                  <h3 className="font-headline-sm mb-lg">Order Total</h3>
+                  <div className="space-y-sm mb-xl">
+                    <div className="flex justify-between font-body-md text-on-surface-variant">
+                      <span>Session Fee</span>
+                      <span>{selectedPlan?.type === "trial" ? "$0.00" : selectedPlan?.price}</span>
+                    </div>
+                    <hr className="border-outline-variant my-md" />
+                    <div className="flex justify-between font-headline-sm">
+                      <span>Total</span>
+                      <span className={selectedPlan?.type === "trial" ? "text-secondary" : ""}>
+                        {selectedPlan?.type === "trial" ? "Free" : selectedPlan?.price}
+                      </span>
+                    </div>
+                  </div>
+                  <button onClick={handleSubmit} disabled={loading}
+                    className="w-full py-md bg-primary text-on-primary rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-lg flex items-center justify-center gap-sm disabled:opacity-50">
+                    {loading ? "Booking..." : selectedPlan?.type === "trial" ? "Confirm Free Trial" : "Complete Booking"}
+                  </button>
+                  <p className="text-center font-label-sm text-on-surface-variant mt-md">You won't be charged until the session starts.</p>
+                </div>
+              </div>
+            </div>
+          )}
 
+          <div className="mt-2xl flex justify-between items-center py-lg border-t border-outline-variant">
+            <button onClick={() => step > 0 ? setStep(step - 1) : router.push("/")}
+              className={`px-xl py-md border border-outline-variant text-on-surface-variant rounded-xl font-label-md hover:bg-surface-container-low transition-all flex items-center gap-sm ${step === 0 ? "invisible" : ""}`}>
+              <ChevronLeft className="h-4 w-4" /> Back
+            </button>
+            <div className="flex-grow"></div>
             {step < 3 ? (
-              <button
-                onClick={() => {
-                  if (step === 0 && !form.subject) { toast.error("Please select a subject"); return; }
-                  if (step === 1 && !form.tutorId) { toast.error("Please select a tutor"); return; }
-                  setStep(step + 1);
-                }}
-                className="flex items-center gap-1.5 px-6 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-sm disabled:opacity-50"
-              >
-                Next <ChevronRight className="h-4 w-4" />
+              <button onClick={() => {
+                if (step === 0 && !form.subject) { toast.error("Please select a subject"); return; }
+                if (step === 1 && !form.plan) { toast.error("Please select a plan"); return; }
+                setStep(step + 1);
+              }} className="px-xl py-md bg-primary text-on-primary rounded-xl font-label-md hover:shadow-lg hover:translate-y-[-2px] active:translate-y-0 transition-all flex items-center gap-sm">
+                Continue <ChevronRight className="h-4 w-4" />
               </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={loading || !form.date || !form.time || !form.studentName}
-                className="px-6 py-2.5 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-50 text-sm"
-              >
-                {loading ? "Booking..." : selectedPlan.type === "trial" ? "Confirm Free Trial" : `Confirm & Pay $${selectedPlan.amount}`}
-              </button>
-            )}
+            ) : null}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

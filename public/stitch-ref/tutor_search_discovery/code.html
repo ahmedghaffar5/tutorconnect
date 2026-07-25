@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TutorConnect - Discover Excellence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Geist:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed": "#2a1700",
+                      "on-tertiary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "tertiary-container": "#885500",
+                      "on-primary-container": "#dad7ff",
+                      "background": "#f8f9ff",
+                      "on-surface": "#0b1c30",
+                      "surface-tint": "#4d44e3",
+                      "on-secondary-fixed": "#002113",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "surface": "#f8f9ff",
+                      "on-secondary": "#ffffff",
+                      "surface-container": "#e5eeff",
+                      "outline": "#777587",
+                      "error": "#ba1a1a",
+                      "inverse-primary": "#c3c0ff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-container-highest": "#d3e4fe",
+                      "on-primary": "#ffffff",
+                      "inverse-surface": "#213145",
+                      "on-tertiary-container": "#ffd4a4",
+                      "on-background": "#0b1c30",
+                      "secondary-fixed-dim": "#4edea3",
+                      "surface-bright": "#f8f9ff",
+                      "on-secondary-fixed-variant": "#005236",
+                      "surface-dim": "#cbdbf5",
+                      "secondary": "#006c49",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "on-secondary-container": "#00714d",
+                      "tertiary-fixed": "#ffddb8",
+                      "primary": "#3525cd",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-fixed": "#6ffbbe",
+                      "secondary-container": "#6cf8bb",
+                      "on-primary-fixed": "#0f0069",
+                      "surface-container-low": "#eff4ff",
+                      "primary-fixed": "#e2dfff",
+                      "primary-container": "#4f46e5",
+                      "surface-variant": "#d3e4fe",
+                      "on-primary-fixed-variant": "#3323cc",
+                      "primary-fixed-dim": "#c3c0ff",
+                      "tertiary": "#684000",
+                      "surface-container-high": "#dce9ff",
+                      "outline-variant": "#c7c4d8",
+                      "on-surface-variant": "#464555"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1280px",
+                      "xs": "4px",
+                      "lg": "24px",
+                      "2xl": "48px",
+                      "xl": "32px",
+                      "3xl": "64px",
+                      "gutter": "24px",
+                      "md": "16px",
+                      "base": "4px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "headline-sm": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "label-sm": ["Geist"],
+                      "display-lg-mobile": ["Geist"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Geist"],
+                      "display-lg": ["Geist"],
+                      "body-lg": ["Inter"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-md": ["30px", {"lineHeight": "38px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-x-hidden custom-scrollbar">
+<!-- Top Navigation Bar -->
+<header class="bg-surface shadow-sm sticky top-0 z-[100] h-16 w-full flex items-center">
+<div class="flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto">
+<div class="flex items-center gap-xl">
+<a class="font-headline-sm text-headline-sm font-bold text-primary" href="#">TutorConnect</a>
+<nav class="hidden md:flex gap-lg">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md" href="#">Find Tutors</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Courses</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Become a Tutor</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="hidden md:block text-primary font-bold px-md py-sm rounded-lg hover:bg-surface-container transition-colors">Sign In</button>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-bold shadow-sm hover:opacity-90 transition-all">Sign Up</button>
+</div>
+</div>
+</header>
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
+<!-- Filter Sidebar -->
+<aside class="w-full md:w-80 bg-surface-container-low p-lg border-r border-outline-variant flex flex-col gap-xl">
+<div>
+<h3 class="font-headline-sm text-[18px] mb-md text-on-surface">Filters</h3>
+<!-- Search Input In Sidebar Mobile -->
+<div class="md:hidden mb-lg relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Search tutors or subjects..." type="text"/>
+</div>
+<!-- Subject Filter -->
+<div class="mb-lg">
+<label class="font-label-md text-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Subject</label>
+<div class="flex flex-col gap-xs">
+<label class="flex items-center gap-sm cursor-pointer group">
+<input checked="" class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Computer Science</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Mathematics</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">English Literature</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Physics &amp; Astronomy</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-body-sm text-on-surface group-hover:text-primary transition-colors">Digital Marketing</span>
+</label>
+</div>
+</div>
+<!-- Price Range -->
+<div class="mb-lg">
+<label class="font-label-md text-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Price Range (Hourly)</label>
+<input class="w-full accent-primary" max="200" min="10" step="5" type="range"/>
+<div class="flex justify-between text-body-sm text-on-surface-variant mt-sm">
+<span>$10</span>
+<span>$200+</span>
+</div>
+</div>
+<!-- Rating -->
+<div class="mb-lg">
+<label class="font-label-md text-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Minimum Rating</label>
+<div class="flex flex-col gap-xs">
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="text-primary focus:ring-primary" name="rating" type="radio"/>
+<span class="flex text-on-tertiary-container">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="ml-1 text-on-surface text-body-sm">4.0 &amp; Up</span>
+</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="text-primary focus:ring-primary" name="rating" type="radio"/>
+<span class="flex text-on-tertiary-container">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="ml-1 text-on-surface text-body-sm">3.0 &amp; Up</span>
+</span>
+</label>
+</div>
+</div>
+<!-- Availability -->
+<div class="mb-lg">
+<label class="font-label-md text-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Availability</label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm text-body-sm outline-none focus:ring-2 focus:ring-primary">
+<option>Anytime</option>
+<option>Weekends</option>
+<option>Weekdays (Evening)</option>
+<option>Morning (Before 12pm)</option>
+</select>
+</div>
+</div>
+<div class="mt-auto pt-lg">
+<button class="w-full py-md bg-primary-container text-on-primary-container rounded-xl font-bold hover:brightness-95 transition-all">Apply All Filters</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 p-lg md:p-2xl bg-background overflow-y-auto">
+<!-- Header & Search -->
+<div class="mb-2xl">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-lg mb-xl">
+<div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-2">Discover Expert Tutors</h1>
+<p class="text-body-lg text-on-surface-variant max-w-2xl">Connect with the top 1% of educators in your field. Structure your learning path with personalized guidance.</p>
+</div>
+</div>
+<!-- Search Bar Container -->
+<div class="hidden md:flex items-center gap-md bg-surface-container-lowest p-sm rounded-2xl shadow-sm border border-outline-variant/30">
+<div class="flex-1 flex items-center px-md border-r border-outline-variant">
+<span class="material-symbols-outlined text-primary mr-sm">search</span>
+<input class="w-full py-2 bg-transparent border-none focus:ring-0 outline-none text-body-md" placeholder="What do you want to learn today?" type="text"/>
+</div>
+<div class="flex items-center px-md gap-sm border-r border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant">location_on</span>
+<input class="w-32 py-2 bg-transparent border-none focus:ring-0 outline-none text-body-md" placeholder="Location" type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-xl py-md rounded-xl font-bold shadow-lg hover:scale-105 transition-all">Search Now</button>
+</div>
+</div>
+<!-- Results Section -->
+<div class="flex justify-between items-center mb-lg">
+<p class="text-on-surface-variant font-label-md">Showing <span class="text-on-surface font-bold">124</span> results for Computer Science</p>
+<div class="flex items-center gap-sm">
+<span class="text-body-sm text-on-surface-variant">Sort by:</span>
+<select class="bg-transparent border-none text-on-surface font-bold focus:ring-0 cursor-pointer">
+<option>Most Recommended</option>
+<option>Price: Low to High</option>
+<option>Rating: High to Low</option>
+</select>
+</div>
+</div>
+<!-- Bento-Style Tutor Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-lg">
+<!-- Tutor Card 1 -->
+<div class="glass-card rounded-2xl p-md flex flex-col hover:shadow-lg transition-all group animate-fade-in" style="animation-delay: 0.1s;">
+<div class="flex gap-md mb-md">
+<div class="relative flex-shrink-0">
+<img class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm" data-alt="Professional studio portrait of a friendly female tutor in her late 30s with glasses, wearing a casual navy blazer. The background is a clean, modern home office with a blurred bookshelf. Soft natural lighting from the side emphasizes her expertise and approachable nature, following a high-end corporate photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFf1Ok9yQ0brUwDXHCgDBiUYqJlkqq96oN6H_c0aIo96pbSL2D7uZp6tcxhRcmYMay3Vkm7QIwH5fY5-inYTRElYhkKvkfF4y8zItAi6Y9yy8L1DmSFiEMYfpRzFKs-QtmkUBYeR_EvIqHBLdPl3rphZyeiuzP45vDzXAjw2PyV5UyJNO_Pp2BZI3Dz2eQurUiozdvgeZoWIGcwhoKyKWiYHYiPZextf7LEVE0t9CXPqN5si_WjHn2MLDLBD3qzVX6iWxWLKIU7ZQa"/>
+<div class="absolute bottom-0 right-0 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full" title="Online now"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-[20px] text-on-surface truncate">Sarah Jenkins, PhD</h3>
+<span class="text-primary font-bold text-lg">$65<span class="text-on-surface-variant font-normal text-sm">/hr</span></span>
+</div>
+<p class="text-secondary font-label-md mb-1">Advanced Computer Science</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-surface font-bold text-sm">4.9</span>
+<span class="text-on-surface-variant text-xs">(128 reviews)</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant text-body-sm line-clamp-3 mb-lg flex-1">
+                        Former Lead Engineer at Google. Specialized in Python, Data Structures, and helping students bridge the gap between academia and industry career paths.
+                    </p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-outline-variant/30">
+<div class="flex gap-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Students</span>
+<span class="font-bold text-sm">84+</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Experience</span>
+<span class="font-bold text-sm">12 yrs</span>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-bold group-hover:bg-primary group-hover:text-on-primary transition-all">View Profile</button>
+</div>
+</div>
+<!-- Tutor Card 2 -->
+<div class="glass-card rounded-2xl p-md flex flex-col hover:shadow-lg transition-all group animate-fade-in" style="animation-delay: 0.2s;">
+<div class="flex gap-md mb-md">
+<div class="relative flex-shrink-0">
+<img class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm" data-alt="A portrait of a male tutor in his 20s with a modern, friendly expression, wearing a stylish dark sweatshirt. He is sitting in a brightly lit modern coworking space with abstract digital art on the walls. The overall mood is vibrant, energetic, and professional, perfectly suited for a modern educational marketplace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVb8uKMVK535k4fBI6B9dHhYKEcYLvpW1E1YAPqvXs4TRTVqE1gNx6u4bPGTARlHBBEnXmkl0ajty3QU5gXULaAaXUSwVVSZkpUP7IFjnmb6EJkNG-DJ1i6Ta1ieYXmp8QGGiD79O3Og1BbOCLFsCUP6KiBiNWnvemhgruopUI4IBPp94FdpTApLUyaT5cletTtqV8vkX7tE9F02ZOBTnH-L-PR2VBbNXb7T3FE5GKZvLxbcfSBAfJwi-xKX8i_yFgaj9-yQMIlC1c"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-[20px] text-on-surface truncate">Marcus Chen</h3>
+<span class="text-primary font-bold text-lg">$45<span class="text-on-surface-variant font-normal text-sm">/hr</span></span>
+</div>
+<p class="text-secondary font-label-md mb-1">Full Stack Development</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-surface font-bold text-sm">5.0</span>
+<span class="text-on-surface-variant text-xs">(52 reviews)</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant text-body-sm line-clamp-3 mb-lg flex-1">
+                        React and Node.js specialist. I focus on project-based learning to help you build a portfolio that actually gets you hired. Let's build something cool!
+                    </p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-outline-variant/30">
+<div class="flex gap-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Students</span>
+<span class="font-bold text-sm">31</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Experience</span>
+<span class="font-bold text-sm">5 yrs</span>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-bold group-hover:bg-primary group-hover:text-on-primary transition-all">View Profile</button>
+</div>
+</div>
+<!-- Tutor Card 3 (Featured) -->
+<div class="relative rounded-2xl p-md flex flex-col hover:shadow-xl transition-all group overflow-hidden bg-primary animate-fade-in" style="animation-delay: 0.3s;">
+<div class="absolute top-0 right-0 p-3">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-sm py-1 rounded uppercase tracking-tighter shadow-sm">Featured</span>
+</div>
+<div class="flex gap-md mb-md relative z-10">
+<div class="relative flex-shrink-0">
+<img class="w-20 h-20 rounded-full object-cover border-2 border-primary-container shadow-sm" data-alt="A distinguished senior male educator with white hair and a welcoming smile, wearing a professional gray sweater. He is in a warm, wood-paneled library setting with books in the background. The lighting is soft and golden, conveying a sense of deep wisdom and trustworthy mentorship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ_m5hNH9iOXfXYn7YqFoCw89psBWqtdYWqnWTQv8sATcWjuhlzRjIIxRh3q2weZIZlEHdx-FP9_gy8jvZ8kPmQT1JnT3vUH3vubhRSo4fR29Euzb8OLNxs8_azVtqJYPxyLlssTNS3U253Hm-1thwW02ARhEjtte6Ocwrfr31whVcLhSGPltWJUGT34UbMwufuZUEWSv09oY-qeT9dobp7SPUtlXHvSI45yOTNziX_mOBABXW8Lg1xvx9QV8y_ii-CfAudEyFLb4c"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-[20px] text-on-primary truncate">Dr. Robert Vance</h3>
+<span class="text-on-primary font-bold text-lg">$90<span class="text-primary-fixed-dim font-normal text-sm">/hr</span></span>
+</div>
+<p class="text-primary-fixed-dim font-label-md mb-1">Algorithms &amp; Logic</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-primary font-bold text-sm">4.9</span>
+<span class="text-primary-fixed-dim text-xs">(245 reviews)</span>
+</div>
+</div>
+</div>
+<p class="text-on-primary-container text-body-sm line-clamp-3 mb-lg flex-1 relative z-10">
+                        Professor Emeritus with over 25 years of classroom experience. Specializing in competitive programming and fundamental computational theory.
+                    </p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-primary-container/30 relative z-10">
+<div class="flex gap-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-primary-fixed-dim tracking-widest">Students</span>
+<span class="font-bold text-sm text-on-primary">1.2k+</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-primary-fixed-dim tracking-widest">Experience</span>
+<span class="font-bold text-sm text-on-primary">25 yrs</span>
+</div>
+</div>
+<button class="bg-on-primary text-primary px-lg py-sm rounded-lg font-bold hover:bg-secondary-container transition-all">View Profile</button>
+</div>
+<!-- Background Accent -->
+<div class="absolute -bottom-10 -right-10 w-32 h-32 bg-primary-container/20 rounded-full blur-3xl"></div>
+</div>
+<!-- Card 4 -->
+<div class="glass-card rounded-2xl p-md flex flex-col hover:shadow-lg transition-all group animate-fade-in" style="animation-delay: 0.4s;">
+<div class="flex gap-md mb-md">
+<div class="relative flex-shrink-0">
+<img class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm" data-alt="Modern close-up portrait of a woman in her 30s with a sharp, professional look, dark hair tied back, wearing a white minimalist shirt. She is in a minimalist architectural space with bright white light and a blue sky visible through a large window. Her expression is focused yet encouraging, embodying a high-performance mentorship aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsmldegI8kiBjyrzhdgp62gH7bnegJ-UttKwRZbwqGb8_YBmbjed86rFGyZNAZFceNWmKIrcm7x6OYMk6PSB-lu5qRwJDRsRcgBPTaWXkTZB46T6PGgLe2ghJQtpuK81tkfmMwtjtIqzxCOmZQEs4mcAtE6w4Zubf-P45rvYkWm6hX3IA3POrqUqkPeg-cEviJDDo9LjXBpiqCvAuTQXhjZtmxEPx4EDhOjyWe4PfyZ7C7ay27XEJmStQv-WenEtd4tT3qSgGYL4k1"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-[20px] text-on-surface truncate">Aria Montgomery</h3>
+<span class="text-primary font-bold text-lg">$55<span class="text-on-surface-variant font-normal text-sm">/hr</span></span>
+</div>
+<p class="text-secondary font-label-md mb-1">Cybersecurity &amp; Ethics</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-surface font-bold text-sm">4.8</span>
+<span class="text-on-surface-variant text-xs">(89 reviews)</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant text-body-sm line-clamp-3 mb-lg flex-1">
+                        Certified Ethical Hacker (CEH). I teach practical security audits and defense strategies. Ideal for professionals preparing for certification exams.
+                    </p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-outline-variant/30">
+<div class="flex gap-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Students</span>
+<span class="font-bold text-sm">115</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Experience</span>
+<span class="font-bold text-sm">8 yrs</span>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-bold group-hover:bg-primary group-hover:text-on-primary transition-all">View Profile</button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="glass-card rounded-2xl p-md flex flex-col hover:shadow-lg transition-all group animate-fade-in" style="animation-delay: 0.5s;">
+<div class="flex gap-md mb-md">
+<div class="relative flex-shrink-0">
+<img class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm" data-alt="Portrait of a friendly South Asian male tutor in his 40s wearing a casual linen shirt. Background is a warm, brightly lit classroom with a digital whiteboard showing complex math equations. The atmosphere is academic, welcoming, and high-tech." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABJV9tQftJnKcVxiIUcHhj7P6RQt45F4_ILUnZGJcjcyzsxxwdNH68Z3fQPSZuT7H2J7Uuio1mqQB6oZRmSOJbGaWI1uWaYqI6YY2VFxvf2Xzog-FZcvnWSSWn33eJmBTrVx9nM8UV5-fBtoC0v8S-QIktOb7irg5tfrqs8_5sZVwuLsM_L3O9lxNK4y6CC51V6BFnput2L7UCf0QZVVB7wizu0r4ABXq4qT-G3_sVbVs4ejordk9IrqrLB-6PC3nBfEMSHmcsAO7H"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-[20px] text-on-surface truncate">Rajiv Gupta</h3>
+<span class="text-primary font-bold text-lg">$50<span class="text-on-surface-variant font-normal text-sm">/hr</span></span>
+</div>
+<p class="text-secondary font-label-md mb-1">Discrete Mathematics</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-surface font-bold text-sm">4.7</span>
+<span class="text-on-surface-variant text-xs">(210 reviews)</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant text-body-sm line-clamp-3 mb-lg flex-1">
+                        Masters in Applied Mathematics. Specializing in making complex abstract concepts easy to understand for undergraduates.
+                    </p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-outline-variant/30">
+<div class="flex gap-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Students</span>
+<span class="font-bold text-sm">340+</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Experience</span>
+<span class="font-bold text-sm">15 yrs</span>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-bold group-hover:bg-primary group-hover:text-on-primary transition-all">View Profile</button>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="glass-card rounded-2xl p-md flex flex-col hover:shadow-lg transition-all group animate-fade-in" style="animation-delay: 0.6s;">
+<div class="flex gap-md mb-md">
+<div class="relative flex-shrink-0">
+<img class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm" data-alt="Portrait of a young woman in her mid-20s with a creative and friendly appearance, wearing a mustard yellow cardigan. Background is a bright art studio with graphic design tools visible. The light is diffused and soft, reflecting a modern, creative education professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6MbeaYtTySZtQA3WU8lhZS3MVo5b-98rvTEYdyqu1TCSzWkPfhWW3VXtcq8RGjbKm1NF2qcEo5M_OOW7LPLlgCjM5qCj-NS5TV1OwK-g3E_FUA9s14USBm1Il5fF58f-7TkqApWVDWt3RjyIZl8rMMFjNp99Gm-_WSsz2jHMENieg-n3RQrNgqUeuKbbFxB09ZZk63ptsF53ia1Uaq6Gfmkqc_QCxxCB2AxqCYv5fyFMmoXKaCZGiGhdCD00amZU70cGwV_m6vkKh"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-sm text-[20px] text-on-surface truncate">Sophie Laurent</h3>
+<span class="text-primary font-bold text-lg">$40<span class="text-on-surface-variant font-normal text-sm">/hr</span></span>
+</div>
+<p class="text-secondary font-label-md mb-1">UI/UX Design Basics</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-on-surface font-bold text-sm">4.9</span>
+<span class="text-on-surface-variant text-xs">(76 reviews)</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant text-body-sm line-clamp-3 mb-lg flex-1">
+                        Professional UI Designer at a top fintech startup. Learn Figma, design principles, and how to build user-centered interfaces.
+                    </p>
+<div class="flex items-center justify-between mt-auto pt-md border-t border-outline-variant/30">
+<div class="flex gap-md">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Students</span>
+<span class="font-bold text-sm">62</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant tracking-widest">Experience</span>
+<span class="font-bold text-sm">4 yrs</span>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-bold group-hover:bg-primary group-hover:text-on-primary transition-all">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-2xl flex justify-center items-center gap-md">
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex gap-sm">
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant hover:bg-surface-container transition-colors">2</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant hover:bg-surface-container transition-colors">3</button>
+<span class="px-sm text-on-surface-variant">...</span>
+<button class="w-10 h-10 rounded-full border border-outline-variant hover:bg-surface-container transition-colors">12</button>
+</div>
+<button class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</main>
+</div>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-md pt-sm md:hidden bg-surface shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="w-full py-xl px-lg max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-md border-t border-outline-variant bg-surface-container-lowest">
+<div class="flex flex-col items-center md:items-start gap-sm">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">TutorConnect</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 TutorConnect. Empowering learners worldwide.</p>
+</div>
+<nav class="flex gap-lg">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm" href="#">FAQ</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm" href="#">Support</a>
+</nav>
+</footer>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

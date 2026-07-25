@@ -1,73 +1,40 @@
 import Link from "next/link";
-import {
-  Calculator,
-  BookOpen,
-  FlaskRoundIcon as Flask,
-  Monitor,
-  Code,
-  BookHeart,
-  Globe,
-  Zap,
-  Atom,
-  Leaf,
-  ArrowRight,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const subjects = [
-  { name: "Mathematics", icon: Calculator, href: "/subjects/mathematics", color: "bg-red-50 text-red-600" },
-  { name: "English", icon: BookOpen, href: "/subjects/english", color: "bg-blue-50 text-blue-600" },
-  { name: "Science", icon: Flask, href: "/subjects/science", color: "bg-green-50 text-green-600" },
-  { name: "Computer Science", icon: Monitor, href: "/subjects/computer-science", color: "bg-purple-50 text-purple-600" },
-  { name: "Coding", icon: Code, href: "/subjects/coding", color: "bg-indigo-50 text-indigo-600" },
-  { name: "Quran", icon: BookHeart, href: "/subjects/quran", color: "bg-emerald-50 text-emerald-600" },
-  { name: "Urdu", icon: Globe, href: "/subjects/urdu", color: "bg-amber-50 text-amber-600" },
-  { name: "Physics", icon: Zap, href: "/subjects/physics", color: "bg-cyan-50 text-cyan-600" },
-  { name: "Chemistry", icon: Atom, href: "/subjects/chemistry", color: "bg-rose-50 text-rose-600" },
-  { name: "Biology", icon: Leaf, href: "/subjects/biology", color: "bg-lime-50 text-lime-600" },
+  { name: "Mathematics", emoji: "📐", href: "/subjects/mathematics", desc: "Algebra, Calculus, Statistics, and Geometry." },
+  { name: "Coding", emoji: "💻", href: "/subjects/coding", desc: "Python, JavaScript, Data Science, and AI." },
+  { name: "Languages", emoji: "🌍", href: "/subjects/english", desc: "Spanish, French, Mandarin, and ESL." },
+  { name: "Science", emoji: "🔬", href: "/subjects/science", desc: "Physics, Chemistry, Biology, and more." },
+  { name: "Quran", emoji: "📖", href: "/subjects/quran", desc: "Quran reading, Tajweed, and memorization." },
+  { name: "Computer Science", emoji: "🖥️", href: "/subjects/computer-science", desc: "Algorithms, DSA, and computing theory." },
 ];
 
 export default function SubjectsSection() {
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between mb-10">
+    <section className="py-3xl bg-surface-container-lowest">
+      <div className="max-w-container-max mx-auto px-lg">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-lg mb-2xl">
           <div>
-            <span className="text-blue-600 font-semibold text-sm tracking-wide uppercase">Subjects</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
-              Explore Our Subjects
-            </h2>
-            <p className="mt-3 text-gray-500 text-lg max-w-xl">
-              Find expert tutors across a wide range of subjects taught online
-            </p>
+            <h2 className="font-headline-md text-on-surface mb-sm">Explore Popular Subjects</h2>
+            <p className="font-body-md text-on-surface-variant">Whatever you want to learn, we have an expert for you.</p>
           </div>
-          <Link href="/subjects" className="hidden md:flex items-center gap-2 text-blue-600 font-medium hover:text-blue-700">
-            View All <ArrowRight className="h-4 w-4" />
+          <Link href="/subjects" className="text-primary font-label-md flex items-center gap-xs hover:underline">
+            View all subjects <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-          {subjects.map((subject) => {
-            const Icon = subject.icon;
-            return (
-              <Link
-                key={subject.name}
-                href={subject.href}
-                className="group bg-white rounded-2xl p-6 border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all duration-200"
-              >
-                <div className={`w-12 h-12 rounded-xl ${subject.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                  <Icon className="h-6 w-6" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
+          {subjects.map((s) => (
+            <Link key={s.name} href={s.href} className="group cursor-pointer">
+              <div className="h-48 rounded-2xl overflow-hidden mb-md relative bg-gradient-to-br from-primary-container/10 to-secondary-container/10 border border-outline-variant flex items-center justify-center">
+                <span className="text-6xl transition-transform duration-500 group-hover:scale-110">{s.emoji}</span>
+                <div className="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent flex items-end p-md">
+                  <span className="text-on-primary font-headline-sm">{s.name}</span>
                 </div>
-                <h3 className="font-semibold text-gray-900 text-sm">{subject.name}</h3>
-                <p className="text-xs text-gray-400 mt-1">Find tutors &rarr;</p>
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className="mt-6 text-center md:hidden">
-          <Link href="/subjects" className="inline-flex items-center gap-2 text-blue-600 font-medium">
-            View All Subjects <ArrowRight className="h-4 w-4" />
-          </Link>
+              </div>
+              <p className="font-body-sm text-on-surface-variant">{s.desc}</p>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

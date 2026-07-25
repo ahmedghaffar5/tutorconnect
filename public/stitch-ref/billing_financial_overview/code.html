@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Billing & Financials | LuminaTutor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#6ffbbe",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-secondary-fixed": "#002113",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "primary": "#3525cd",
+                    "surface-variant": "#d3e4fe",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-container": "#ffd4a4",
+                    "outline-variant": "#c7c4d8",
+                    "secondary": "#006c49",
+                    "primary-container": "#4f46e5",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#c3c0ff",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "tertiary-container": "#885500",
+                    "surface-dim": "#cbdbf5",
+                    "outline": "#777587",
+                    "tertiary-fixed": "#ffddb8",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-container": "#00714d",
+                    "surface": "#f8f9ff",
+                    "on-surface": "#0b1c30",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-container": "#6cf8bb",
+                    "on-background": "#0b1c30",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-primary-container": "#dad7ff",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#213145",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container": "#e5eeff",
+                    "surface-tint": "#4d44e3",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "tertiary": "#684000",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#464555",
+                    "on-primary-fixed": "#0f0069",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "base": "4px",
+                    "2xl": "48px",
+                    "container-max": "1280px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "3xl": "64px"
+            },
+            "fontFamily": {
+                    "label-md": ["Geist"],
+                    "label-sm": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "display-lg": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "headline-sm": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "display-lg-mobile": ["Geist"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-md": ["30px", {"lineHeight": "38px", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- Side Navigation Shell -->
+<nav class="fixed left-0 top-0 bottom-0 flex flex-col z-40 bg-surface-container-low dark:bg-inverse-surface docked left-0 h-screen w-64 shadow-md dark:shadow-none">
+<div class="px-6 py-8">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">LuminaTutor</span>
+</div>
+<div class="flex-1 px-2 space-y-1">
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">My Lessons</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-md text-label-md">Messages</span>
+</a>
+<!-- Active State: Analytics / Financials -->
+<a class="bg-primary-container text-on-primary-container rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+<span class="font-label-md text-label-md">Financials</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-transform duration-200 hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<div class="p-4 mt-auto">
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity">
+                Book New Session
+            </button>
+</div>
+<div class="border-t border-outline-variant/30 p-4 space-y-1">
+<div class="flex items-center gap-3 px-4 py-2">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A professional and friendly portrait of a young adult learner with a focused expression, set against a softly blurred library background with warm, natural lighting. The style is clean and corporate, utilizing a bright and professional color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiXH8WycS8iWL-9I0SL_Bo4foIOvl3Yo2mhtp6phMV6Z84j6QmrUTA7L5mdzNv5qfCgnICuEshhw8uX-lTDXe_XFRndreowfQEvJk_d71PwmsyUygSNedq6YxQDH4jEl1rITrKM8K4zzcS17BjDC8fPrDn9xzHRDCx7ltL0ih5pxNO_dm4gV6Mpy6hYPZhwi9mNsMeDubkFf63fUozcVYaRS52tV42wJuIx9ll1pXwKBoGjl30er6qoJSL2_3PiOVT_xKqno37muMm"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md truncate">Alex Rivers</p>
+<p class="text-xs text-on-surface-variant">Premium Learner</p>
+</div>
+</div>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl px-4 py-2 flex items-center gap-3 text-sm" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span>Help Center</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high rounded-xl px-4 py-2 flex items-center gap-3 text-sm" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen p-8 lg:p-12">
+<header class="mb-10 flex justify-between items-end">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-2">Billing & Financials</h1>
+<p class="text-on-surface-variant font-body-md">Manage your session credits, track spending, and download invoices.</p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg border border-outline text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+<span class="font-label-md">Last 30 Days</span>
+</button>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<!-- Total Spent Card -->
+<div class="glass-card p-6 rounded-2xl flex flex-col justify-between h-48 group hover:border-primary/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+</div>
+<span class="text-emerald-600 text-sm font-medium flex items-center bg-emerald-50 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-xs mr-1">trending_up</span> 12%
+                    </span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md mb-1">Total Spent</p>
+<h2 class="text-3xl font-bold text-on-surface tracking-tight">$2,450.00</h2>
+</div>
+</div>
+<!-- Upcoming Payments Card -->
+<div class="glass-card p-6 rounded-2xl flex flex-col justify-between h-48 hover:border-primary/30 transition-all duration-300">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-tertiary/10 rounded-lg">
+<span class="material-symbols-outlined text-tertiary">schedule</span>
+</div>
+<span class="bg-surface-container-high px-3 py-1 rounded-full text-xs font-medium text-on-surface-variant">Due in 3 days</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md mb-1">Upcoming Payments</p>
+<h2 class="text-3xl font-bold text-on-surface tracking-tight">$180.00</h2>
+</div>
+</div>
+<!-- Wallet & Credits Section -->
+<div class="glass-card p-6 rounded-2xl bg-primary text-on-primary shadow-lg shadow-primary/20 relative overflow-hidden group">
+<!-- Decorative background elements -->
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-on-primary/10 rounded-full blur-2xl group-hover:bg-on-primary/20 transition-all duration-500"></div>
+<div class="relative z-10 flex flex-col h-full justify-between">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-on-primary/80 font-label-md mb-1">Wallet Balance</p>
+<h2 class="text-3xl font-bold tracking-tight">12 Credits</h2>
+<p class="text-xs text-on-primary/70 mt-1">Approx. 6 Hours of Tutoring</p>
+</div>
+<button class="bg-on-primary text-primary px-4 py-2 rounded-xl font-label-md hover:bg-opacity-90 transition-all shadow-sm">
+                            Add Credits
+                        </button>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-on-primary/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">sync</span>
+<span class="font-label-sm">Auto-Reload</span>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-on-primary/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary-container"></div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Transaction History Section -->
+<div class="glass-card rounded-2xl overflow-hidden border border-outline-variant/30">
+<div class="p-6 border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-lowest">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Transaction History</h3>
+<div class="flex gap-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 border border-outline-variant rounded-lg text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all w-64 bg-surface" placeholder="Search invoices..." type="text"/>
+</div>
+<button class="p-2 border border-outline-variant rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50 text-on-surface-variant font-label-md border-b border-outline-variant/30">
+<th class="px-6 py-4 font-semibold">Description</th>
+<th class="px-6 py-4 font-semibold">Date</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold">Amount</th>
+<th class="px-6 py-4 font-semibold text-right">Invoice</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">school</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Calculus II - Session Block (5)</p>
+<p class="text-xs text-on-surface-variant">Tutor: Sarah Jenkins</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 24, 2024</td>
+<td class="px-6 py-5">
+<span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-100">Completed</span>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface">$250.00</td>
+<td class="px-6 py-5 text-right">
+<button class="inline-flex items-center gap-1 text-primary hover:underline font-label-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>Download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[20px]">menu_book</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Physics Mastery Course</p>
+<p class="text-xs text-on-surface-variant">Annual Subscription</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 12, 2024</td>
+<td class="px-6 py-5">
+<span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-100">Completed</span>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface">$599.00</td>
+<td class="px-6 py-5 text-right">
+<button class="inline-flex items-center gap-1 text-primary hover:underline font-label-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>Download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-[20px]">star</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Premium Membership</p>
+<p class="text-xs text-on-surface-variant">Monthly Renewal</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Oct 05, 2024</td>
+<td class="px-6 py-5">
+<span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-100">Completed</span>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface">$29.00</td>
+<td class="px-6 py-5 text-right">
+<button class="inline-flex items-center gap-1 text-primary hover:underline font-label-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>Download</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-error/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-error text-[20px]">account_balance_wallet</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Wallet Auto-Reload</p>
+<p class="text-xs text-on-surface-variant">System Trigger</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant">Sep 28, 2024</td>
+<td class="px-6 py-5">
+<span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium border border-emerald-100">Completed</span>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface">$100.00</td>
+<td class="px-6 py-5 text-right">
+<button class="inline-flex items-center gap-1 text-primary hover:underline font-label-sm group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span>Download</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination-like footer -->
+<div class="p-4 border-t border-outline-variant/30 bg-surface-container-low/30 flex justify-between items-center">
+<span class="text-sm text-on-surface-variant">Showing 1-4 of 24 transactions</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-surface transition-colors disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-surface transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- Stripe Integration Footer Note -->
+<div class="mt-12 flex flex-col items-center gap-4 text-center">
+<div class="flex items-center gap-2 text-on-surface-variant opacity-60">
+<span class="material-symbols-outlined">lock</span>
+<span class="font-label-sm">Secure payments powered by Stripe</span>
+</div>
+<div class="flex gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+<div class="w-12 h-8 bg-slate-300 rounded"></div>
+<div class="w-12 h-8 bg-slate-300 rounded"></div>
+<div class="w-12 h-8 bg-slate-300 rounded"></div>
+</div>
+</div>
+</main>
+<!-- Success Toast Notification (Hidden by default) -->
+<div class="fixed bottom-8 right-8 bg-inverse-surface text-inverse-on-surface px-6 py-4 rounded-xl shadow-2xl translate-y-24 transition-transform duration-500 flex items-center gap-3 z-50" id="toast">
+<span class="material-symbols-outlined text-secondary-fixed">check_circle</span>
+<div>
+<p class="font-bold text-sm">Action Successful</p>
+<p class="text-xs opacity-80">Your preference has been updated.</p>
+</div>
+</div>
+<script>
+        // Micro-interactions
+        const toggle = document.querySelector('input[type="checkbox"]');
+        const toast = document.getElementById('toast');
+
+        toggle.addEventListener('change', () => {
+            // Show toast
+            toast.classList.remove('translate-y-24');
+            toast.classList.add('translate-y-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-24');
+                toast.classList.remove('translate-y-0');
+            }, 3000);
+        });
+
+        // Add smooth hover lift for cards via JS for finer control if needed
+        const cards = document.querySelectorAll('.glass-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if(!card.classList.contains('bg-primary')) {
+                    card.style.transform = 'translateY(-4px)';
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TutorConnect | Learning Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#3323cc",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "secondary": "#006c49",
+                    "on-secondary-container": "#00714d",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#002113",
+                    "on-primary-fixed": "#0f0069",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#e2dfff",
+                    "on-surface-variant": "#464555",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-background": "#0b1c30",
+                    "error": "#ba1a1a",
+                    "tertiary": "#684000",
+                    "inverse-surface": "#213145",
+                    "surface-container-high": "#dce9ff",
+                    "primary-container": "#4f46e5",
+                    "surface": "#f8f9ff",
+                    "outline": "#777587",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#6cf8bb",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container": "#e5eeff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-surface": "#0b1c30",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#885500",
+                    "outline-variant": "#c7c4d8",
+                    "on-tertiary-container": "#ffd4a4",
+                    "background": "#f8f9ff",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "inverse-primary": "#c3c0ff",
+                    "on-tertiary": "#ffffff",
+                    "surface-variant": "#d3e4fe",
+                    "secondary-fixed": "#6ffbbe",
+                    "primary": "#3525cd",
+                    "on-primary-container": "#dad7ff",
+                    "tertiary-fixed": "#ffddb8",
+                    "surface-tint": "#4d44e3",
+                    "on-tertiary-fixed": "#2a1700"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "md": "16px",
+                    "gutter": "24px",
+                    "3xl": "64px",
+                    "2xl": "48px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Geist"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "display-lg-mobile": ["Geist"]
+            },
+            "fontSize": {
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-md": ["30px", {"lineHeight": "38px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .progress-ring {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        body {
+            background-color: #f8f9ff;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface mb-20 overflow-x-hidden">
+<!-- Hero / Header Section -->
+<header class="relative px-md pt-xl pb-3xl overflow-hidden bg-primary overflow-visible">
+<!-- Abstract background elements -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary-container rounded-full blur-3xl opacity-20 -mr-20 -mt-20"></div>
+<div class="absolute bottom-0 left-0 w-48 h-48 bg-secondary-container rounded-full blur-3xl opacity-20 -ml-20 -mb-10"></div>
+<div class="relative z-10 flex justify-between items-start">
+<div>
+<h1 class="font-headline-md text-headline-md-mobile text-on-primary">Hi, Alex!</h1>
+<p class="font-body-sm text-body-sm text-on-primary-container opacity-90 mt-1">Ready for your next breakthrough?</p>
+</div>
+<div class="relative">
+<img class="w-12 h-12 rounded-full border-2 border-on-primary object-cover" data-alt="A close-up portrait of a cheerful, young professional student in a modern workspace. The lighting is soft and natural, with a focus on a warm, approachable expression. The background shows a hint of a clean, minimalist room with books and a laptop. The image carries the high-quality, professional aesthetic of the TutorConnect brand with a clean, light-mode feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOR1iL8_pk81t-r2kh3UV84VxinoT8Cbxz7kZRXD9rv9yR1trOjCK8UxuYR1Dwbtzt4gjHeFxro53b9L6eyP7dlM3fGxnwYwy8Y-owe4Gz-jNUDDiHK57njW5KQJlXuH4PT3ldsGVDtOGALsjQ1Yrx9PdDe5WX3DiwNVy_L2_ah88BRcdolOh0UqPSkIzrcT6kLYFdccR-mPjo-CTC0EZJYKFyOdFho_7vMk-JIdqj4mUf2V3pFu4SRiSOow4tR8UX-U3JC3IukHfX"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-secondary-fixed border-2 border-primary rounded-full"></span>
+</div>
+</div>
+<!-- Condensed Progress Tracker (Bento Grid Style) -->
+<div class="mt-xl grid grid-cols-2 gap-md">
+<div class="glass-card p-md rounded-xl flex flex-col justify-between h-32 shadow-sm">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-sm text-label-sm bg-primary-fixed text-on-primary-fixed px-2 py-0.5 rounded-full">Level 12</span>
+</div>
+<div>
+<div class="flex justify-between items-end mb-1">
+<p class="font-label-md text-label-md text-on-surface">Skill XP</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">840 / 1000</p>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[84%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="glass-card p-md rounded-xl flex flex-col justify-between h-32 shadow-sm">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary" data-icon="bolt">bolt</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">7 Day Streak</span>
+</div>
+<div class="flex gap-1 items-end h-full pt-md">
+<div class="flex-1 bg-secondary-container h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[55%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary h-full rounded-t-sm"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<main class="relative z-20 -mt-8 px-md space-y-xl">
+<!-- Upcoming Sessions -->
+<section>
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Upcoming Sessions</h2>
+<button class="text-primary font-label-md text-label-md">See all</button>
+</div>
+<div class="space-y-md">
+<!-- Session Card 1 (Active/Soon) -->
+<div class="glass-card p-md rounded-xl shadow-lg border-l-4 border-primary transform active:scale-95 transition-transform duration-200">
+<div class="flex items-center gap-md mb-md">
+<img class="w-14 h-14 rounded-full object-cover shadow-sm" data-alt="A professional headshot of a female educator with a friendly smile, set against a blurred academic background. She has a warm, inviting presence. The lighting is bright and professional, aligning with the TutorConnect design system of structured empowerment and high-end educational services. Soft blue and white tones dominate the scene." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU5GAF_kt55on2WL2Ch6KFiWtmeDS0hdjRKvD4l_XLvhOJqHbtcYD7KaN6D1sNXtsb6bgzoH1Qh8I-5hNnd1xcwwrPqJqlY2u8sYokJWwlsKVfoibNpnuuPpo2TxmMgo3kkD0Uym2Ob9gMKx7s9pVf484qlSFltmJ0PtT9gaw3qaC6NHDi1OpEd8sC-sdOeEJooOcECn16FEvWQQXiWvMx3YRsit9ariTYpgZPnQxqkb-Vgqva586ygyaoRUi-9t-FCYE9-Nqr7_P7"/>
+<div class="flex-1">
+<h3 class="font-label-md text-label-md text-on-surface">Advanced Mathematics</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Dr. Sarah Miller</p>
+</div>
+<div class="text-right">
+<span class="block font-label-sm text-label-sm text-primary font-bold uppercase tracking-wider">In 15 Mins</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">14:00 - 15:00</span>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="flex-1 py-3 bg-primary text-on-primary font-label-md text-label-md rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="videocam">videocam</span>
+                            Join Classroom
+                        </button>
+<button class="w-12 h-12 bg-surface-container-high rounded-lg flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="more_horiz">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Session Card 2 -->
+<div class="glass-card p-md rounded-xl shadow-sm transform active:scale-95 transition-transform duration-200">
+<div class="flex items-center gap-md">
+<div class="w-14 h-14 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined text-3xl" data-icon="code">code</span>
+</div>
+<div class="flex-1">
+<h3 class="font-label-md text-label-md text-on-surface">Intro to Python</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Prof. James Wilson</p>
+<div class="flex items-center gap-1 mt-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-xs" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-sm text-label-sm">Tomorrow, 10:00 AM</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Learning Path Progress -->
+<section class="pb-xl">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Current Courses</h2>
+</div>
+<div class="grid grid-cols-1 gap-md">
+<!-- Course Card -->
+<div class="glass-card p-md rounded-xl shadow-sm flex items-center gap-md">
+<div class="relative w-16 h-16 shrink-0">
+<svg class="w-full h-full progress-ring">
+<circle class="text-surface-container-highest" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="52.7" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">70%</span>
+</div>
+</div>
+<div class="flex-1 overflow-hidden">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Fullstack Development Boot...</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">12 of 18 lessons completed</p>
+<div class="flex gap-2 mt-2">
+<span class="font-label-sm text-label-sm bg-secondary-fixed-dim/20 text-on-secondary-fixed-variant px-2 py-0.5 rounded-full">Active</span>
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded-full">6h left</span>
+</div>
+</div>
+</div>
+<!-- Course Card 2 -->
+<div class="glass-card p-md rounded-xl shadow-sm flex items-center gap-md">
+<div class="relative w-16 h-16 shrink-0">
+<svg class="w-full h-full progress-ring">
+<circle class="text-surface-container-highest" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-dasharray="175.9" stroke-dashoffset="131.9" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">25%</span>
+</div>
+</div>
+<div class="flex-1 overflow-hidden">
+<h4 class="font-label-md text-label-md text-on-surface truncate">Business Communication</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">4 of 16 lessons completed</p>
+<div class="flex gap-2 mt-2">
+<span class="font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded-full">Started 2d ago</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Contextual Logic: Dashboard is active) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-md pt-sm md:hidden bg-surface shadow-lg rounded-t-xl">
+<!-- Home (Dashboard Intent) - ACTIVE -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Search -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300 px-4 py-1 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<!-- Bookings -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300 px-4 py-1 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300 px-4 py-1 rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) for contextual dashboard action -->
+<div class="fixed bottom-24 right-md z-40">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</div>
+<!-- Quick Interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Subtle scroll effect for the header
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                const scroll = window.scrollY;
+                if (scroll > 50) {
+                    header.style.paddingTop = '12px';
+                    header.style.paddingBottom = '48px';
+                } else {
+                    header.style.paddingTop = '32px';
+                    header.style.paddingBottom = '64px';
+                }
+            });
+
+            // Card haptics simulation (visual only)
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach(card => {
+                card.addEventListener('touchstart', () => {
+                    card.style.transform = 'scale(0.98)';
+                });
+                card.addEventListener('touchend', () => {
+                    card.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking Confirmed | TutorConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d3e4fe",
+                    "primary-fixed": "#e2dfff",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-container": "#885500",
+                    "surface-tint": "#4d44e3",
+                    "on-secondary-container": "#00714d",
+                    "surface": "#f8f9ff",
+                    "secondary-fixed": "#6ffbbe",
+                    "secondary-container": "#6cf8bb",
+                    "on-background": "#0b1c30",
+                    "inverse-primary": "#c3c0ff",
+                    "secondary-fixed-dim": "#4edea3",
+                    "outline-variant": "#c7c4d8",
+                    "tertiary-fixed": "#ffddb8",
+                    "secondary": "#006c49",
+                    "on-secondary-container": "#00714d",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#eff4ff",
+                    "surface-container": "#e5eeff",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "surface-dim": "#cbdbf5",
+                    "surface-variant": "#d3e4fe",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#dad7ff",
+                    "on-surface": "#0b1c30",
+                    "background": "#f8f9ff",
+                    "surface-container-high": "#dce9ff",
+                    "on-tertiary-fixed": "#2a1700",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#0f0069",
+                    "primary": "#3525cd",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#4f46e5",
+                    "on-secondary-fixed-variant": "#005236",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "error-container": "#ffdad6",
+                    "tertiary": "#684000",
+                    "on-surface-variant": "#464555",
+                    "inverse-surface": "#213145",
+                    "on-secondary-fixed": "#002113",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "outline": "#777587",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "3xl": "64px",
+                    "gutter": "24px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "2xl": "48px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Geist"],
+                    "label-sm": ["Geist"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "headline-sm": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Geist"],
+                    "headline-md": ["Geist"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["30px", {"lineHeight": "38px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .receipt-jagged {
+            position: relative;
+        }
+        .receipt-jagged::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background-size: 16px 8px;
+            background-repeat: repeat-x;
+            background-image: linear-gradient(-45deg, transparent 4px, white 4px), linear-gradient(45deg, transparent 4px, white 4px);
+        }
+        .success-blob {
+            background: radial-gradient(circle, rgba(111, 251, 190, 0.2) 0%, rgba(248, 249, 255, 0) 70%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface shadow-sm docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto h-16">
+<div class="font-headline-sm text-headline-sm font-bold text-primary">TutorConnect</div>
+<nav class="hidden md:flex gap-xl items-center">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Find Tutors</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Courses</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Become a Tutor</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="px-md py-sm font-label-md text-label-md text-primary hover:bg-surface-container-low rounded-lg transition-all">Sign In</button>
+<button class="px-md py-sm font-label-md text-label-md bg-primary text-on-primary rounded-lg shadow-sm hover:shadow-md transition-all">Sign Up</button>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-2xl pb-3xl px-md md:px-lg overflow-hidden relative">
+<!-- Background Atmospheric Element -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] success-blob pointer-events-none -z-10"></div>
+<div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-xl">
+<!-- Left Column: Confirmation & Preparation -->
+<div class="md:col-span-7 flex flex-col gap-xl">
+<!-- Success Header -->
+<div class="flex flex-col gap-sm">
+<div class="w-16 h-16 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-[32px]">check_circle</span>
+</div>
+<h1 class="font-display-lg text-display-lg md:text-display-lg text-on-surface">Booking Confirmed!</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">Your trial session with Sarah Jenkins is all set. We've sent a confirmation email to your inbox.</p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap gap-md">
+<button class="px-xl h-14 font-label-md text-label-md bg-primary text-on-primary rounded-xl shadow-lg hover:bg-primary-container transition-all flex items-center gap-sm group">
+<span>Go to Dashboard</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="px-xl h-14 font-label-md text-label-md border-2 border-outline-variant text-on-surface rounded-xl hover:bg-surface-container-low transition-all flex items-center gap-sm">
+<span class="material-symbols-outlined">calendar_add_on</span>
+<span>Add to Calendar</span>
+</button>
+</div>
+<!-- Preparation Bento Section -->
+<div class="mt-xl">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-lg">How to prepare for your session</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+<!-- Card 1 -->
+<div class="bg-surface border border-outline-variant rounded-2xl p-lg flex flex-col gap-sm hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-primary">devices</span>
+<h3 class="font-label-md text-label-md font-bold">Check Tech</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ensure your microphone, camera, and internet connection are working smoothly.</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface border border-outline-variant rounded-2xl p-lg flex flex-col gap-sm hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-primary">menu_book</span>
+<h3 class="font-label-md text-label-md font-bold">Material Prep</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Have any textbooks or specific homework questions ready to share on screen.</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface border border-outline-variant rounded-2xl p-lg flex flex-col gap-sm hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-primary">timer</span>
+<h3 class="font-label-md text-label-md font-bold">Join Early</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Log in 5 minutes early to the Tutor Workspace to settle in before the start.</p>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface border border-outline-variant rounded-2xl p-lg flex flex-col gap-sm hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+<h3 class="font-label-md text-label-md font-bold">Set Goals</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Think about the top 3 concepts you'd like to master during this session.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Receipt/Summary Card -->
+<div class="md:col-span-5">
+<div class="sticky top-24">
+<div class="bg-surface-container-lowest shadow-xl rounded-2xl overflow-hidden border border-outline-variant flex flex-col">
+<!-- Header with Image -->
+<div class="relative h-48 bg-primary">
+<div class="absolute inset-0 opacity-20 overflow-hidden">
+
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-lg flex items-end gap-md">
+<div class="w-20 h-20 rounded-full border-4 border-surface overflow-hidden shadow-lg">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a smiling female tutor in her early 30s with glasses, sitting in a bright, modern home office with bookshelves and a soft green plant in the background. High-quality corporate photography, soft studio lighting, Academic Nexus brand colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZod2dFL53XpuU24uS77lFv0k7cgmSfQzOtmFlrPGdzeJpWsZ5HA54zFonz-I5jDA7DmmNrDhzWjE6oNGXVhuXCK4mC5Eq3iQkdqCjP0xdex9l_FJhiT15RoMWg7Z6i-R1lMuFEBoyeTcYIuWbb-1qVH3PP1rmz1w6oInvuCw31l-o635rE_8MHRfw68nbxksnZtuGiolCgpVvGUBDsvCePZCVWKgwbAtqpoFPIj9EONEmOK-1SEyn0tf8nKXZLUGOOOUOAyQMsQuj"/>
+</div>
+<div class="mb-2">
+<h4 class="font-headline-sm text-headline-sm text-on-primary">Sarah Jenkins</h4>
+<p class="font-label-sm text-label-sm text-on-primary-container">Mathematics Expert</p>
+</div>
+</div>
+</div>
+<!-- Receipt Details -->
+<div class="p-lg flex flex-col gap-lg bg-white">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Session Details</p>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Calculus Fundamentals</h3>
+</div>
+<div class="bg-secondary-container px-sm py-1 rounded-full text-on-secondary-container font-label-sm text-label-sm">
+                                    Trial Class
+                                </div>
+</div>
+<div class="grid grid-cols-2 gap-lg border-y border-outline-variant py-lg">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-label-sm text-label-sm">Date</span>
+</div>
+<p class="font-label-md text-label-md font-bold">Tuesday, Oct 24</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-label-sm text-label-sm">Time</span>
+</div>
+<p class="font-label-md text-label-md font-bold">4:00 PM - 5:00 PM</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+<span class="font-label-sm text-label-sm">Platform</span>
+</div>
+<p class="font-label-md text-label-md font-bold">In-App Workspace</p>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">receipt</span>
+<span class="font-label-sm text-label-sm">Booking ID</span>
+</div>
+<p class="font-label-md text-label-md font-bold">#TC-88219</p>
+</div>
+</div>
+<!-- Price Summary -->
+<div class="flex flex-col gap-sm">
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>Session Fee</span>
+<span>$0.00 (Trial)</span>
+</div>
+<div class="flex justify-between font-label-md text-label-md font-bold pt-2 border-t border-outline-variant">
+<span>Total Paid</span>
+<span class="text-secondary">$0.00</span>
+</div>
+</div>
+<button class="w-full py-md font-label-md text-label-md bg-secondary text-on-secondary rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">chat</span>
+<span>Message Sarah</span>
+</button>
+</div>
+</div>
+<!-- Small Tip -->
+<div class="mt-lg p-md bg-surface-container-high rounded-xl border-l-4 border-primary flex gap-md">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                            Need to reschedule? You can change your booking time up to 24 hours before the session starts in your <a class="text-primary font-bold underline" href="#">Dashboard</a>.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant full-width bottom">
+<div class="w-full py-xl px-lg max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex flex-col gap-xs items-center md:items-start">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">TutorConnect</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 TutorConnect. Empowering learners worldwide.</p>
+</div>
+<nav class="flex gap-lg">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">FAQ</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+</nav>
+</div>
+</footer>
+<!-- BottomNavBar (Shared Component Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-md pt-sm md:hidden bg-surface shadow-lg rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+
+        // Simulating a confetti burst on load for confirmation feel
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('Booking confirmed animations triggered');
+            // Logic for a subtle sparkle or pulse effect on the success icon
+            const icon = document.querySelector('.material-symbols-outlined');
+            if(icon) {
+                icon.classList.add('animate-bounce');
+                setTimeout(() => icon.classList.remove('animate-bounce'), 1000);
+            }
+        });
+    </script>
+</body></html>

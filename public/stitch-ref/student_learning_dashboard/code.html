@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LuminaTutor | Student Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#4edea3",
+                    "secondary-container": "#6cf8bb",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#4d44e3",
+                    "primary-container": "#4f46e5",
+                    "on-surface": "#0b1c30",
+                    "tertiary": "#684000",
+                    "outline-variant": "#c7c4d8",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#ffddb8",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary-fixed": "#0f0069",
+                    "surface-container": "#e5eeff",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "surface-dim": "#cbdbf5",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-container-high": "#dce9ff",
+                    "on-primary-container": "#dad7ff",
+                    "on-surface-variant": "#464555",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-container": "#ffd4a4",
+                    "surface": "#f8f9ff",
+                    "on-secondary-container": "#00714d",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "outline": "#777587",
+                    "on-secondary-fixed": "#002113",
+                    "inverse-primary": "#c3c0ff",
+                    "surface-container-low": "#eff4ff",
+                    "secondary-fixed": "#6ffbbe",
+                    "primary-fixed": "#e2dfff",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-background": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "surface-variant": "#d3e4fe",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#213145",
+                    "tertiary-container": "#885500",
+                    "secondary": "#006c49",
+                    "on-primary": "#ffffff",
+                    "background": "#f8f9ff",
+                    "surface-bright": "#f8f9ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "3xl": "64px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "base": "4px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "2xl": "48px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Geist"],
+                    "headline-sm": ["Geist"],
+                    "label-md": ["Geist"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg-mobile": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "body-sm": ["Inter"],
+                    "headline-md": ["Geist"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["30px", {"lineHeight": "38px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            color: #0b1c30;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+        }
+        .progress-gradient {
+            background: linear-gradient(90deg, #3525cd 0%, #4f46e5 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="fixed left-0 top-0 bottom-0 flex flex-col z-40 bg-surface-container-low dark:bg-inverse-surface docked left-0 h-screen w-64 shadow-md dark:shadow-none">
+<div class="px-6 py-8">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim">LuminaTutor</h1>
+</div>
+<div class="flex flex-col gap-2 px-2 flex-grow overflow-y-auto custom-scrollbar">
+<!-- Nav Item: Dashboard (Active) -->
+<a class="bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Nav Item: My Lessons -->
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant/10 rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-md text-label-md">My Lessons</span>
+</a>
+<!-- Nav Item: Messages -->
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant/10 rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-md text-label-md">Messages</span>
+</a>
+<!-- Nav Item: Analytics -->
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant/10 rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<!-- Nav Item: Settings -->
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant/10 rounded-xl mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-all hover:scale-[1.02] active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<div class="mt-8 px-4">
+<button class="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-label-md text-label-md shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                    Book New Session
+                </button>
+</div>
+</div>
+<!-- Footer Profile -->
+<div class="p-4 border-t border-outline-variant/30 mt-auto">
+<div class="flex items-center gap-3 mb-6 px-2">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a young adult learner with a friendly smile, clean modern background, high-key soft lighting, corporate professional style, blue and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBd6Rpe1AGynBnnI2YuEiQUfgKDGZxrLloxq9F-Z7TnQ5XuK2yVDtWWh_8NHffUBQxeYnpYxTYzWJMEBM81PL_lX6sUMqJC8i8pKT_4_yMEP6RYJEB0JXLG9zeCzwErV1DEnVJCb49RVmrGQHucy5H8q5yThZ1FW96njWyhsF7fFLjVqPPV37XOpGCD11tqDyGeqsqwnenGUtdNFDNNoUWIF_8QBit2Bnxkkh_CxE0UfagzrAyF78Ux14tDS_JTCO2xvdP4OVmkkbkk"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-bold text-on-surface">Alex Rivers</span>
+<span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Premium Learner</span>
+</div>
+</div>
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant/10 rounded-xl px-4 py-2 flex items-center gap-3 transition-all text-xs" href="#">
+<span class="material-symbols-outlined text-sm">help</span>
+<span>Help Center</span>
+</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant/10 rounded-xl px-4 py-2 flex items-center gap-3 transition-all text-xs" href="#">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-grow px-gutter py-xl bg-surface relative overflow-x-hidden">
+<!-- Header -->
+<header class="flex justify-between items-center mb-xl">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Welcome back, Alex!</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">You've completed 85% of your goals this week. Keep it up!</p>
+</div>
+<div class="flex gap-md">
+<button class="w-12 h-12 flex items-center justify-center rounded-full glass-card hover:bg-white transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-sm bg-surface-container-high px-4 py-2 rounded-full border border-outline-variant/20">
+<span class="material-symbols-outlined text-secondary font-bold" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="font-label-md text-label-md text-on-surface-variant">2,450 XP</span>
+</div>
+</div>
+</header>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Bento Item: Upcoming Lessons -->
+<section class="col-span-12 lg:col-span-8 flex flex-col gap-md">
+<div class="flex justify-between items-end px-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Upcoming Lessons</h3>
+<a class="font-label-md text-label-md text-primary font-bold hover:underline" href="#">View Calendar</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Lesson Card 1 -->
+<div class="glass-card rounded-2xl p-md flex flex-col justify-between group hover:shadow-xl transition-all duration-300 border-l-4 border-l-primary">
+<div class="flex justify-between items-start mb-md">
+<div class="p-2 bg-primary-container/20 rounded-xl">
+<span class="material-symbols-outlined text-primary">functions</span>
+</div>
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">In 15 Mins</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Advanced Calculus</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">with Dr. Sarah Jenkins</p>
+<div class="flex items-center gap-3 text-on-surface-variant mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-xs">14:00 - 15:00</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span class="text-xs">Zoom</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-label-md text-label-md transition-all hover:brightness-110 active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-md">play_circle</span>
+                                Join Lesson Now
+                            </button>
+</div>
+</div>
+<!-- Lesson Card 2 -->
+<div class="glass-card rounded-2xl p-md flex flex-col justify-between group hover:shadow-xl transition-all duration-300">
+<div class="flex justify-between items-start mb-md">
+<div class="p-2 bg-tertiary-fixed/30 rounded-xl">
+<span class="material-symbols-outlined text-tertiary">translate</span>
+</div>
+<span class="text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Tomorrow</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Conversational French</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">with Marc Dubois</p>
+<div class="flex items-center gap-3 text-on-surface-variant mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-xs">09:00 - 10:30</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span class="text-xs">Google Meet</span>
+</div>
+</div>
+<button class="w-full bg-surface-container-high text-on-surface py-3 rounded-xl font-label-md text-label-md transition-all hover:bg-surface-variant active:scale-[0.98]">
+                                View Details
+                            </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Item: Learning Progress (Analytics) -->
+<section class="col-span-12 lg:col-span-4 glass-card rounded-3xl p-lg flex flex-col">
+<h3 class="font-label-md text-label-md font-bold text-on-surface mb-xl flex items-center justify-between">
+                    Learning Progress
+                    <span class="material-symbols-outlined text-primary">more_horiz</span>
+</h3>
+<div class="flex-grow flex flex-col gap-lg">
+<!-- Progress Stats -->
+<div class="flex items-center justify-between">
+<div>
+<p class="text-3xl font-bold text-primary">24h</p>
+<p class="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Studied this month</p>
+</div>
+<div class="h-12 w-1 bg-outline-variant/30 rounded-full"></div>
+<div>
+<p class="text-3xl font-bold text-secondary">92%</p>
+<p class="text-xs text-on-surface-variant uppercase font-bold tracking-wider">Avg. Score</p>
+</div>
+</div>
+<!-- Mini Chart Visualization -->
+<div class="relative h-32 w-full mt-4 flex items-end justify-between gap-2 px-2">
+<div class="w-full bg-primary/10 rounded-t-lg transition-all hover:bg-primary/30" style="height: 40%"></div>
+<div class="w-full bg-primary/10 rounded-t-lg transition-all hover:bg-primary/30" style="height: 65%"></div>
+<div class="w-full bg-primary/10 rounded-t-lg transition-all hover:bg-primary/30" style="height: 45%"></div>
+<div class="w-full bg-primary/20 rounded-t-lg transition-all hover:bg-primary/40" style="height: 85%"></div>
+<div class="w-full bg-primary rounded-t-lg transition-all hover:brightness-110" style="height: 100%"></div>
+<div class="w-full bg-primary/10 rounded-t-lg transition-all hover:bg-primary/30" style="height: 30%"></div>
+<div class="w-full bg-primary/10 rounded-t-lg transition-all hover:bg-primary/30" style="height: 55%"></div>
+</div>
+<div class="space-y-md mt-lg">
+<div class="flex justify-between text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+<span>Subject Mastery</span>
+<span>Level 4</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-2 overflow-hidden">
+<div class="progress-gradient h-full w-[78%] rounded-full shadow-[0_0_8px_rgba(79,70,229,0.4)]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section Header: Row 2 -->
+<div class="col-span-12 mt-md"></div>
+<!-- Bento Item: Recent Assignments -->
+<section class="col-span-12 lg:col-span-7 flex flex-col gap-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface px-1">Recent Assignments</h3>
+<div class="glass-card rounded-3xl overflow-hidden">
+<div class="divide-y divide-outline-variant/20">
+<!-- Assignment 1 -->
+<div class="p-lg flex items-center justify-between hover:bg-white/50 transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Linear Equations Problem Set</h4>
+<p class="text-xs text-on-surface-variant">Mathematics • Submitted 2h ago</p>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="text-right hidden sm:block">
+<p class="font-bold text-secondary font-label-md text-label-md">A+</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Grade</p>
+</div>
+<button class="p-2 rounded-full hover:bg-primary/10 text-on-surface-variant group-hover:text-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Assignment 2 -->
+<div class="p-lg flex items-center justify-between hover:bg-white/50 transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-2xl bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">history_edu</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">French Verb Conjugations Quiz</h4>
+<p class="text-xs text-on-surface-variant">Languages • Due in 3 days</p>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="text-right hidden sm:block">
+<p class="font-bold text-on-surface-variant font-label-md text-label-md">Pending</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Status</p>
+</div>
+<button class="bg-primary/10 text-primary px-4 py-2 rounded-xl text-xs font-bold hover:bg-primary hover:text-white transition-all">
+                                    Start Now
+                                </button>
+</div>
+</div>
+<!-- Assignment 3 -->
+<div class="p-lg flex items-center justify-between hover:bg-white/50 transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-2xl bg-tertiary-fixed/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">biotech</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface">Molecular Structure Paper</h4>
+<p class="text-xs text-on-surface-variant">Chemistry • Submitted Yesterday</p>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="text-right hidden sm:block">
+<p class="font-bold text-primary font-label-md text-label-md">Under Review</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-bold">Status</p>
+</div>
+<button class="p-2 rounded-full hover:bg-primary/10 text-on-surface-variant group-hover:text-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Item: Recommended for You -->
+<section class="col-span-12 lg:col-span-5 flex flex-col gap-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface px-1">Recommended</h3>
+<div class="flex flex-col gap-md">
+<!-- Recommended Card 1 -->
+<div class="glass-card rounded-3xl p-md flex gap-md group cursor-pointer hover:translate-x-2 transition-all">
+<div class="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Close-up photograph of a scientist looking into a modern high-end laboratory microscope, clean aesthetic with blue and sterile white tones, cinematic depth of field, corporate educational branding style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4yNgpTSVV2eCWRG-sFZZVeD8ZQo1mcGtGqLJFEgaYcSPE6-izCrDblA-DhWejUTxx_b46hhoOqC-1kO6AG-9nw6oGc9lVub1AMFoZrFZt5jyaC-lJdMQpvfWRb8jFzc1h0ClrKDeoJbYD_flZKcbsEpITSIp0VAR9QHC00jg3E5cIOHTkwKOOmWeumrXHr_ysfSDQ166VujXaoykkSkLc5k5VHuiq3LCbYdy6murWpP7mMaXEB2CjXaQSMQN0zA72qqFrrtmrOnZH"/>
+</div>
+<div class="flex flex-col justify-center">
+<div class="flex gap-2 mb-1">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold">SCIENCE</span>
+<span class="bg-tertiary-fixed/30 text-tertiary px-2 py-0.5 rounded text-[10px] font-bold">POPULAR</span>
+</div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface line-clamp-1">Organic Chemistry Fundamentals</h4>
+<p class="text-xs text-on-surface-variant mb-2">Based on your Interest in Molecules</p>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<div class="w-5 h-5 rounded-full border border-white bg-slate-200"></div>
+<div class="w-5 h-5 rounded-full border border-white bg-slate-300"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant font-medium">1.2k students enrolled</span>
+</div>
+</div>
+</div>
+<!-- Recommended Card 2 -->
+<div class="glass-card rounded-3xl p-md flex gap-md group cursor-pointer hover:translate-x-2 transition-all">
+<div class="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Modern abstract data visualization with glowing blue lines and data points against a clean white background, minimalist tech aesthetic, corporate educational style, light mode color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEE16pzBP2IM_fRGPV4EyNkIsgygjkK6cO69SsZZoqmgEWk2kL1qhEEZrgfvTlRm3jMObnyggxFTChDOnPuXt0IC7T395lWxlEdlSZ99npT5HPj2pTvZL0o3c-J_ZtrmAWHrlEJeZGVUGHbf8KJwBnLxi5XqtSjALVIHXe5iGuC1B8x7E2wcXY0Ds5R_8PMfH-LitJZCOJLoceteNfk32vGucJTA2RydxPoHXtUXmYm4L8S2NJYj-m4qxK1bp1tKPbxbqE7-5XoBUa"/>
+</div>
+<div class="flex flex-col justify-center">
+<div class="flex gap-2 mb-1">
+<span class="bg-secondary-container/50 text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold">MATH</span>
+</div>
+<h4 class="font-label-md text-label-md font-bold text-on-surface line-clamp-1">Introduction to Game Theory</h4>
+<p class="text-xs text-on-surface-variant mb-2">Advance your Calculus logic</p>
+<div class="flex items-center gap-2">
+<div class="flex items-center text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[10px] font-bold ml-1">4.9 (450)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="bg-primary rounded-3xl p-lg text-on-primary flex items-center justify-between relative overflow-hidden mt-2">
+<div class="relative z-10">
+<h4 class="font-headline-sm text-headline-sm font-bold mb-1">Ready to scale?</h4>
+<p class="font-body-sm text-body-sm opacity-80 mb-4">Book a session with a Top 1% Tutor today.</p>
+<button class="bg-white text-primary px-6 py-2.5 rounded-xl font-label-md text-label-md font-bold shadow-lg shadow-black/10 hover:scale-105 transition-transform active:scale-95">
+                                Browse Tutors
+                            </button>
+</div>
+<div class="absolute right-[-20px] bottom-[-20px] opacity-10 rotate-12">
+<span class="material-symbols-outlined text-[160px]">school</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Section -->
+<footer class="mt-3xl pt-xl border-t border-outline-variant/30 w-full py-xl px-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg max-w-container-max mx-auto">
+<div class="col-span-1 lg:col-span-2">
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim mb-4">LuminaTutor</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">
+                    Empowering students worldwide through personalized mentorship and expert-led learning experiences.
+                </p>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-label-md font-bold text-on-surface">Marketplace</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Find Tutors</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Become a Tutor</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Courses</a>
+</div>
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-label-md font-bold text-on-surface">Support</span>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Help Center</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="col-span-1 md:col-span-2 lg:col-span-4 mt-xl flex flex-col md:flex-row justify-between items-center gap-md">
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 LuminaTutor Marketplace. All rights reserved.</p>
+<div class="flex gap-lg">
+<a class="text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">public</span></a>
+<a class="text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">forum</span></a>
+<a class="text-on-surface-variant hover:text-primary" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+</div>
+</div>
+</footer>
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple hover effect for bento cards to lift on mouse enter
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Dashboard XP animation on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const xpVal = document.querySelector('.text-3xl.text-primary');
+            // Mocking a slight counter animation
+            let start = 0;
+            const end = 24;
+            const duration = 1000;
+            const stepTime = Math.abs(Math.floor(duration / end));
+            
+            const timer = setInterval(() => {
+                start += 1;
+                if (xpVal) xpVal.innerText = start + 'h';
+                if (start == end) clearInterval(timer);
+            }, stepTime);
+        });
+    </script>
+</body></html>

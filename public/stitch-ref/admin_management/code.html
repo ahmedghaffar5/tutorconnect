@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TutorConnect Admin Audit &amp; Management</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "tertiary-container": "#885500",
+                        "on-primary-container": "#dad7ff",
+                        "background": "#f8f9ff",
+                        "on-surface": "#0b1c30",
+                        "surface-tint": "#4d44e3",
+                        "on-secondary-fixed": "#002113",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "outline": "#777587",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#c3c0ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "on-tertiary-container": "#ffd4a4",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed-dim": "#4edea3",
+                        "surface-bright": "#f8f9ff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "surface-dim": "#cbdbf5",
+                        "secondary": "#006c49",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-secondary-container": "#00714d",
+                        "tertiary-fixed": "#ffddb8",
+                        "primary": "#3525cd",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#6ffbbe",
+                        "secondary-container": "#6cf8bb",
+                        "on-primary-fixed": "#002113",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed": "#e2dfff",
+                        "primary-container": "#4f46e5",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "tertiary": "#684000",
+                        "surface-container-high": "#dce9ff",
+                        "outline-variant": "#c7c4d8",
+                        "on-surface-variant": "#464555"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "xl": "32px",
+                        "3xl": "64px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "base": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Geist"],
+                        "headline-md": ["Geist"],
+                        "label-sm": ["Geist"],
+                        "display-lg-mobile": ["Geist"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-md": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .audit-scroll::-webkit-scrollbar { width: 4px; }
+        .audit-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- Wrapper -->
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden md:flex flex-col h-full p-md gap-sm bg-surface-container-low dark:bg-inverse-surface h-screen w-64 docked left-0">
+<div class="mb-lg px-sm">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-inverse-primary">Tutor Workspace</h1>
+<p class="font-label-md text-label-md text-on-surface-variant">Manage your students</p>
+</div>
+<nav class="flex-1 flex flex-col gap-xs">
+<!-- Dashboard Active -->
+<a class="flex items-center gap-md p-md bg-primary-container text-on-primary-container dark:bg-primary dark:text-on-primary rounded-lg font-bold transition-transform scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-md text-label-md">Schedule</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-md text-label-md">Earnings</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md">Messages</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-xs border-t border-outline-variant pt-md">
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<button class="mt-md w-full py-sm bg-primary text-on-primary rounded-lg font-bold shadow-md hover:opacity-90 transition-opacity">
+                    Go Online
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col overflow-y-auto relative">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface dark:bg-inverse-surface shadow-sm sticky top-0 z-40 h-16 flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto">
+<div class="flex items-center gap-xl">
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-inverse-primary md:hidden">TC</span>
+<div class="hidden md:flex items-center gap-md bg-surface-container-low px-md py-xs rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-64" placeholder="Search audit logs..." type="text"/>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-xl">
+<nav class="flex items-center gap-lg">
+<a class="text-primary dark:text-inverse-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md" href="#">Find Tutors</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Courses</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Become a Tutor</a>
+</nav>
+<div class="flex items-center gap-md ml-xl">
+<button class="text-primary font-bold px-md py-sm">Sign In</button>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-bold shadow-sm">Sign Up</button>
+</div>
+</div>
+<!-- Mobile Avatar -->
+<div class="md:hidden">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="person">person</span>
+</div>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-lg md:p-3xl space-y-3xl">
+<!-- Hero Header -->
+<section>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-sm">Platform Audit &amp; Controls</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">Enterprise management suite for overseeing global tutor activities, application workflows, and real-time revenue performance.</p>
+</section>
+<!-- Stats Grid (Bento Style) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Total Active Tutors -->
+<div class="glass-panel p-xl rounded-xl shadow-sm group hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start mb-lg">
+<div class="p-md bg-primary-container rounded-lg">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="groups">groups</span>
+</div>
+<span class="text-secondary font-bold flex items-center text-sm">+12% <span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span></span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-xs">Total Active Tutors</p>
+<h3 class="font-headline-md text-headline-md">12,482</h3>
+</div>
+<!-- Pending Applications -->
+<div class="glass-panel p-xl rounded-xl shadow-sm group hover:border-tertiary transition-all duration-300">
+<div class="flex justify-between items-start mb-lg">
+<div class="p-md bg-tertiary-fixed rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="pending_actions">pending_actions</span>
+</div>
+<span class="bg-tertiary text-on-tertiary px-sm py-1 rounded-full text-xs font-bold">Priority</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-xs">Pending Applications</p>
+<h3 class="font-headline-md text-headline-md">187</h3>
+</div>
+<!-- Platform Revenue -->
+<div class="glass-panel p-xl rounded-xl shadow-sm group hover:border-secondary transition-all duration-300">
+<div class="flex justify-between items-start mb-lg">
+<div class="p-md bg-secondary-container rounded-lg">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="payments">payments</span>
+</div>
+<span class="text-on-surface-variant text-xs">Last 30 Days</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant mb-xs">Platform Revenue</p>
+<h3 class="font-headline-md text-headline-md">$412,890.00</h3>
+</div>
+</section>
+<!-- Data Management Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+<!-- Tutor Applications Table (Asymmetric Focus) -->
+<section class="lg:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h4 class="font-headline-sm text-headline-sm">Pending Tutor Verification</h4>
+<button class="text-primary font-bold text-sm hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-high">
+<tr>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant">Tutor Name</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant">Subject</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant">Date Applied</th>
+<th class="px-lg py-md font-label-md text-label-md text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-white" data-alt="A professional studio portrait of a female academic tutor in her early 40s, wearing glasses and a navy blazer, smiling warmly. The background is a soft-focus library setting with warm, ambient lighting. The overall style is clean, corporate, and high-resolution, conveying expertise and approachability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpYRqWDKSCi_Wrxvxt_VEz92QeoYi_8f4klwlpbycDVVUIEAtTridlzn1Rjq6gtI9TeCjOKBxylD6ugWP-FPSgiWISoKh8pqnXSUi53_bfRzqR7zBi9fWerO1eu5aU318U8izIAOQfDBX4ycVcCsD1bAKFC5lWmX_ibTmWeg2aE8yj4iqhAyJ-K8AFbZksIsE0liXx7AqAkMhZ9XyFyBQYXxSf8kWyA1MKWtv2du0NBIuUReedAWofGOsjSfE9vB9Zmw4cF8KswTSO"/>
+<div>
+<p class="font-bold text-on-surface">Dr. Elena Rodriguez</p>
+<p class="text-xs text-on-surface-variant">PhD, Astrophysics</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="bg-primary-container text-on-primary-container px-sm py-1 rounded-md text-xs font-medium">Advanced Physics</span>
+</td>
+<td class="px-lg py-md text-sm text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-lg py-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="p-xs text-secondary hover:bg-secondary-container rounded-md transition-colors" title="Approve">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</button>
+<button class="p-xs text-error hover:bg-error-container rounded-md transition-colors" title="Reject">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-white" data-alt="A clean, head-and-shoulders portrait of a male computer science instructor in a modern office environment. He is wearing a crisp white shirt and looks confident. Natural light filters through large windows in the background, creating a bright and professional atmosphere typical of a high-end tech workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9is8OBHeA0xNhywVYeXNbwop1Ga8WBfJS36RHKU5q8M8hPVqYtjezhh95aCDfHpSZIsOu98yGX21CykMr6_wmYWnIK2nigevkqGvdDgqv_ykktct_35VdgjqaZrlNEzbVt9bdt--MUsnYlyF2Vmxkydv22918NOe2PaNZYd8xcrZ-YAPW3b5kZ4vGGBOfs1qlMEh5fcZwe0U-NE4ORsFw1mAgd5QHxXUT6phSI7tDQnJzp695cyZ6lvo75_oVt2NJLw2vS0k6CrgB"/>
+<div>
+<p class="font-bold text-on-surface">Jameson Carter</p>
+<p class="text-xs text-on-surface-variant">Senior Engineer</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="bg-secondary-container text-on-secondary-container px-sm py-1 rounded-md text-xs font-medium">Cloud Architecture</span>
+</td>
+<td class="px-lg py-md text-sm text-on-surface-variant">Oct 25, 2023</td>
+<td class="px-lg py-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="p-xs text-secondary hover:bg-secondary-container rounded-md transition-colors">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</button>
+<button class="p-xs text-error hover:bg-error-container rounded-md transition-colors">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md">
+<div class="flex items-center gap-md">
+<img class="w-10 h-10 rounded-full object-cover border-2 border-white" data-alt="A professional and friendly portrait of a young woman with a vibrant, creative aesthetic, suitable for an arts tutor. She has a bright smile and is positioned against a clean, white studio background with soft directional lighting that highlights her professional yet creative demeanor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMob8qMe74h1b7EJD9RAl19fbaEcM9KZINsWlENvQJX6uRQBteiPHIuPJsd4XTvCOu4zoJH1FsBDwgCEgxbj_2AG05cufBSgxNL1zk-uc1wtcKaSL_ex4GwJ0bnNBvHvfsgqKSI8IYBFQ6usggj5OY8oBk6_M2qddj0qYbgntl_yaWEQ476UwnI1-QQr2bPZeKhWU37slfM1MfGtx7Nj30sNukspyLi3VkWwNIZ7HdPAV2Gih6_zigiALJPhQIU68u__KNy6-07dKS"/>
+<div>
+<p class="font-bold text-on-surface">Sarah Bloom</p>
+<p class="text-xs text-on-surface-variant">MFA, Visual Arts</p>
+</div>
+</div>
+</td>
+<td class="px-lg py-md">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-sm py-1 rounded-md text-xs font-medium">Digital Painting</span>
+</td>
+<td class="px-lg py-md text-sm text-on-surface-variant">Oct 26, 2023</td>
+<td class="px-lg py-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="p-xs text-secondary hover:bg-secondary-container rounded-md transition-colors">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</button>
+<button class="p-xs text-error hover:bg-error-container rounded-md transition-colors">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Audit Log Feed -->
+<section class="lg:col-span-4 bg-surface-container-highest rounded-xl shadow-sm flex flex-col h-[500px]">
+<div class="p-lg border-b border-outline-variant flex items-center justify-between">
+<h4 class="font-headline-sm text-headline-sm">Audit Log</h4>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="history">history</span>
+</div>
+<div class="p-lg space-y-md overflow-y-auto audit-scroll flex-1">
+<!-- Event 1 -->
+<div class="flex gap-md border-l-2 border-primary pl-md py-1">
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Admin Session Started</p>
+<p class="text-xs text-on-surface-variant">User ID: admin_001 • IP: 192.168.1.4</p>
+<span class="text-[10px] text-outline font-medium uppercase tracking-wider">2 mins ago</span>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="flex gap-md border-l-2 border-secondary pl-md py-1">
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Application Approved</p>
+<p class="text-xs text-on-surface-variant">Tutor: Mark Henderson • Subject: Chemistry</p>
+<span class="text-[10px] text-outline font-medium uppercase tracking-wider">15 mins ago</span>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="flex gap-md border-l-2 border-error pl-md py-1">
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">Payout Failed</p>
+<p class="text-xs text-on-surface-variant">Trans ID: #TX-9912 • Reason: API Error</p>
+<span class="text-[10px] text-outline font-medium uppercase tracking-wider">42 mins ago</span>
+</div>
+</div>
+<!-- Event 4 -->
+<div class="flex gap-md border-l-2 border-primary pl-md py-1">
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">System Update Applied</p>
+<p class="text-xs text-on-surface-variant">Version 4.2.1 Stable Rollout</p>
+<span class="text-[10px] text-outline font-medium uppercase tracking-wider">1 hour ago</span>
+</div>
+</div>
+<!-- Event 5 -->
+<div class="flex gap-md border-l-2 border-secondary pl-md py-1">
+<div class="flex-1">
+<p class="text-sm font-bold text-on-surface">New Course Published</p>
+<p class="text-xs text-on-surface-variant">Python for Data Science by Alicia K.</p>
+<span class="text-[10px] text-outline font-medium uppercase tracking-wider">3 hours ago</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Strategic Revenue Overview (Visualization Placeholder) -->
+<section class="glass-panel p-xl rounded-2xl relative overflow-hidden h-64 flex items-center justify-center group">
+<!-- Background Subtle Grid -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#3525cd 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="relative z-10 text-center">
+<h5 class="font-headline-sm text-headline-sm mb-xs">Revenue Insights Engine</h5>
+<p class="text-on-surface-variant mb-lg">Machine learning analysis of platform growth and seasonal trends.</p>
+<button class="bg-primary text-on-primary px-xl py-md rounded-full font-bold flex items-center gap-md mx-auto group-hover:scale-105 transition-transform">
+                            Generate Detailed Forecast
+                            <span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</button>
+</div>
+</section>
+</div>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-xl px-lg max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<div class="flex flex-col items-center md:items-start">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">TutorConnect</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 TutorConnect. Empowering learners worldwide.</p>
+</div>
+<div class="flex gap-xl">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm" href="#">FAQ</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-sm text-body-sm" href="#">Support</a>
+</div>
+</footer>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-md pt-sm md:hidden bg-surface dark:bg-inverse-surface shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="event_note">event_note</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        // Simple notification for action buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const ripple = document.createElement('span');
+                ripple.classList.add('absolute', 'inset-0', 'bg-white', 'opacity-20', 'animate-ping', 'rounded-full');
+                btn.classList.add('relative');
+                btn.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 500);
+            });
+        });
+
+        // Audit log auto-scroll simulation
+        const auditLog = document.querySelector('.audit-scroll');
+        if (auditLog) {
+            setInterval(() => {
+                if (auditLog.scrollTop + auditLog.clientHeight >= auditLog.scrollHeight) {
+                    // Simulation of new items could go here
+                }
+            }, 3000);
+        }
+    </script>
+</body></html>

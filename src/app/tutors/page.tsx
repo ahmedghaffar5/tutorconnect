@@ -1,137 +1,269 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Star, Users, Search, Filter } from "lucide-react";
+import { Star, Search, Users, SlidersHorizontal, X } from "lucide-react";
 
-const departments = [
-  { id: "all", name: "All Departments", icon: "🏫" },
-  { id: "quran", name: "Quran & Islamic", icon: "📖" },
-  { id: "languages", name: "Languages", icon: "🌐" },
-  { id: "stem", name: "STEM", icon: "🔬" },
-  { id: "coding", name: "Coding & Tech", icon: "💻" },
-  { id: "humanities", name: "Humanities", icon: "📚" },
+interface Tutor {
+  id: string;
+  name: string;
+  subjects: string[];
+  bio: string;
+  rate: number;
+  experience: number;
+  qualification: string;
+  languages: string;
+  image: string | null;
+  rating?: number;
+  reviews?: number;
+  students?: number;
+}
+
+const colorPalette = [
+  "bg-primary-fixed text-on-primary-fixed",
+  "bg-secondary-container text-on-secondary-container",
+  "bg-tertiary-fixed text-on-tertiary-fixed",
+  "bg-surface-container-high text-on-surface",
+  "bg-primary-fixed-dim text-on-primary-fixed",
 ];
 
-const deptSubjects: Record<string, string[]> = {
-  quran: ["Quran", "Arabic", "Islamic Studies"],
-  languages: ["English", "Urdu", "Arabic"],
-  stem: ["Mathematics", "Physics", "Chemistry", "Biology", "Science", "Computer Science"],
-  coding: ["Coding", "Computer Science", "Web Development", "Python", "JavaScript"],
-  humanities: ["Urdu", "English", "History", "Geography"],
-};
-
-const tutors = [
-  { id: "1", name: "Dr. Sarah Ahmed", subjects: ["Quran", "Arabic"], rate: 30, rating: 5, reviews: 24, bio: "PhD Islamic Studies. Quran recitation, Tajweed & memorization.", exp: 10, color: "bg-emerald-100 text-emerald-600" },
-  { id: "2", name: "Prof. John Smith", subjects: ["Mathematics"], rate: 35, rating: 5, reviews: 18, bio: "Professor making math easy. Algebra, Calculus & Statistics.", exp: 15, color: "bg-red-100 text-red-600" },
-  { id: "3", name: "Ms. Aisha Khan", subjects: ["English", "Urdu"], rate: 25, rating: 4, reviews: 15, bio: "MA English Lit. Writing, grammar & exam prep.", exp: 8, color: "bg-purple-100 text-purple-600" },
-  { id: "4", name: "Dr. Ahmed Raza", subjects: ["Physics", "Chemistry"], rate: 35, rating: 5, reviews: 20, bio: "PhD Physics. Making science crystal clear.", exp: 12, color: "bg-cyan-100 text-cyan-600" },
-  { id: "5", name: "Mr. David Chen", subjects: ["Coding", "Computer Science", "Python", "JavaScript"], rate: 40, rating: 5, reviews: 22, bio: "Full-stack dev. Python, JS & Web Dev since 2016.", exp: 9, color: "bg-indigo-100 text-indigo-600" },
-  { id: "6", name: "Hafiz Abdullah", subjects: ["Quran", "Arabic"], rate: 25, rating: 5, reviews: 30, bio: "Hafiz-e-Quran. Tajweed & Hifz expert.", exp: 7, color: "bg-green-100 text-green-600" },
-  { id: "7", name: "Dr. Fatima Alvi", subjects: ["Biology", "Science"], rate: 30, rating: 4, reviews: 16, bio: "PhD Molecular Biology. Making biology fascinating.", exp: 11, color: "bg-lime-100 text-lime-600" },
-  { id: "8", name: "Mr. Usman Malik", subjects: ["Urdu", "English"], rate: 20, rating: 4, reviews: 12, bio: "MA Urdu Literature. Poetry & creative writing.", exp: 6, color: "bg-amber-100 text-amber-600" },
-  { id: "9", name: "Dr. Maria Khan", subjects: ["Chemistry"], rate: 35, rating: 5, reviews: 19, bio: "PhD Organic Chemistry. Making chemistry easy.", exp: 13, color: "bg-rose-100 text-rose-600" },
-  { id: "10", name: "Prof. Ali Hassan", subjects: ["Mathematics", "Physics"], rate: 38, rating: 5, reviews: 25, bio: "Professor. Dual expertise. Conceptual teaching.", exp: 16, color: "bg-blue-100 text-blue-600" },
-  { id: "11", name: "Ms. Sara John", subjects: ["Computer Science", "Coding", "Web Development"], rate: 35, rating: 4, reviews: 14, bio: "Software engineer. DSA, Web Dev & more.", exp: 8, color: "bg-violet-100 text-violet-600" },
-  { id: "12", name: "Mr. Raza Haider", subjects: ["Science", "Biology"], rate: 22, rating: 4, reviews: 11, bio: "MSc Environmental Science. Fun experiments.", exp: 5, color: "bg-teal-100 text-teal-600" },
-  { id: "13", name: "Dr. Noor Ali", subjects: ["Islamic Studies", "Arabic"], rate: 28, rating: 5, reviews: 17, bio: "PhD Islamic Studies. Quran & Hadith.", exp: 14, color: "bg-orange-100 text-orange-600" },
-  { id: "14", name: "Prof. Emma Wilson", subjects: ["English", "History"], rate: 30, rating: 4, reviews: 13, bio: "Professor of English & History. Essay writing.", exp: 12, color: "bg-pink-100 text-pink-600" },
+const allSubjects = [
+  "Computer Science", "Mathematics", "English", "Physics", "Chemistry",
+  "Biology", "Coding", "Quran", "Urdu", "Arabic", "History", "Science",
 ];
 
 function TutorsContent() {
   const searchParams = useSearchParams();
   const subjectFilter = searchParams.get("subject");
-  const [dept, setDept] = useState("all");
   const [search, setSearch] = useState("");
+  const [tutors, setTutors] = useState<Tutor[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>(subjectFilter ? [subjectFilter] : []);
+  const [minRating, setMinRating] = useState(0);
+  const [priceRange, setPriceRange] = useState(200);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sort, setSort] = useState("recommended");
+
+  useEffect(() => {
+    fetch("/api/tutors")
+      .then((res) => res.json())
+      .then((data) => {
+        setTutors(Array.isArray(data) ? data.map((t: Tutor) => ({ ...t, rating: 4.5 + Math.random() * 0.5, reviews: Math.floor(Math.random() * 200) + 20, students: Math.floor(Math.random() * 100) + 10 })) : []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const toggleSubject = (s: string) => {
+    setSelectedSubjects((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
+  };
+
+  const getColor = (index: number) => colorPalette[index % colorPalette.length];
 
   const filtered = tutors.filter((t) => {
     const matchesSearch = !search || t.name.toLowerCase().includes(search.toLowerCase()) || t.subjects.some((s) => s.toLowerCase().includes(search.toLowerCase()));
-    const matchesDept = dept === "all" || t.subjects.some((s) => (deptSubjects[dept] || []).includes(s));
-    const matchesSubject = !subjectFilter || t.subjects.some((s) => s.toLowerCase().includes(subjectFilter.toLowerCase()));
-    return matchesSearch && matchesDept && matchesSubject;
+    const matchesSubject = selectedSubjects.length === 0 || t.subjects.some((s) => selectedSubjects.includes(s));
+    const matchesPrice = (t.rate || 0) <= priceRange;
+    return matchesSearch && matchesSubject && matchesPrice;
   });
 
-  return (
-    <div className="py-12 bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <span className="text-blue-600 font-semibold text-sm tracking-wide uppercase">Our Teachers</span>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mt-2">Find Your Perfect Teacher</h1>
-          <p className="mt-2 text-gray-500">{filtered.length} teacher{filtered.length !== 1 ? "s" : ""} available</p>
-        </div>
+  const sorted = [...filtered].sort((a, b) => {
+    if (sort === "price-low") return (a.rate || 0) - (b.rate || 0);
+    if (sort === "price-high") return (b.rate || 0) - (a.rate || 0);
+    if (sort === "rating") return (b.rating || 0) - (a.rating || 0);
+    return 0;
+  });
 
-        {/* Search & Filter */}
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name or subject..." className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none bg-white" />
-          </div>
+  const FilterSidebar = () => (
+    <div className="space-y-xl">
+      <div>
+        <h3 className="font-headline-sm text-[18px] mb-md text-on-surface">Filters</h3>
+        <div className="md:hidden mb-lg relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant h-4 w-4" />
+          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search tutors or subjects..." className="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-sm" />
         </div>
-
-        {/* Department Tabs */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {departments.map((d) => (
-            <button key={d.id} onClick={() => setDept(d.id)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                dept === d.id ? "bg-blue-600 text-white shadow-md" : "bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:text-blue-600"
-              }`}
-            >
-              <span>{d.icon}</span> {d.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Tutors Grid */}
-        {filtered.length === 0 ? (
-          <div className="text-center py-20">
-            <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg">No teachers found</p>
-            <button onClick={() => { setDept("all"); setSearch(""); }} className="mt-4 text-blue-600 font-medium hover:underline">Clear filters</button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtered.map((tutor) => (
-              <div key={tutor.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-blue-100 transition-all overflow-hidden">
-                <div className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-14 h-14 rounded-full ${tutor.color} flex items-center justify-center flex-shrink-0`}>
-                      <span className="text-lg font-bold">{tutor.name.split(" ").map((n) => n[0]).join("")}</span>
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-gray-900 truncate">{tutor.name}</h3>
-                      <p className="text-sm text-blue-600 font-medium truncate">{tutor.subjects.join(", ")}</p>
-                    </div>
-                  </div>
-                  <p className="mt-3 text-gray-500 text-sm leading-relaxed line-clamp-2">{tutor.bio}</p>
-                  <div className="mt-4 flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star key={i} className={`h-4 w-4 ${i < tutor.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-200"}`} />
-                        ))}
-                      </div>
-                      <span className="text-gray-400">({tutor.reviews})</span>
-                    </div>
-                    <span className="text-gray-400">{tutor.exp} yrs</span>
-                  </div>
-                  <div className="mt-3 text-lg font-bold text-gray-900">
-                    ${tutor.rate}<span className="text-sm font-normal text-gray-400">/hr</span>
-                  </div>
-                </div>
-                <div className="px-6 pb-6 flex gap-3">
-                  <Link href={`/tutors/${tutor.id}`} className="flex-1 text-center py-2.5 border-2 border-gray-200 rounded-xl font-medium text-gray-700 hover:border-blue-600 hover:text-blue-600 transition-colors text-sm">
-                    View Profile
-                  </Link>
-                  <Link href={`/book-trial?tutor=${tutor.id}&subject=${tutor.subjects[0].toLowerCase()}`} className="flex-1 text-center py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-colors text-sm">
-                    Book Trial
-                  </Link>
-                </div>
-              </div>
+        <div className="mb-lg">
+          <label className="font-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Subject</label>
+          <div className="flex flex-col gap-xs max-h-48 overflow-y-auto">
+            {allSubjects.map((s) => (
+              <label key={s} className="flex items-center gap-sm cursor-pointer group">
+                <input checked={selectedSubjects.includes(s)} onChange={() => toggleSubject(s)} type="checkbox" className="rounded border-outline-variant text-primary focus:ring-primary" />
+                <span className="font-body-sm text-on-surface group-hover:text-primary transition-colors">{s}</span>
+              </label>
             ))}
           </div>
-        )}
+        </div>
+        <div className="mb-lg">
+          <label className="font-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Price Range (Hourly)</label>
+          <input type="range" min={10} max={200} step={5} value={priceRange} onChange={(e) => setPriceRange(parseInt(e.target.value))} className="w-full accent-primary" />
+          <div className="flex justify-between font-body-sm text-on-surface-variant mt-sm">
+            <span>$10</span>
+            <span>${priceRange}+</span>
+          </div>
+        </div>
+        <div className="mb-lg">
+          <label className="font-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Minimum Rating</label>
+          <div className="flex flex-col gap-xs">
+            {[4, 3].map((r) => (
+              <label key={r} className="flex items-center gap-sm cursor-pointer group">
+                <input checked={minRating === r} onChange={() => setMinRating(minRating === r ? 0 : r)} type="radio" name="rating" className="text-primary focus:ring-primary" />
+                <span className="flex items-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className={`h-3.5 w-3.5 ${i < r ? "text-tertiary fill-tertiary" : "text-gray-200"}`} />
+                  ))}
+                  <span className="ml-1 text-on-surface font-body-sm">{r}.0 & Up</span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="mb-lg">
+          <label className="font-label-md block mb-sm text-on-surface-variant uppercase tracking-wider">Availability</label>
+          <select className="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-sm font-body-sm outline-none focus:ring-2 focus:ring-primary">
+            <option>Anytime</option>
+            <option>Weekends</option>
+            <option>Weekdays (Evening)</option>
+            <option>Morning (Before 12pm)</option>
+          </select>
+        </div>
       </div>
+      <button onClick={() => { setSelectedSubjects([]); setPriceRange(200); setMinRating(0); }} className="w-full py-md bg-primary-container text-on-primary-container rounded-xl font-bold hover:brightness-95 transition-all">
+        Clear All Filters
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="bg-background text-on-surface min-h-screen">
+      <div className="max-w-container-max mx-auto flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
+        <aside className="hidden md:block w-80 bg-surface-container-low p-lg border-r border-outline-variant flex-shrink-0">
+          <FilterSidebar />
+        </aside>
+
+        <main className="flex-1 p-lg md:p-2xl bg-background overflow-y-auto">
+          <div className="mb-2xl">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-lg mb-xl">
+              <div>
+                <h1 className="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-2">Discover Expert Tutors</h1>
+                <p className="font-body-lg text-on-surface-variant max-w-2xl">Connect with the top educators in your field.</p>
+              </div>
+            </div>
+            <div className="hidden md:flex items-center gap-md bg-surface-container-lowest p-sm rounded-2xl shadow-sm border border-outline-variant/30">
+              <div className="flex-1 flex items-center px-md border-r border-outline-variant">
+                <Search className="h-5 w-5 text-primary mr-sm" />
+                <input value={search} onChange={(e) => setSearch(e.target.value)} className="w-full py-2 bg-transparent border-none focus:ring-0 outline-none font-body-md" placeholder="What do you want to learn today?" />
+              </div>
+              <button className="bg-primary text-on-primary px-xl py-md rounded-xl font-bold shadow-lg hover:scale-105 transition-all">Search Now</button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between mb-lg flex-wrap gap-sm">
+            <div className="flex items-center gap-sm">
+              <button onClick={() => setSidebarOpen(true)} className="md:hidden flex items-center gap-1.5 px-3 py-2 border border-outline-variant rounded-lg font-label-sm">
+                <SlidersHorizontal className="h-4 w-4" /> Filters
+              </button>
+              <p className="font-label-md text-on-surface-variant">
+                {loading ? "Loading..." : `Showing ${sorted.length} result${sorted.length !== 1 ? "s" : ""}`}
+              </p>
+            </div>
+            <div className="flex items-center gap-sm">
+              <span className="font-body-sm text-on-surface-variant">Sort by:</span>
+              <select value={sort} onChange={(e) => setSort(e.target.value)} className="bg-transparent border-none text-on-surface font-bold focus:ring-0 cursor-pointer text-sm">
+                <option value="recommended">Most Recommended</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Rating: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="text-center py-20">
+              <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto"></div>
+              <p className="text-on-surface-variant mt-4">Loading tutors...</p>
+            </div>
+          ) : sorted.length === 0 ? (
+            <div className="text-center py-20">
+              <Users className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-on-surface-variant text-lg">No tutors found</p>
+              <button onClick={() => { setSelectedSubjects([]); setSearch(""); setPriceRange(200); }} className="mt-4 text-primary font-medium hover:underline">Clear filters</button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-lg">
+              {sorted.map((tutor, idx) => (
+                <div key={tutor.id} className="glass-card rounded-2xl p-md flex flex-col hover:shadow-lg transition-all group" style={{ animationDelay: `${idx * 0.1}s` }}>
+                  <div className="flex gap-md mb-md">
+                    <div className="relative flex-shrink-0">
+                      <div className={`w-20 h-20 rounded-full ${getColor(idx)} flex items-center justify-center border-2 border-white shadow-sm text-lg font-bold`}>
+                        {tutor.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                      </div>
+                      <div className="absolute bottom-0 right-0 w-5 h-5 bg-secondary border-2 border-white rounded-full"></div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-headline-sm text-[20px] text-on-surface truncate">{tutor.name}</h3>
+                        <span className="text-primary font-bold text-lg">${tutor.rate}<span className="text-on-surface-variant font-normal text-sm">/hr</span></span>
+                      </div>
+                      <p className="text-secondary font-label-md mb-1">{tutor.subjects.join(", ")}</p>
+                      <div className="flex items-center gap-xs">
+                        <Star className="h-4 w-4 text-tertiary fill-tertiary" />
+                        <span className="text-on-surface font-bold text-sm">{tutor.rating?.toFixed(1)}</span>
+                        <span className="text-on-surface-variant text-xs">({tutor.reviews} reviews)</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-on-surface-variant font-body-sm line-clamp-3 mb-lg flex-1">{tutor.bio}</p>
+                  <div className="flex items-center justify-between mt-auto pt-md border-t border-outline-variant/30">
+                    <div className="flex gap-md">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase text-on-surface-variant tracking-widest">Students</span>
+                        <span className="font-bold text-sm">{tutor.students}+</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] uppercase text-on-surface-variant tracking-widest">Experience</span>
+                        <span className="font-bold text-sm">{tutor.experience} yrs</span>
+                      </div>
+                    </div>
+                    <Link href={`/tutors/${tutor.id}`} className="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-bold group-hover:bg-primary group-hover:text-on-primary transition-all">
+                      View Profile
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {sorted.length > 6 && (
+            <div className="mt-2xl flex justify-center items-center gap-md">
+              <button className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors">
+                <span>←</span>
+              </button>
+              <div className="flex gap-sm">
+                <button className="w-10 h-10 rounded-full bg-primary text-on-primary font-bold">1</button>
+                <button className="w-10 h-10 rounded-full border border-outline-variant hover:bg-surface-container transition-colors">2</button>
+                <button className="w-10 h-10 rounded-full border border-outline-variant hover:bg-surface-container transition-colors">3</button>
+              </div>
+              <button className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors">
+                <span>→</span>
+              </button>
+            </div>
+          )}
+        </main>
+      </div>
+
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
+          <div className="absolute left-0 top-0 bottom-0 w-80 bg-surface-container-low p-lg overflow-y-auto">
+            <div className="flex justify-between items-center mb-lg">
+              <h3 className="font-headline-sm">Filters</h3>
+              <button onClick={() => setSidebarOpen(false)}><X className="h-5 w-5" /></button>
+            </div>
+            <FilterSidebar />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

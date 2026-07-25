@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Community Resources Hub | LuminaTutor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #e2e8f0;
+      border-radius: 10px;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed": "#6ffbbe",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed-variant": "#3323cc",
+            "inverse-on-surface": "#eaf1ff",
+            "on-secondary-fixed": "#002113",
+            "surface-container-lowest": "#ffffff",
+            "tertiary-fixed-dim": "#ffb95f",
+            "primary": "#3525cd",
+            "surface-variant": "#d3e4fe",
+            "surface-bright": "#f8f9ff",
+            "on-tertiary-container": "#ffd4a4",
+            "outline-variant": "#c7c4d8",
+            "secondary": "#006c49",
+            "primary-container": "#4f46e5",
+            "on-secondary": "#ffffff",
+            "inverse-primary": "#c3c0ff",
+            "background": "#f8f9ff",
+            "surface-container-high": "#dce9ff",
+            "primary-fixed-dim": "#c3c0ff",
+            "tertiary-container": "#885500",
+            "surface-dim": "#cbdbf5",
+            "outline": "#777587",
+            "tertiary-fixed": "#ffddb8",
+            "primary-fixed": "#e2dfff",
+            "on-secondary-container": "#00714d",
+            "surface": "#f8f9ff",
+            "on-surface": "#0b1c30",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "secondary-container": "#6cf8bb",
+            "on-background": "#0b1c30",
+            "on-tertiary-fixed": "#2a1700",
+            "on-secondary-fixed-variant": "#005236",
+            "on-primary-container": "#dad7ff",
+            "on-error-container": "#93000a",
+            "inverse-surface": "#213145",
+            "surface-container-highest": "#d3e4fe",
+            "surface-container": "#e5eeff",
+            "surface-tint": "#4d44e3",
+            "on-tertiary-fixed-variant": "#653e00",
+            "tertiary": "#684000",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#464555",
+            "on-primary-fixed": "#0f0069",
+            "secondary-fixed-dim": "#4edea3",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "24px",
+            "base": "4px",
+            "2xl": "48px",
+            "container-max": "1280px",
+            "md": "16px",
+            "xs": "4px",
+            "xl": "32px",
+            "sm": "8px",
+            "lg": "24px",
+            "3xl": "64px"
+          },
+          "fontFamily": {
+            "label-md": ["Geist"],
+            "label-sm": ["Geist"],
+            "body-sm": ["Inter"],
+            "display-lg": ["Geist"],
+            "body-lg": ["Inter"],
+            "headline-sm": ["Geist"],
+            "headline-md": ["Geist"],
+            "display-lg-mobile": ["Geist"],
+            "body-md": ["Inter"]
+          }
+        },
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/20">
+<!-- TopNavBar Implementation -->
+<header class="bg-surface/80 backdrop-blur-md font-label-md text-label-md border-b border-outline-variant/30 shadow-sm docked full-width top-0 sticky z-50 transition-all duration-300 ease-in-out">
+<div class="flex justify-between items-center px-gutter py-md w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-xl">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">LuminaTutor</h1>
+<nav class="hidden lg:flex items-center gap-lg">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Find Tutors</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Courses</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Resources</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors">Log In</button>
+<button class="px-lg py-sm bg-primary text-on-primary rounded-lg font-bold shadow-md hover:scale-105 active:scale-95 transition-all">Sign Up</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-gutter py-2xl grid grid-cols-1 lg:grid-cols-12 gap-xl">
+<!-- Hero Section & Filters -->
+<section class="lg:col-span-12 mb-lg">
+<div class="relative overflow-hidden rounded-2xl bg-primary-container p-xl text-on-primary-container mb-xl">
+<div class="relative z-10 max-w-2xl">
+<h2 class="font-display-lg text-display-lg mb-md leading-tight">Empower your learning with shared expertise.</h2>
+<p class="font-body-lg text-body-lg opacity-90 mb-xl">Access thousands of curated study guides, practice exams, and cheat sheets created by our top-rated tutors.</p>
+<!-- Search Bar -->
+<div class="flex items-center bg-surface-container-lowest rounded-xl p-2 shadow-lg focus-within:ring-2 ring-primary transition-all">
+<span class="material-symbols-outlined px-md text-on-surface-variant">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface py-2 font-body-md" placeholder="Search by topic, tutor, or resource type..." type="text"/>
+<button class="bg-primary text-on-primary px-lg py-2 rounded-lg font-bold transition-all hover:opacity-90">Explore</button>
+</div>
+</div>
+<!-- Abstract Decoration -->
+<div class="absolute -right-20 -top-20 w-96 h-96 bg-secondary-container/20 rounded-full blur-3xl"></div>
+<div class="absolute right-20 -bottom-20 w-64 h-64 bg-tertiary-fixed-dim/20 rounded-full blur-3xl"></div>
+</div>
+<!-- Quick Filter Chips -->
+<div class="flex flex-wrap items-center gap-md mb-md">
+<button class="flex items-center gap-sm px-lg py-2 bg-primary text-on-primary rounded-full font-label-md">
+<span class="material-symbols-outlined text-[20px]">grid_view</span> All Resources
+        </button>
+<button class="flex items-center gap-sm px-lg py-2 bg-surface-container text-on-surface-variant rounded-full font-label-md hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">science</span> STEM
+        </button>
+<button class="flex items-center gap-sm px-lg py-2 bg-surface-container text-on-surface-variant rounded-full font-label-md hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">translate</span> Humanities
+        </button>
+<button class="flex items-center gap-sm px-lg py-2 bg-surface-container text-on-surface-variant rounded-full font-label-md hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit_note</span> Exam Prep
+        </button>
+<button class="flex items-center gap-sm px-lg py-2 bg-surface-container text-on-surface-variant rounded-full font-label-md hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[20px]">school</span> Graduate Level
+        </button>
+</div>
+</section>
+<!-- Sidebar: Top Contributors -->
+<aside class="lg:col-span-3 order-2 lg:order-1">
+<div class="sticky top-[100px] flex flex-col gap-xl">
+<!-- Contributor Leaderboard -->
+<div class="bg-surface-container-low rounded-2xl p-lg border border-outline-variant/30">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">military_tech</span>
+              Top Tutors
+            </h3>
+</div>
+<div class="space-y-md">
+<!-- Contributor 1 -->
+<div class="flex items-center gap-md p-md rounded-xl bg-surface-container-lowest hover:bg-surface transition-all cursor-pointer group">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Close-up professional portrait of a smiling female tutor with glasses, wearing a smart casual blazer. She is set against a soft, bright office background with warm afternoon sunlight filtering through large windows. The style is clean, corporate, and trustworthy, emphasizing a professional yet approachable learning mentor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsbzPyBjbdJZ3bK5QhSf96wp43zAGMUQRVZ1CSbzGyecbzcrxibc1tqjDYdd82BBj2wL0z6OKL97TSabzfbu4P0Mc3pmR39ggl0_R8I5Wv0h3zNPC8pDHQnhciP3WWzxMXzHLBZnHAD8luPgbxKR0G70TBXj25WF0EOJ6dg1v2YVjGrMKPwOZPJDcuZm01ppr-YexF5SjzYGKB9O6xhxmv6pA3P7dQcVMKZv3lRe-T9geuX-PQArrFzl_DcscD-7xgThrJmA3lDKOV"/>
+<div class="absolute -bottom-1 -right-1 bg-secondary text-on-secondary text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-surface-container-lowest font-bold">1</div>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Dr. Sarah Chen</p>
+<p class="text-xs text-on-surface-variant">1.2k resources • 4.9 <span class="material-symbols-outlined text-[12px]">star</span></p>
+</div>
+</div>
+<!-- Contributor 2 -->
+<div class="flex items-center gap-md p-md rounded-xl hover:bg-surface-container-high transition-all cursor-pointer group">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="A focused male tutor in his 30s with short dark hair, wearing a high-quality knit sweater. He is sitting in a minimalist modern study with shelves of books visible in the soft-focus background. The lighting is balanced and professional, creating an atmosphere of academic excellence and mentorship. Modern light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB21S60qMnzYM1dTxvzJXshDV2PyrKcJOMq4zLYV8Kn_hTwO5V2Jff9Z-kDj_43S2yGy21BnNTqykPKTWEjaDwbYjW-U4bAeWFOeM7klyB2tennuPQSM1XGzueDcPRTGJHTTMQ9k20zl9Y_uSLSskWVI9bDztL2dm7TbXBA5gmjT_cR1RKWAb3jkJj0wm8rF0JREQ1B4K0yu5l6tVMYpLQXDMjtTSt6NmwvWbU34MKmKr8y1kY0nbZgl4z7eoxP2eo51JRtllEmMP8l"/>
+<div class="absolute -bottom-1 -right-1 bg-outline text-on-secondary text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-surface-container-lowest font-bold">2</div>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Prof. Marcus Thorne</p>
+<p class="text-xs text-on-surface-variant">850 resources • 4.8 <span class="material-symbols-outlined text-[12px]">star</span></p>
+</div>
+</div>
+<!-- Contributor 3 -->
+<div class="flex items-center gap-md p-md rounded-xl hover:bg-surface-container-high transition-all cursor-pointer group">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="A cheerful young female educator with curly hair, sitting in a bright and airy studio. She is pointing towards a digital tablet with educational graphics. The environment is vibrant and inspiring, featuring soft pastel accents and plenty of natural light. High-end modern UI style with professional clarity and warmth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCb6jJzAWPfp8hTHmmqyJ9cMJzw87RRYqNJvjbKj9LCUAIRkv4VAq0Gq3H0ih33h5SUxDjo0E8KvhonqZRz_nLPhXY55Fi8aynhAUXO9ib2hKADPege41Dhk0a0MumPik7eF5RfNkB-l07fS1gymwYZAm-jgc9hRaNX5M-HGmHR0V3o9hjZim64InDEf36JyYElthfOGJ-t231cBjVpZFZZhBQqZfSdDHNNCiJ_gDvLL74v554rNbI2L_cDSW5Lq_ri2ws19JU6ZT0h"/>
+<div class="absolute -bottom-1 -right-1 bg-tertiary text-on-secondary text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-surface-container-lowest font-bold">3</div>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface group-hover:text-primary transition-colors">Elena Rodriguez</p>
+<p class="text-xs text-on-surface-variant">640 resources • 4.9 <span class="material-symbols-outlined text-[12px]">star</span></p>
+</div>
+</div>
+</div>
+<button class="w-full mt-lg py-sm text-primary font-bold hover:underline transition-all">View Leaderboard</button>
+</div>
+<!-- Call to Action -->
+<div class="bg-secondary-container p-lg rounded-2xl relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-headline-sm text-on-secondary-container mb-sm">Share your knowledge!</h4>
+<p class="text-body-sm text-on-secondary-container opacity-80 mb-md">Earn credits and build your reputation by contributing study materials.</p>
+<button class="w-full bg-on-secondary-container text-white py-2 rounded-lg font-bold">Become a Contributor</button>
+</div>
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-7xl opacity-10 text-on-secondary-container">auto_stories</span>
+</div>
+</div>
+</aside>
+<!-- Main Content: Resource Grid -->
+<section class="lg:col-span-9 order-1 lg:order-2">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Trending Resources</h3>
+<div class="flex items-center gap-sm">
+<span class="text-sm text-on-surface-variant">Sort by:</span>
+<select class="bg-surface-container-low border-none rounded-lg text-sm py-1 pl-3 pr-8 focus:ring-1 ring-primary cursor-pointer">
+<option>Most Popular</option>
+<option>Newest</option>
+<option>Highest Rated</option>
+</select>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
+<!-- Resource Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+<div class="h-40 bg-surface-container-high relative flex items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-110 duration-500" data-alt="A clean, minimalist 3D rendering of a mathematics textbook with abstract geometric shapes like cubes and spheres floating around it. The color scheme is predominantly white, soft blue, and deep indigo. The lighting is soft and studio-quality, creating a premium academic feel. Modern corporate illustration style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALvYJe_ZZusvjJ-bNrjQuepjTdgVgLGNo6sz0H20t1DBCYCK1EYyoQVk6FNN24V2kKsi4MvzBtU_vom2Dt6LSsFRDJBa581tjvXUacmQeOqo5fWpGDQvWEsdgKFUGOHw_pdiwzo_kIeGteVdxysyL4zIW3BOYObZzV_qPC-d5a4qYDozCjvGLoeo4xFXM5wKsh55mJixBuMr5bzP4j4GEkTMVmXkKXuvkqqS7QgVPaG2rpzXQFejL5YfHx-L4lTGupoYunUwk8kpUA')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded uppercase tracking-wider">Mathematics</span>
+</div>
+</div>
+<div class="p-lg">
+<h4 class="font-bold text-lg mb-xs line-clamp-1">Advanced Calculus Cheat Sheet</h4>
+<div class="flex items-center gap-2 mb-md text-xs text-on-surface-variant">
+<span>by Dr. Sarah Chen</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1 text-tertiary font-bold">4.9 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span></span>
+</div>
+<div class="flex items-center justify-between gap-sm">
+<button class="flex-1 py-2 border border-primary text-primary rounded-lg font-bold text-sm hover:bg-primary/5 transition-colors">Preview</button>
+<button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-sm flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">download</span> Download
+              </button>
+</div>
+</div>
+</div>
+<!-- Resource Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+<div class="h-40 bg-surface-container-high relative flex items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-110 duration-500" data-alt="A sophisticated digital artwork showing a double helix DNA strand rendered in a glowing emerald green and sapphire blue bioluminescent style. It floats in a deep dark space with soft bokeh light particles. The visual represents biology and genetics in a high-tech, modern academic way. The lighting is dramatic yet clear." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBCwySst1GdbiKbrfBOkzgjaui5or7wCMTj9csMQEvPZhezBc80GOR2LKPD2ehV8tSPcD418RFOCWoFUcbdUkWBa31qnazNXFAn2q2eNIQrHpmf3LUzg7Bvd5GifMlwWf65r8OcrrApzAiFcV9a92mhT5yGtsRWrnHcYysLm4gf0oGnh-frBYnR1fAPnvZl4kWmjdY828h0cQQu6uTjKUs90ZLQ5xkUdQe1kf_V-EKDYodEICGxL1mtApU9tRUqOYQ6GtfeUG1sgU5_')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold rounded uppercase tracking-wider">Biology</span>
+</div>
+</div>
+<div class="p-lg">
+<h4 class="font-bold text-lg mb-xs line-clamp-1">Molecular Genetics Review</h4>
+<div class="flex items-center gap-2 mb-md text-xs text-on-surface-variant">
+<span>by Prof. Thorne</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1 text-tertiary font-bold">4.7 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span></span>
+</div>
+<div class="flex items-center justify-between gap-sm">
+<button class="flex-1 py-2 border border-primary text-primary rounded-lg font-bold text-sm hover:bg-primary/5 transition-colors">Preview</button>
+<button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-sm flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">lock</span> Premium
+              </button>
+</div>
+</div>
+</div>
+<!-- Resource Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+<div class="h-40 bg-surface-container-high relative flex items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-110 duration-500" data-alt="An elegant still life of a fountain pen resting on a handwritten manuscript page. The scene is illuminated by warm, soft lamp light in a cozy library setting. Deep walnut wood textures and cream-colored paper. The aesthetic is classic yet refined, perfect for humanities and literature themes. Modern light-mode photography style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBDdRnPOnu2n2scylW0U428Whr7CWNONIRxRb4C_AMigIjSaJ99pbgYOcZClXbTm-TUOuKekdoKMk50lN6rLMV62ZieIsI4TXYU731Y2-w0R1SiNSJTXDtrKKY-sW1n2uM66xbItwVvm2fldQ6Z-2mLHFERT6J0IbuYfyeSFiCGIdy6kA3_BQVXrpcI0fJGYnTD0j0J7KbqvW5pBJ_6aBSlR7BUCtvVG_zSaHQ0hq247epDG3AfY5UE81p5dfL5wMJK7BRcG5h49gIG')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-surface-container-highest text-on-surface text-[10px] font-bold rounded uppercase tracking-wider">Humanities</span>
+</div>
+</div>
+<div class="p-lg">
+<h4 class="font-bold text-lg mb-xs line-clamp-1">World History Exam Prep</h4>
+<div class="flex items-center gap-2 mb-md text-xs text-on-surface-variant">
+<span>by Elena Rodriguez</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1 text-tertiary font-bold">5.0 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span></span>
+</div>
+<div class="flex items-center justify-between gap-sm">
+<button class="flex-1 py-2 border border-primary text-primary rounded-lg font-bold text-sm hover:bg-primary/5 transition-colors">Preview</button>
+<button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-sm flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">download</span> Download
+              </button>
+</div>
+</div>
+</div>
+<!-- Resource Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+<div class="h-40 bg-surface-container-high relative flex items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-110 duration-500" data-alt="A futuristic digital interface showing rows of code in a vibrant neon indigo and teal color scheme. The background has a subtle circuit board pattern. The composition is sleek and professional, representing computer science and programming. Soft focus edges and high-key brightness for a light-mode friendly appearance." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBAaUQWkFlRRGETkxA1E3OsKt0kAD0WEp0vHlBSGCbsKxCYKsa-3dbR7d4Wj7r86zfFArKi_4X-36i9xz2GsVSw6Os7oGHfXvQaPiyAt4Y7mL4801H75D3zFuY_Xj9p4NVLmrg59t7niovtzmOdoEemJOTfzE5_9yz10itc4Y7QjAOgNWjzEK5cjNjvKy5JMvI30S_JNlvp7B4TKsVi_ds_hOLBMCuM3KLv9Qh-8aOngCLWX6HS5NCKGQ26vzSbkKpc_4-5otXELC47')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-primary-container text-on-primary-container text-[10px] font-bold rounded uppercase tracking-wider">Comp Sci</span>
+</div>
+</div>
+<div class="p-lg">
+<h4 class="font-bold text-lg mb-xs line-clamp-1">Python Data Structures Guide</h4>
+<div class="flex items-center gap-2 mb-md text-xs text-on-surface-variant">
+<span>by Alex Rivers</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1 text-tertiary font-bold">4.8 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span></span>
+</div>
+<div class="flex items-center justify-between gap-sm">
+<button class="flex-1 py-2 border border-primary text-primary rounded-lg font-bold text-sm hover:bg-primary/5 transition-colors">Preview</button>
+<button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-sm flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">download</span> Download
+              </button>
+</div>
+</div>
+</div>
+<!-- Resource Card 5 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+<div class="h-40 bg-surface-container-high relative flex items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-110 duration-500" data-alt="A professional finance-themed visual showing a polished fountain pen over a sharp bar chart and stock market graph. The colors are muted navy, slate grey, and white. The lighting is even and executive-quality, conveying expertise in economics and financial analysis. High-end corporate UI aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXVQ7tvS2x7prd3-zbJzhNSqwVkdveSdEBQW9-XUdTdcCn0F-niA5OKQFGjrmxzxZa6Gutva1xJmXJ_S9GCNmhJ03_u6k0sCbzoB2grEtOUW9NS0kP0pRH5XlmhVCPu0HH62ZDhd6sO01oPFv_by_x28FDo8FK0oIUv-kcAYqTrNi3oilKfw2En3BkSovE-qZm5wpUcxuLQyMDFRkTHUF3mY8USPE6L4sOXYhvw0h8eophvuDXqstRmcf1tRb5t1PvsYkhPQSQOgre')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-on-secondary-container text-white text-[10px] font-bold rounded uppercase tracking-wider">Economics</span>
+</div>
+</div>
+<div class="p-lg">
+<h4 class="font-bold text-lg mb-xs line-clamp-1">Macroeconomics Final Review</h4>
+<div class="flex items-center gap-2 mb-md text-xs text-on-surface-variant">
+<span>by Dr. Sarah Chen</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1 text-tertiary font-bold">4.9 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span></span>
+</div>
+<div class="flex items-center justify-between gap-sm">
+<button class="flex-1 py-2 border border-primary text-primary rounded-lg font-bold text-sm hover:bg-primary/5 transition-colors">Preview</button>
+<button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-sm flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">lock</span> Premium
+              </button>
+</div>
+</div>
+</div>
+<!-- Resource Card 6 -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+<div class="h-40 bg-surface-container-high relative flex items-center justify-center">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-110 duration-500" data-alt="A creative workspace with a high-end sketchbook, designer markers, and a digital drawing tablet. The lighting is bright and cheerful, suggesting a focus on art history and creative design. Splashes of vibrant color are used sparingly against a clean white table. Inspiring and academic mood. Modern UI style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDpgvFBN8G4QAH19AHH6qU7ojrNXEOJVXtqpJMzGT_LNL_D4r57InVWtqRJ_424HwQqTHGCGYGNfufWlpai5N4SlyedmlNslJb4x27xlqELAq6cxehMcObW15Q3T6OJz3i5U3Hn__FhnU-iDa3KYRadG53hEEy9gouT61LFDh33pZPXGKD8X0tS7PtgjBBLXpv8BPKx0KEjxiz4JMUbgiSuxdN5cVZkGzBMNlXmmX1YE8SUZki3OpqaIXgeRbPrI6FZwROFDQeRKFLm')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex gap-2">
+<span class="px-2 py-1 bg-secondary text-white text-[10px] font-bold rounded uppercase tracking-wider">Art History</span>
+</div>
+</div>
+<div class="p-lg">
+<h4 class="font-bold text-lg mb-xs line-clamp-1">Renaissance Masterpieces Guide</h4>
+<div class="flex items-center gap-2 mb-md text-xs text-on-surface-variant">
+<span>by Elena Rodriguez</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1 text-tertiary font-bold">4.6 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span></span>
+</div>
+<div class="flex items-center justify-between gap-sm">
+<button class="flex-1 py-2 border border-primary text-primary rounded-lg font-bold text-sm hover:bg-primary/5 transition-colors">Preview</button>
+<button class="flex-1 py-2 bg-primary text-on-primary rounded-lg font-bold text-sm flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">download</span> Download
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-3xl flex items-center justify-center gap-md">
+<button class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 rounded-full hover:bg-surface-container-high text-on-surface-variant font-bold">2</button>
+<button class="w-10 h-10 rounded-full hover:bg-surface-container-high text-on-surface-variant font-bold">3</button>
+<span class="text-on-surface-variant">...</span>
+<button class="w-10 h-10 rounded-full hover:bg-surface-container-high text-on-surface-variant font-bold">12</button>
+<button class="p-2 rounded-full hover:bg-surface-container-high text-on-surface-variant">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer Implementation -->
+<footer class="bg-surface-container-highest font-body-sm text-body-sm border-t border-outline-variant/50 w-full py-xl px-gutter mt-3xl">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
+<div class="col-span-1">
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary mb-md">LuminaTutor</h2>
+<p class="text-on-surface-variant mb-md">The premier community for connecting passionate learners with expert educators across the globe.</p>
+<div class="flex gap-md">
+<a class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-variant/50 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-[18px]">public</span></a>
+<a class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-variant/50 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-[18px]">share</span></a>
+<a class="w-8 h-8 flex items-center justify-center rounded-full bg-surface-variant/50 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-[18px]">chat_bubble</span></a>
+</div>
+</div>
+<div>
+<h3 class="font-bold text-on-surface mb-md">Company</h3>
+<ul class="space-y-sm text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Become a Tutor</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Blog</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-on-surface mb-md">Support</h3>
+<ul class="space-y-sm text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Contact</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Safety Center</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Sitemap</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-on-surface mb-md">Legal</h3>
+<ul class="space-y-sm text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-container-max mx-auto mt-xl pt-lg border-t border-outline-variant/30 text-center text-on-surface-variant opacity-60">
+      © 2024 LuminaTutor Marketplace. All rights reserved.
+    </div>
+</footer>
+<script>
+    // Micro-interaction for hover effects on cards
+    document.querySelectorAll('.group').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+      });
+      card.addEventListener('mouseleave', () => {
+        const span = card.querySelector('.material-symbols-outlined');
+        if (span.textContent !== 'star' && span.textContent !== 'military_tech') {
+          span.style.fontVariationSettings = "'FILL' 0";
+        }
+      });
+    });
+
+    // Smooth navigation for filter chips
+    document.querySelectorAll('button.rounded-full').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('button.rounded-full').forEach(b => {
+          b.classList.remove('bg-primary', 'text-on-primary');
+          b.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        this.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        this.classList.add('bg-primary', 'text-on-primary');
+      });
+    });
+  </script>
+</body></html>

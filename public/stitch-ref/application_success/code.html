@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Application Submitted | TutorConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-primary": "#ffffff",
+                "error": "#ba1a1a",
+                "surface-container-highest": "#d3e4fe",
+                "primary-fixed": "#e2dfff",
+                "surface-bright": "#f8f9ff",
+                "tertiary-container": "#885500",
+                "surface-tint": "#4d44e3",
+                "on-secondary-container": "#00714d",
+                "surface": "#f8f9ff",
+                "secondary-fixed": "#6ffbbe",
+                "secondary-container": "#6cf8bb",
+                "on-background": "#0b1c30",
+                "inverse-primary": "#c3c0ff",
+                "secondary-fixed-dim": "#4edea3",
+                "outline-variant": "#c7c4d8",
+                "tertiary-fixed": "#ffddb8",
+                "secondary": "#006c49",
+                "on-tertiary-container": "#ffd4a4",
+                "on-error-container": "#93000a",
+                "surface-container-low": "#eff4ff",
+                "surface-container": "#e5eeff",
+                "primary-fixed-dim": "#c3c0ff",
+                "surface-dim": "#cbdbf5",
+                "surface-variant": "#d3e4fe",
+                "tertiary-fixed-dim": "#ffb95f",
+                "on-secondary": "#ffffff",
+                "on-primary-container": "#dad7ff",
+                "on-surface": "#0b1c30",
+                "background": "#f8f9ff",
+                "surface-container-high": "#dce9ff",
+                "on-tertiary-fixed": "#2a1700",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-fixed": "#0f0069",
+                "primary": "#3525cd",
+                "on-tertiary": "#ffffff",
+                "primary-container": "#4f46e5",
+                "on-secondary-fixed-variant": "#005236",
+                "inverse-on-surface": "#eaf1ff",
+                "on-tertiary-fixed-variant": "#653e00",
+                "error-container": "#ffdad6",
+                "tertiary": "#684000",
+                "on-surface-variant": "#464555",
+                "inverse-surface": "#213145",
+                "on-secondary-fixed": "#002113",
+                "on-primary-fixed-variant": "#3323cc",
+                "outline": "#777587",
+                "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "container-max": "1280px",
+                "md": "16px",
+                "xs": "4px",
+                "sm": "8px",
+                "3xl": "64px",
+                "gutter": "24px",
+                "lg": "24px",
+                "base": "4px",
+                "2xl": "48px",
+                "xl": "32px"
+            },
+            "fontFamily": {
+                "display-lg-mobile": ["Geist"],
+                "label-sm": ["Geist"],
+                "body-md": ["Inter"],
+                "label-md": ["Geist"],
+                "body-sm": ["Inter"],
+                "headline-sm": ["Geist"],
+                "body-lg": ["Inter"],
+                "display-lg": ["Geist"],
+                "headline-md": ["Geist"]
+            },
+            "fontSize": {
+                "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-md": ["30px", {"lineHeight": "38px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .step-active::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: -24px;
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #3525cd 0, #3525cd 4px, transparent 4px, transparent 8px);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar (Suppressed but keeping shell for context branding) -->
+<header class="bg-surface shadow-sm sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto h-16">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">TutorConnect</span>
+<div class="flex items-center gap-md">
+<span class="font-label-md text-label-md text-on-surface-variant">Step 5 of 5 Complete</span>
+<div class="w-24 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-full"></div>
+</div>
+</div>
+</div>
+</header>
+<main class="relative min-h-[calc(100vh-64px)] flex items-center justify-center py-2xl px-md overflow-hidden">
+<!-- Background Animation -->
+
+<div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-12 gap-xl items-start relative z-10">
+<!-- Left Side: Success Content -->
+<div class="md:col-span-7 flex flex-col items-center md:items-start text-center md:text-left">
+<div class="mb-lg inline-flex items-center justify-center w-24 h-24 bg-secondary-container text-on-secondary-container rounded-full animate-float shadow-lg">
+<span class="material-symbols-outlined !text-[48px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-md">
+                    Congratulations!
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-xl max-w-lg">
+                    Your application to become a tutor at TutorConnect has been successfully submitted. We’re excited to have you join our academic community.
+                </p>
+<!-- Process Card -->
+<div class="glass-card rounded-xl p-lg w-full shadow-sm mb-xl">
+<div class="flex items-start gap-md mb-md">
+<div class="bg-primary-container p-sm rounded-lg text-on-primary-container">
+<span class="material-symbols-outlined">hourglass_empty</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Verification in progress</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Our team is reviewing your credentials and background checks.</p>
+</div>
+</div>
+<!-- Timeline -->
+<div class="space-y-lg relative">
+<div class="flex gap-md relative step-active">
+<div class="z-10 bg-secondary rounded-full w-6 h-6 flex items-center justify-center text-on-secondary shrink-0">
+<span class="material-symbols-outlined !text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Submission Received</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Completed today</p>
+</div>
+</div>
+<div class="flex gap-md relative">
+<div class="z-10 bg-surface-container-highest border-2 border-primary rounded-full w-6 h-6 flex items-center justify-center text-primary shrink-0">
+<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface font-bold">Academic Review</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Typically takes 24-48 hours</p>
+</div>
+</div>
+<div class="flex gap-md relative">
+<div class="z-10 bg-surface-container rounded-full w-6 h-6 flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined !text-[14px]">flag</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant">Welcome Call Invitation</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Pending approval</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Next Steps Bento -->
+<div class="md:col-span-5 flex flex-col gap-md">
+<h2 class="font-headline-sm text-headline-sm text-on-surface md:mt-12">While you wait...</h2>
+<!-- Card 1: Profile Preview -->
+<button class="glass-card p-md rounded-xl text-left hover:shadow-md transition-all group border-l-4 border-l-primary">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">preview</span>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold block mb-xs">Preview Public Profile</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">See how students will view your expertise and intro video.</p>
+</button>
+<!-- Card 2: Handbook -->
+<button class="glass-card p-md rounded-xl text-left hover:shadow-md transition-all group border-l-4 border-l-secondary">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary group-hover:scale-110 transition-transform">menu_book</span>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-bold block mb-xs">Tutor Handbook</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Learn our best practices for engaging online lessons.</p>
+</button>
+<!-- Card 3: Support -->
+<div class="bg-surface-container-low p-md rounded-xl border border-outline-variant">
+<div class="flex items-center gap-sm mb-sm text-on-surface-variant">
+<span class="material-symbols-outlined !text-[20px]">help</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Help &amp; Support</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-md">Have questions about your application status?</p>
+<a class="text-primary font-label-md text-label-md hover:underline inline-flex items-center gap-xs" href="#">
+                        Visit Support Center
+                        <span class="material-symbols-outlined !text-[16px]">open_in_new</span>
+</a>
+</div>
+<!-- Featured Image -->
+<div class="relative h-48 rounded-xl overflow-hidden shadow-lg mt-md">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A diverse group of professional educators and students interacting in a bright, modern library setting. The lighting is soft and golden, highlighting a collaborative and warm atmosphere. The style is contemporary and high-quality photography, reflecting the corporate yet welcoming brand identity of an elite tutoring platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwCn8sN8cFH4ftVdUD9vznO4ppGDhff6II5ERl0N86mYg1KaTZtfnl-8UY8SlxMhMyckgJyCmb1ivsD-EjEaGxAUA_AS_mFLJ9eOeRTD1pNKJ5xh2MxvIO8UYjjQRa9cFw3JFVaKpoGhjmhZrEdpPRJxa27Kw6wR8zzB9CM6_OHQFG3nP-i6x0yf88BD5hRAoPTgstxSMwTPtkz3sNxuhvQ-zZTthCmkwLNY9qEWmBZ0qyoNW_dPi5w6b0Gh7YXyYPt0gUha_MGZcr"/>
+<div class="absolute bottom-md left-md z-20 text-white">
+<span class="font-label-sm text-label-sm opacity-80">Join the elite</span>
+<h4 class="font-headline-sm text-headline-sm leading-tight">Join 5,000+ Educators</h4>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Success Feedback Overlay (Visual Only) -->
+<div class="confetti-canvas" id="confetti-container"></div>
+<!-- Minimal Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant py-lg px-lg">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant">© 2024 TutorConnect. Empowering learners worldwide.</span>
+<div class="flex gap-lg">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">FAQ</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple confetti particle effect
+        const container = document.getElementById('confetti-container');
+        const colors = ['#3525cd', '#006c49', '#6cf8bb', '#4f46e5'];
+
+        function createConfetti() {
+            for (let i = 0; i < 60; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '2px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                container.appendChild(confetti);
+
+                const animation = confetti.animate([
+                    { transform: `translate3d(0, 0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate3d(${(Math.random() - 0.5) * 300}px, 100vh, 0) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                ], {
+                    duration: 2000 + Math.random() * 3000,
+                    easing: 'cubic-bezier(0, .9, .57, 1)',
+                    fill: 'forwards'
+                });
+
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+
+        // Trigger on load
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(createConfetti, 500);
+        });
+    </script>
+</body></html>

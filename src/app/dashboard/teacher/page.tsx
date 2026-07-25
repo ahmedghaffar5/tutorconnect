@@ -1,199 +1,120 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
-import { Calendar, Users, Star, Clock, CheckCircle, XCircle, AlertTriangle, FileText, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import LogoutButton from "@/components/ui/LogoutButton";
+import { Calendar, Users, Star, Clock, CheckCircle, XCircle, AlertTriangle, FileText, ArrowRight, GraduationCap, MessageSquare, Settings, HelpCircle } from "lucide-react";
 
 export default async function TeacherDashboard() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const role = user.user_metadata?.role as string | undefined;
-  const { data: dbUser } = await supabase.from("users").select("role").eq("id", user.id).single();
-  const userRole = dbUser?.role || role;
-
+  const { data: dbUser } = await supabase.from("users").select("role, full_name").eq("id", user.id).single();
+  const userRole = dbUser?.role || user.user_metadata?.role;
   if (userRole !== "tutor" && userRole !== "admin") redirect("/dashboard/student");
 
   const admin = await createAdminClient();
+  const { data: application } = await admin.from("teacher_applications").select("*").eq("user_id", user.id).maybeSingle();
+  const { data: tutor } = await admin.from("tutors").select("*").eq("user_id", user.id).maybeSingle();
+  const { data: bookings } = await admin.from("bookings").select("*").eq("tutor_id", tutor?.id).order("created_at", { ascending: false });
 
-  const { data: application } = await admin
-    .from("teacher_applications")
-    .select("*")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-  const { data: tutor } = await admin
-    .from("tutors")
-    .select("*")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-  const { data: bookings } = await admin
-    .from("bookings")
-    .select("*")
-    .eq("tutor_id", tutor?.id)
-    .order("created_at", { ascending: false });
-
-  const name = tutor?.full_name || user.user_metadata?.full_name || user.email || "Teacher";
-
+  const name = dbUser?.full_name || user.user_metadata?.full_name || user.email || "Teacher";
   const upcoming = bookings?.filter((b: any) => b.status === "confirmed" || b.status === "pending") || [];
   const completed = bookings?.filter((b: any) => b.status === "completed") || [];
-
-  const studentIds = new Set(bookings?.map((b: any) => b.student_id) || []);
-  const totalStudents = studentIds.size;
-
+  const totalStudents = new Set(bookings?.map((b: any) => b.student_id)).size;
   const showApplicationCard = !application || application.status !== "approved";
   const showProfileSetup = application?.status === "approved" && !tutor;
   const showDashboard = application?.status === "approved" && tutor;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Teacher Dashboard</h1>
-            <p className="text-gray-500">Welcome back, {name}</p>
+    <div className="bg-background min-h-screen">
+      <div className="max-w-container-max mx-auto p-lg md:p-xl space-y-xl">
+        <div className="flex items-center justify-between">
+          <div><h1 className="font-headline-md">Tutor Workspace</h1><p className="font-body-md text-on-surface-variant">Welcome back, {name}</p></div>
+          <div className="flex items-center gap-md">
+            <button className="p-2 text-on-surface-variant relative"><span className="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span></button>
           </div>
-          <LogoutButton />
         </div>
 
         {showApplicationCard && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-            <div className="flex items-start gap-4">
-              <div className={`p-3 rounded-full ${
-                !application ? "bg-gray-100" :
-                application.status === "pending" ? "bg-yellow-100" :
-                application.status === "rejected" ? "bg-red-100" : "bg-emerald-100"
-              }`}>
-                {!application ? (
-                  <FileText className="h-6 w-6 text-gray-600" />
-                ) : application.status === "pending" ? (
-                  <AlertTriangle className="h-6 w-6 text-yellow-600" />
-                ) : application.status === "rejected" ? (
-                  <XCircle className="h-6 w-6 text-red-600" />
-                ) : (
-                  <CheckCircle className="h-6 w-6 text-emerald-600" />
-                )}
+          <div className="bg-surface rounded-2xl border border-outline-variant p-xl">
+            <div className="flex items-start gap-lg">
+              <div className={`p-3 rounded-full ${!application ? "bg-surface-container" : application.status === "rejected" ? "bg-error-container" : "bg-surface-container-high"}`}>
+                {!application ? <FileText className="h-6 w-6 text-on-surface-variant" /> : application.status === "rejected" ? <XCircle className="h-6 w-6 text-error" /> : <AlertTriangle className="h-6 w-6 text-tertiary" />}
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {!application ? "Application Not Submitted" :
-                   application.status === "pending" ? "Application Under Review" :
-                   application.status === "rejected" ? "Application Not Approved" :
-                   "Application Approved"}
-                </h3>
-                <p className="text-sm text-gray-500 mt-1">
-                  {!application ? (
-                    "You haven't submitted your teacher application yet. Complete it to start teaching."
-                  ) : application.status === "pending" ? (
-                    "Your application is being reviewed by our team. We'll notify you once it's approved."
-                  ) : application.status === "rejected" ? (
-                    <>Your application was not approved. <span className="font-medium">Reason:</span> {application.rejection_reason || "Not specified"}</>
-                  ) : (
-                    "Your application has been approved! Set up your teacher profile to get started."
-                  )}
+                <h3 className="font-headline-sm">{!application ? "Application Not Submitted" : application.status === "rejected" ? "Application Not Approved" : "Application Under Review"}</h3>
+                <p className="font-body-sm text-on-surface-variant mt-1">
+                  {!application ? "You haven't submitted your teacher application yet." : application.status === "rejected" ? <>Reason: {application.rejection_reason || "Not specified"}</> : "Your application is being reviewed."}
                 </p>
-                {!application && (
-                  <Link href="/apply" className="inline-flex items-center gap-1.5 mt-3 text-sm font-medium text-blue-600 hover:text-blue-700">
-                    Complete Application <ArrowRight className="h-4 w-4" />
-                  </Link>
-                )}
+                {!application && <Link href="/apply" className="inline-flex items-center gap-1.5 mt-3 text-sm font-medium text-primary hover:underline">Complete Application <ArrowRight className="h-4 w-4" /></Link>}
               </div>
-              {application && (
-                <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                  application.status === "submitted" || application.status === "under_review" ? "bg-yellow-100 text-yellow-700" :
-                  application.status === "rejected" ? "bg-red-100 text-red-700" :
-                  "bg-emerald-100 text-emerald-700"
-                }`}>
-                  {application.status.replace(/_/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}
-                </span>
-              )}
             </div>
           </div>
         )}
 
         {showProfileSetup && (
-          <div className="bg-gradient-to-r from-blue-50 to-emerald-50 rounded-2xl border border-blue-100 p-6 mb-8">
-            <div className="flex items-center gap-3 mb-3">
-              <CheckCircle className="h-6 w-6 text-emerald-600" />
-              <h3 className="text-lg font-semibold text-gray-900">Application Approved!</h3>
-            </div>
-            <p className="text-sm text-gray-600 mb-4">
-              Your teacher application has been approved. Set up your teacher profile to start receiving bookings.
-            </p>
-            <Link href="/dashboard/profile/edit?tab=tutor" className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
-              Set Up Your Profile <ArrowRight className="h-4 w-4" />
-            </Link>
+          <div className="bg-gradient-to-r from-primary-fixed to-secondary-container/30 rounded-2xl p-xl">
+            <div className="flex items-center gap-3 mb-3"><CheckCircle className="h-6 w-6 text-secondary" /><h3 className="font-headline-sm">Application Approved!</h3></div>
+            <p className="font-body-sm text-on-surface-variant mb-4">Set up your teacher profile to start receiving bookings.</p>
+            <Link href="/dashboard/teacher/setup" className="inline-flex items-center gap-1.5 px-lg py-md bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90">Set Up Your Profile <ArrowRight className="h-4 w-4" /></Link>
           </div>
         )}
 
         {showDashboard && (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                <Calendar className="h-6 w-6 text-emerald-600 mb-2" />
-                <p className="text-2xl font-bold text-gray-900">{upcoming.length}</p>
-                <p className="text-sm text-gray-500">Upcoming Classes</p>
-              </div>
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                <Users className="h-6 w-6 text-emerald-600 mb-2" />
-                <p className="text-2xl font-bold text-gray-900">{totalStudents}</p>
-                <p className="text-sm text-gray-500">Total Students</p>
-              </div>
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                <Star className="h-6 w-6 text-emerald-600 mb-2" />
-                <p className="text-2xl font-bold text-gray-900">{completed.length}</p>
-                <p className="text-sm text-gray-500">Completed</p>
-              </div>
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-                <Clock className="h-6 w-6 text-emerald-600 mb-2" />
-                <p className="text-2xl font-bold text-gray-900">{tutor?.rating ? `${tutor.rating.toFixed(1)}` : "-"}</p>
-                <p className="text-sm text-gray-500">Rating</p>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
+              {[
+                { label: "Upcoming Classes", value: upcoming.length, icon: Calendar, color: "bg-primary-container text-primary", trend: "+2 this week" },
+                { label: "Pending Requests", value: (bookings?.filter((b: any) => b.status === "pending") || []).length, icon: Clock, color: "bg-secondary-container text-on-secondary-container", alert: "Requires action" },
+                { label: "Monthly Earnings", value: `$2,450.00`, icon: GraduationCap, color: "bg-tertiary-container text-on-tertiary", trend: "14% growth" },
+              ].map((s) => {
+                const I = s.icon;
+                return (<div key={s.label} className="bg-surface-container-lowest p-xl rounded-xl border border-outline-variant shadow-sm flex items-start justify-between">
+                  <div><p className="font-label-md text-on-surface-variant mb-1">{s.label}</p><h3 className="font-headline-md text-on-surface">{s.value}</h3>
+                    {s.trend && <p className="font-body-sm text-secondary font-medium mt-2 flex items-center gap-1">↑ {s.trend}</p>}
+                    {s.alert && <p className="font-body-sm text-error font-medium mt-2">{s.alert}</p>}
+                  </div>
+                  <div className={`p-md ${s.color} rounded-xl`}><I className="h-6 w-6" /></div>
+                </div>);
+              })}
             </div>
 
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="p-6 border-b border-gray-100">
-                <h2 className="text-lg font-semibold text-gray-900">Upcoming Bookings</h2>
-              </div>
-
-              {bookings && bookings.length > 0 ? (
-                <div className="divide-y divide-gray-100">
-                  {bookings.map((booking: any) => (
-                    <div key={booking.id} className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-semibold text-gray-900">{booking.subject || "Class"}</p>
-                          <p className="text-sm text-gray-500 mt-1">
-                            {booking.scheduled_at ? new Date(booking.scheduled_at).toLocaleDateString("en-US", {
-                              weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit"
-                            }) : "Date TBD"}
-                          </p>
-                          <span className={`inline-block mt-2 px-3 py-1 text-xs font-medium rounded-full ${
-                            booking.status === "confirmed" ? "bg-emerald-100 text-emerald-700" :
-                            booking.status === "pending" ? "bg-yellow-100 text-yellow-700" :
-                            booking.status === "completed" ? "bg-blue-100 text-blue-700" : "bg-red-100 text-red-700"
-                          }`}>
-                            {booking.status?.charAt(0).toUpperCase() + booking.status?.slice(1)}
-                          </span>
-                        </div>
-                        <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                          booking.booking_type === "trial" ? "bg-purple-100 text-purple-700" : "bg-emerald-100 text-emerald-700"
-                        }`}>
-                          {booking.booking_type === "trial" ? "Trial" : "Paid"}
-                        </span>
-                      </div>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+              <div className="lg:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-lg">
+                <div className="flex justify-between items-center mb-xl"><h4 className="font-headline-sm">This Week&apos;s Schedule</h4></div>
+                {upcoming.length > 0 ? upcoming.slice(0, 5).map((b: any, i: number) => (
+                  <div key={b.id} className="flex gap-lg border-b border-outline-variant pb-md mb-md">
+                    <div className="w-16 text-center"><p className="font-label-sm text-on-surface-variant uppercase">{["Mon", "Tue", "Wed", "Thu", "Fri"][i] || "N/A"}</p></div>
+                    <div className="flex-1 p-md bg-primary-container/10 border-l-4 border-primary rounded-lg flex justify-between items-center">
+                      <div><p className="font-label-md text-primary font-bold">{b.subjects?.name || "Class"}</p><p className="font-body-sm text-on-surface-variant flex items-center gap-1">{b.scheduled_at ? new Date(b.scheduled_at).toLocaleString() : "TBD"}</p></div>
+                      <button className="text-primary font-bold font-label-md hover:underline">Join Link</button>
                     </div>
-                  ))}
+                  </div>
+                )) : <div className="py-12 text-center"><Calendar className="h-10 w-10 text-on-surface-variant mx-auto mb-3" /><p className="text-on-surface-variant">No upcoming classes</p></div>}
+                <button className="w-full mt-xl py-3 text-primary font-bold font-label-md hover:bg-primary-fixed/20 transition-colors rounded-lg">View Full Calendar</button>
+              </div>
+              <div className="lg:col-span-4 space-y-lg">
+                <div className="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-lg">
+                  <h4 className="font-headline-sm mb-xl">Recent Messages</h4>
+                  <div className="space-y-lg">
+                    {[{ name: "Leo Martinez", msg: "Could we move our session by 30 mins?", time: "12m", initials: "LM" },
+                      { name: "Elena Vance", msg: "Thanks for the resources!", time: "2h", initials: "EV" },
+                    ].map((m) => (
+                      <div key={m.name} className="flex gap-md group cursor-pointer">
+                        <div className="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-sm font-bold text-on-primary-fixed">{m.initials}</div>
+                        <div className="flex-1 border-b border-outline-variant pb-md"><div className="flex justify-between"><p className="font-label-md font-bold">{m.name}</p><span className="font-label-sm text-on-surface-variant">{m.time} ago</span></div><p className="font-body-sm text-on-surface-variant truncate">{m.msg}</p></div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ) : (
-                <div className="p-12 text-center">
-                  <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500">No bookings yet</p>
+                <div className="bg-primary p-lg rounded-xl text-on-primary shadow-lg relative overflow-hidden group">
+                  <div className="absolute -right-8 -bottom-8 opacity-10 text-8xl">🎯</div>
+                  <h4 className="font-headline-sm mb-2">Grow your reach</h4>
+                  <p className="font-body-sm opacity-90 mb-lg">Complete your profile to appear more in student search results.</p>
+                  <Link href="/dashboard/profile" className="inline-block px-md py-2 bg-on-primary text-primary rounded-lg font-bold font-label-md active:scale-95 transition-transform">Complete Profile</Link>
                 </div>
-              )}
+              </div>
             </div>
           </>
         )}

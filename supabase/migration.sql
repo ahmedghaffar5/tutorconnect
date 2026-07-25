@@ -205,6 +205,82 @@ CREATE POLICY "Admins can manage feature flags" ON feature_flags
   FOR ALL USING (auth.jwt()->'user_metadata'->>'role' = 'admin');
 
 -- ============================================================
+-- CONTACT MESSAGES
+-- ============================================================
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE contact_messages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can insert contact messages" ON contact_messages
+  FOR INSERT WITH CHECK (TRUE);
+
+CREATE POLICY "Admins can view contact messages" ON contact_messages
+  FOR SELECT USING (auth.jwt()->'user_metadata'->>'role' = 'admin');
+
+-- ============================================================
+-- RPC: create_user_profile
+-- ============================================================
+CREATE OR REPLACE FUNCTION create_user_profile(
+  user_id UUID,
+  full_name TEXT,
+  email TEXT,
+  role TEXT
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  INSERT INTO users (id, full_name, email, role)
+  VALUES (user_id, full_name, email, role);
+END;
+$$;
+
+-- ============================================================
+-- RPC: update_user_profile
+-- ============================================================
+CREATE OR REPLACE FUNCTION update_user_profile(
+  user_id UUID,
+  new_full_name TEXT,
+  new_phone TEXT DEFAULT NULL
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  UPDATE users
+  SET full_name = new_full_name,
+      phone = COALESCE(new_phone, phone)
+  WHERE id = user_id;
+END;
+$$;
+
+-- ============================================================
+-- RPC: insert_contact_message
+-- ============================================================
+CREATE OR REPLACE FUNCTION insert_contact_message(
+  p_name TEXT,
+  p_email TEXT,
+  p_message TEXT
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  INSERT INTO contact_messages (name, email, message)
+  VALUES (p_name, p_email, p_message);
+END;
+$$;
+
+-- ============================================================
 -- STORAGE BUCKET for application documents
 -- ============================================================
 -- NOTE: Run this in Supabase Storage UI or via SQL:
