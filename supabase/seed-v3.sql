@@ -1,10 +1,54 @@
 -- ============================================================
--- TUTORCONNECT v3 SEED DATA (with valid UUIDs)
+-- TUTORCONNECT v3 SEED DATA
+-- Run AFTER schema-v3.sql
 -- ============================================================
 
--- Use gen_random_uuid() for clean IDs, reference by email for relationships
+-- Clear existing data for clean reseed
+DELETE FROM notifications;
+DELETE FROM audit_logs;
+DELETE FROM reviews;
+DELETE FROM submissions;
+DELETE FROM grades;
+DELETE FROM assignment_attachments;
+DELETE FROM assignments;
+DELETE FROM progress_records;
+DELETE FROM learning_goals;
+DELETE FROM booking_participants;
+DELETE FROM booking_status_history;
+DELETE FROM reschedule_requests;
+DELETE FROM cancellation_requests;
+DELETE FROM slot_holds;
+DELETE FROM attendance_records;
+DELETE FROM session_notes;
+DELETE FROM tutor_product_prices;
+DELETE FROM lesson_products;
+DELETE FROM availability_rules;
+DELETE FROM availability_exceptions;
+DELETE FROM tutor_status_history;
+DELETE FROM verification_checks;
+DELETE FROM tutor_levels;
+DELETE FROM tutor_curricula;
+DELETE FROM tutor_subjects;
+DELETE FROM tutors;
+DELETE FROM guardian_student_links;
+DELETE FROM household_members;
+DELETE FROM households;
+DELETE FROM admin_permissions;
+DELETE FROM contact_messages;
+DELETE FROM conversation_participants;
+DELETE FROM messages;
+DELETE FROM conversations;
+DELETE FROM notification_preferences;
+DELETE FROM support_cases;
+DELETE FROM safeguarding_cases;
+DELETE FROM webhook_events;
+DELETE FROM user_sessions;
+DELETE FROM consents;
+DELETE FROM users;
 
--- Admins
+-- ============================================================
+-- ADMINS
+-- ============================================================
 INSERT INTO users (id, full_name, email, role, account_status, timezone) VALUES
   (gen_random_uuid(), 'Admin User', 'admin@tutorconnect.com', 'admin', 'active', 'America/New_York'),
   (gen_random_uuid(), 'Sarah Review', 'sarah.review@tutorconnect.com', 'admin', 'active', 'America/New_York');

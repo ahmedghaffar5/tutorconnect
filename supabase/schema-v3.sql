@@ -11,7 +11,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 -- ============================================================
 
 -- Canonical user roles (enum-like via CHECK constraint on users.role)
-CREATE TABLE user_roles (
+CREATE TABLE IF NOT EXISTS user_roles (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   role TEXT NOT NULL UNIQUE CHECK (role IN (
     'student', 'parent', 'tutor_applicant', 'tutor', 'admin'
@@ -29,7 +29,7 @@ INSERT INTO user_roles (role, description, is_assignable) VALUES
   ('admin', 'Marketplace administrator', FALSE);
 
 -- Admin sub-roles (granular permissions)
-CREATE TABLE admin_permissions (
+CREATE TABLE IF NOT EXISTS admin_permissions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL,
   admin_role TEXT NOT NULL CHECK (admin_role IN (
@@ -41,7 +41,7 @@ CREATE TABLE admin_permissions (
 );
 
 -- Households (family units)
-CREATE TABLE households (
+CREATE TABLE IF NOT EXISTS households (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT,
   primary_billing_guardian_id UUID,
@@ -50,7 +50,7 @@ CREATE TABLE households (
 );
 
 -- Household members
-CREATE TABLE household_members (
+CREATE TABLE IF NOT EXISTS household_members (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   household_id UUID REFERENCES households(id) ON DELETE CASCADE NOT NULL,
   user_id UUID NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE household_members (
 );
 
 -- Guardian-student relationships
-CREATE TABLE guardian_student_links (
+CREATE TABLE IF NOT EXISTS guardian_student_links (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   guardian_id UUID NOT NULL,
   student_id UUID NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE guardian_student_links (
 );
 
 -- Consent records
-CREATE TABLE consents (
+CREATE TABLE IF NOT EXISTS consents (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL,
   consent_type TEXT NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE consents (
 );
 
 -- User sessions (for security auditing)
-CREATE TABLE user_sessions (
+CREATE TABLE IF NOT EXISTS user_sessions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL,
   ip_address TEXT,
@@ -100,7 +100,7 @@ CREATE TABLE user_sessions (
 -- ============================================================
 
 -- Tutor levels (which academic levels they teach)
-CREATE TABLE tutor_levels (
+CREATE TABLE IF NOT EXISTS tutor_levels (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   level TEXT NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE tutor_levels (
 );
 
 -- Tutor curricula
-CREATE TABLE tutor_curricula (
+CREATE TABLE IF NOT EXISTS tutor_curricula (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   curriculum TEXT NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE tutor_curricula (
 );
 
 -- Availability rules (recurring weekly)
-CREATE TABLE availability_rules (
+CREATE TABLE IF NOT EXISTS availability_rules (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   day_of_week SMALLINT NOT NULL CHECK (day_of_week BETWEEN 0 AND 6),
@@ -127,7 +127,7 @@ CREATE TABLE availability_rules (
 );
 
 -- Availability exceptions (time off, one-off slots)
-CREATE TABLE availability_exceptions (
+CREATE TABLE IF NOT EXISTS availability_exceptions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   exception_date DATE NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE availability_exceptions (
 );
 
 -- Tutor status history
-CREATE TABLE tutor_status_history (
+CREATE TABLE IF NOT EXISTS tutor_status_history (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   previous_status TEXT,
@@ -150,7 +150,7 @@ CREATE TABLE tutor_status_history (
 );
 
 -- Verification checks
-CREATE TABLE verification_checks (
+CREATE TABLE IF NOT EXISTS verification_checks (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   check_type TEXT NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE verification_checks (
 -- ============================================================
 
 -- Lesson products (e.g. "60-min trial", "60-min standard", "5-lesson pack")
-CREATE TABLE lesson_products (
+CREATE TABLE IF NOT EXISTS lesson_products (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT NOT NULL,
   description TEXT,
@@ -180,7 +180,7 @@ CREATE TABLE lesson_products (
 );
 
 -- Tutor-specific pricing for products
-CREATE TABLE tutor_product_prices (
+CREATE TABLE IF NOT EXISTS tutor_product_prices (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   product_id UUID REFERENCES lesson_products(id) NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE tutor_product_prices (
 );
 
 -- Slot holds (prevent double-booking during checkout)
-CREATE TABLE slot_holds (
+CREATE TABLE IF NOT EXISTS slot_holds (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   start_time TIMESTAMPTZ NOT NULL,
@@ -203,7 +203,7 @@ CREATE TABLE slot_holds (
 );
 
 -- Booking status history
-CREATE TABLE booking_status_history (
+CREATE TABLE IF NOT EXISTS booking_status_history (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID NOT NULL,
   previous_status TEXT,
@@ -214,7 +214,7 @@ CREATE TABLE booking_status_history (
 );
 
 -- Booking participants
-CREATE TABLE booking_participants (
+CREATE TABLE IF NOT EXISTS booking_participants (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID NOT NULL,
   user_id UUID NOT NULL,
@@ -223,7 +223,7 @@ CREATE TABLE booking_participants (
 );
 
 -- Reschedule requests
-CREATE TABLE reschedule_requests (
+CREATE TABLE IF NOT EXISTS reschedule_requests (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID NOT NULL,
   requested_by UUID NOT NULL,
@@ -236,7 +236,7 @@ CREATE TABLE reschedule_requests (
 );
 
 -- Cancellation requests
-CREATE TABLE cancellation_requests (
+CREATE TABLE IF NOT EXISTS cancellation_requests (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID NOT NULL,
   requested_by UUID NOT NULL,
@@ -247,7 +247,7 @@ CREATE TABLE cancellation_requests (
 );
 
 -- Attendance records
-CREATE TABLE attendance_records (
+CREATE TABLE IF NOT EXISTS attendance_records (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   session_id UUID NOT NULL,
   user_id UUID NOT NULL,
@@ -263,14 +263,14 @@ CREATE TABLE attendance_records (
 -- PAYMENTS
 -- ============================================================
 
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL UNIQUE,
   stripe_customer_id TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE payment_methods_reference (
+CREATE TABLE IF NOT EXISTS payment_methods_reference (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   customer_id UUID REFERENCES customers(id) NOT NULL,
   stripe_payment_method_id TEXT,
@@ -282,7 +282,7 @@ CREATE TABLE payment_methods_reference (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE payment_intents (
+CREATE TABLE IF NOT EXISTS payment_intents (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID,
   customer_id UUID REFERENCES customers(id),
@@ -299,7 +299,7 @@ CREATE TABLE payment_intents (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE transactions (
+CREATE TABLE IF NOT EXISTS transactions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   payment_intent_id UUID REFERENCES payment_intents(id),
   type TEXT NOT NULL CHECK (type IN (
@@ -314,7 +314,7 @@ CREATE TABLE transactions (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE invoices (
+CREATE TABLE IF NOT EXISTS invoices (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID,
   customer_id UUID REFERENCES customers(id),
@@ -325,7 +325,7 @@ CREATE TABLE invoices (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE refunds (
+CREATE TABLE IF NOT EXISTS refunds (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   payment_intent_id UUID REFERENCES payment_intents(id) NOT NULL,
   amount NUMERIC(10,2) NOT NULL,
@@ -337,7 +337,7 @@ CREATE TABLE refunds (
   processed_at TIMESTAMPTZ
 );
 
-CREATE TABLE disputes (
+CREATE TABLE IF NOT EXISTS disputes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID NOT NULL,
   raised_by UUID NOT NULL,
@@ -349,7 +349,7 @@ CREATE TABLE disputes (
   resolved_at TIMESTAMPTZ
 );
 
-CREATE TABLE tutor_balances (
+CREATE TABLE IF NOT EXISTS tutor_balances (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL UNIQUE,
   pending_balance NUMERIC(10,2) DEFAULT 0,
@@ -359,7 +359,7 @@ CREATE TABLE tutor_balances (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE payouts (
+CREATE TABLE IF NOT EXISTS payouts (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   tutor_id UUID NOT NULL,
   amount NUMERIC(10,2) NOT NULL,
@@ -371,7 +371,7 @@ CREATE TABLE payouts (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE promotion_codes (
+CREATE TABLE IF NOT EXISTS promotion_codes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   code TEXT UNIQUE NOT NULL,
   type TEXT NOT NULL CHECK (type IN ('percentage', 'fixed_amount', 'free_trial')),
@@ -387,7 +387,7 @@ CREATE TABLE promotion_codes (
 -- LEARNING
 -- ============================================================
 
-CREATE TABLE learning_goals (
+CREATE TABLE IF NOT EXISTS learning_goals (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   student_id UUID NOT NULL,
   title TEXT NOT NULL,
@@ -399,7 +399,7 @@ CREATE TABLE learning_goals (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE progress_records (
+CREATE TABLE IF NOT EXISTS progress_records (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   student_id UUID NOT NULL,
   subject_id UUID,
@@ -410,7 +410,7 @@ CREATE TABLE progress_records (
   recorded_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE assignments (
+CREATE TABLE IF NOT EXISTS assignments (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   booking_id UUID,
   tutor_id UUID NOT NULL,
@@ -427,7 +427,7 @@ CREATE TABLE assignments (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE assignment_attachments (
+CREATE TABLE IF NOT EXISTS assignment_attachments (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   assignment_id UUID REFERENCES assignments(id) ON DELETE CASCADE NOT NULL,
   file_url TEXT NOT NULL,
@@ -437,7 +437,7 @@ CREATE TABLE assignment_attachments (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE submissions (
+CREATE TABLE IF NOT EXISTS submissions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   assignment_id UUID REFERENCES assignments(id) ON DELETE CASCADE NOT NULL,
   student_id UUID NOT NULL,
@@ -447,7 +447,7 @@ CREATE TABLE submissions (
   UNIQUE(assignment_id, student_id)
 );
 
-CREATE TABLE grades (
+CREATE TABLE IF NOT EXISTS grades (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   submission_id UUID REFERENCES submissions(id) ON DELETE CASCADE NOT NULL,
   score NUMERIC(10,2),
@@ -457,7 +457,7 @@ CREATE TABLE grades (
   graded_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE session_notes (
+CREATE TABLE IF NOT EXISTS session_notes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   session_id UUID NOT NULL,
   author_id UUID NOT NULL,
@@ -471,7 +471,7 @@ CREATE TABLE session_notes (
 -- COMMUNICATION
 -- ============================================================
 
-CREATE TABLE conversations (
+CREATE TABLE IF NOT EXISTS conversations (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   subject TEXT,
   context_type TEXT,
@@ -481,7 +481,7 @@ CREATE TABLE conversations (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE conversation_participants (
+CREATE TABLE IF NOT EXISTS conversation_participants (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE NOT NULL,
   user_id UUID NOT NULL,
@@ -490,7 +490,7 @@ CREATE TABLE conversation_participants (
   UNIQUE(conversation_id, user_id)
 );
 
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE NOT NULL,
   sender_id UUID NOT NULL,
@@ -499,7 +499,7 @@ CREATE TABLE messages (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE message_attachments (
+CREATE TABLE IF NOT EXISTS message_attachments (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   message_id UUID REFERENCES messages(id) ON DELETE CASCADE NOT NULL,
   file_url TEXT NOT NULL,
@@ -508,7 +508,7 @@ CREATE TABLE message_attachments (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE message_reports (
+CREATE TABLE IF NOT EXISTS message_reports (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   message_id UUID REFERENCES messages(id) NOT NULL,
   reported_by UUID NOT NULL,
@@ -522,7 +522,7 @@ CREATE TABLE message_reports (
 -- COURSES & RESOURCES (future modules, minimal schema)
 -- ============================================================
 
-CREATE TABLE courses (
+CREATE TABLE IF NOT EXISTS courses (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   title TEXT NOT NULL,
   description TEXT,
@@ -535,7 +535,7 @@ CREATE TABLE courses (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE course_modules (
+CREATE TABLE IF NOT EXISTS course_modules (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   course_id UUID REFERENCES courses(id) ON DELETE CASCADE NOT NULL,
   title TEXT NOT NULL,
@@ -543,7 +543,7 @@ CREATE TABLE course_modules (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE course_lessons (
+CREATE TABLE IF NOT EXISTS course_lessons (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   module_id UUID REFERENCES course_modules(id) ON DELETE CASCADE NOT NULL,
   title TEXT NOT NULL,
@@ -555,7 +555,7 @@ CREATE TABLE course_lessons (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE course_enrolments (
+CREATE TABLE IF NOT EXISTS course_enrolments (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   course_id UUID REFERENCES courses(id) NOT NULL,
   user_id UUID NOT NULL,
@@ -565,7 +565,7 @@ CREATE TABLE course_enrolments (
   UNIQUE(course_id, user_id)
 );
 
-CREATE TABLE resources (
+CREATE TABLE IF NOT EXISTS resources (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   title TEXT NOT NULL,
   description TEXT,
@@ -584,7 +584,7 @@ CREATE TABLE resources (
 -- PLATFORM OPERATIONS
 -- ============================================================
 
-CREATE TABLE notifications (
+CREATE TABLE IF NOT EXISTS notifications (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL,
   type TEXT NOT NULL,
@@ -596,7 +596,7 @@ CREATE TABLE notifications (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE notification_preferences (
+CREATE TABLE IF NOT EXISTS notification_preferences (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL,
   event_type TEXT NOT NULL,
@@ -605,7 +605,7 @@ CREATE TABLE notification_preferences (
   UNIQUE(user_id, event_type, channel)
 );
 
-CREATE TABLE support_cases (
+CREATE TABLE IF NOT EXISTS support_cases (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID,
   subject TEXT NOT NULL,
@@ -617,7 +617,7 @@ CREATE TABLE support_cases (
   resolved_at TIMESTAMPTZ
 );
 
-CREATE TABLE safeguarding_cases (
+CREATE TABLE IF NOT EXISTS safeguarding_cases (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   reported_by UUID NOT NULL,
   subject_type TEXT NOT NULL,
@@ -630,7 +630,7 @@ CREATE TABLE safeguarding_cases (
   resolved_at TIMESTAMPTZ
 );
 
-CREATE TABLE webhook_events (
+CREATE TABLE IF NOT EXISTS webhook_events (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   source TEXT NOT NULL,
   event_type TEXT NOT NULL,
@@ -669,25 +669,25 @@ ALTER TABLE payments ADD COLUMN IF NOT EXISTS payment_intent_id TEXT;
 
 -- Users: self-read, admin-read-all
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "Users can view own profile" ON users;
-DROP POLICY IF EXISTS "Admin can view all users" ON users;
-DROP POLICY IF EXISTS "Users can update own profile" ON users;
+DROP POLICY IF EXISTS  "Users can view own profile" ON users;
+DROP POLICY IF EXISTS  "Admin can view all users" ON users;
+DROP POLICY IF EXISTS  "Users can update own profile" ON users;
 CREATE POLICY "self_read" ON users FOR SELECT USING (auth.uid() = id);
 CREATE POLICY "admin_read_all" ON users FOR SELECT USING (auth.jwt()->>'role' = 'admin');
 CREATE POLICY "self_update" ON users FOR UPDATE USING (auth.uid() = id);
 
 -- Guardian-student: guardian reads linked, student reads own
 ALTER TABLE guardian_student_links ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "guardian_access" ON guardian_student_links;
-DROP POLICY IF EXISTS "student_access" ON guardian_student_links;
+DROP POLICY IF EXISTS  "guardian_access" ON guardian_student_links;
+DROP POLICY IF EXISTS  "student_access" ON guardian_student_links;
 CREATE POLICY "guardian_access" ON guardian_student_links FOR ALL USING (auth.uid() = guardian_id);
 CREATE POLICY "student_view" ON guardian_student_links FOR SELECT USING (auth.uid() = student_id);
 CREATE POLICY "admin_access" ON guardian_student_links FOR ALL USING (auth.jwt()->>'role' = 'admin');
 
 -- Bookings: student sees own, tutor sees assigned, admin sees all
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "Students can view own bookings" ON bookings;
-DROP POLICY IF EXISTS "Tutors can view assigned bookings" ON bookings;
+DROP POLICY IF EXISTS  "Students can view own bookings" ON bookings;
+DROP POLICY IF EXISTS  "Tutors can view assigned bookings" ON bookings;
 CREATE POLICY "student_booking_access" ON bookings FOR SELECT USING (auth.uid() = student_id);
 CREATE POLICY "tutor_booking_access" ON bookings FOR SELECT USING (EXISTS (SELECT 1 FROM tutors WHERE id = tutor_id AND user_id = auth.uid()));
 CREATE POLICY "admin_booking_access" ON bookings FOR SELECT USING (auth.jwt()->>'role' = 'admin');
@@ -695,34 +695,34 @@ CREATE POLICY "student_booking_insert" ON bookings FOR INSERT WITH CHECK (auth.u
 
 -- Messages: participant access only
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "participant_access" ON messages;
+DROP POLICY IF EXISTS  "participant_access" ON messages;
 CREATE POLICY "participant_access" ON messages FOR SELECT USING (
   EXISTS (SELECT 1 FROM conversation_participants WHERE conversation_id = messages.conversation_id AND user_id = auth.uid())
 );
 
 -- Notifications: own only
 ALTER TABLE notifications ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "self_notifications" ON notifications;
+DROP POLICY IF EXISTS  "self_notifications" ON notifications;
 CREATE POLICY "self_notifications" ON notifications FOR ALL USING (auth.uid() = user_id);
 
 -- Audit logs: insert by any, select by admin only
 ALTER TABLE audit_logs ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "insert_audit" ON audit_logs;
-DROP POLICY IF EXISTS "select_audit" ON audit_logs;
+DROP POLICY IF EXISTS  "insert_audit" ON audit_logs;
+DROP POLICY IF EXISTS  "select_audit" ON audit_logs;
 CREATE POLICY "insert_audit" ON audit_logs FOR INSERT WITH CHECK (true);
 CREATE POLICY "select_audit" ON audit_logs FOR SELECT USING (auth.jwt()->>'role' = 'admin');
 
 -- Session notes: participants see shared, author sees own private
 ALTER TABLE session_notes ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "session_note_access" ON session_notes;
+DROP POLICY IF EXISTS  "session_note_access" ON session_notes;
 CREATE POLICY "session_note_access" ON session_notes FOR SELECT USING (
   auth.uid() = author_id OR visibility IN ('shared_student', 'shared_guardian', 'shared_both')
 );
 
 -- Feature flags: public read, admin write
 ALTER TABLE feature_flags ENABLE ROW LEVEL SECURITY;
-DROP POLICY IF EXISTS "public_read_flags" ON feature_flags;
-DROP POLICY IF EXISTS "admin_write_flags" ON feature_flags;
+DROP POLICY IF EXISTS  "public_read_flags" ON feature_flags;
+DROP POLICY IF EXISTS  "admin_write_flags" ON feature_flags;
 CREATE POLICY "public_read_flags" ON feature_flags FOR SELECT USING (true);
 CREATE POLICY "admin_write_flags" ON feature_flags FOR ALL USING (auth.jwt()->>'role' = 'admin');
 
