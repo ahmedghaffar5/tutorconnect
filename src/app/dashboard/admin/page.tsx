@@ -19,20 +19,6 @@ const tabs = [
   { id: "audit", label: "Audit Log", icon: Shield },
 ];
 
-// Mock data for demo when API returns empty
-const mockData = {
-  tutors: Array.from({length:8},(_,i)=>({id:`t${i}`,hourly_rate:25+i*5,is_approved:i<4,user_id:`u${i}`})),
-  pendingTutors: Array.from({length:3},(_,i)=>({id:`pt${i}`,full_name:["Dr. Elena Rodriguez","Jameson Carter","Sarah Bloom"][i],email:["elena@example.com","jameson@example.com","sarah@example.com"][i],subjects_taught:[["Physics"],["Cloud Architecture"],["Digital Painting"]][i],created_at:new Date(Date.now()-i*86400000).toISOString()})),
-  bookings: Array.from({length:6},(_,i)=>({id:`b${i}`,subjects:{name:["Mathematics","Physics","English","Coding","Quran","Chemistry"][i]},status:["confirmed","pending","confirmed","completed","pending","confirmed"][i],booking_type:["trial","paid","paid","trial","paid","trial"][i],scheduled_at:new Date(Date.now()+i*86400000).toISOString()})),
-  payments: Array.from({length:5},(_,i)=>({id:`p${i}`,amount:25+i*20,status:["paid","paid","pending","paid","paid"][i],created_at:new Date(Date.now()-i*86400000*2).toISOString()})),
-  messages: Array.from({length:4},(_,i)=>({id:`m${i}`,name:["John Doe","Jane Smith","Alice Brown","Bob Wilson"][i],email:["john@example.com","jane@example.com","alice@example.com","bob@example.com"][i],message:["I want to learn Calculus","Need help with Python","When can I start Quran classes?","Looking for Physics tutor"][i],created_at:new Date(Date.now()-i*86400000).toISOString()})),
-  applications: Array.from({length:4},(_,i)=>({id:`a${i}`,full_name:["Dr. Sarah Chen","Prof. Michael Hart","Ms. Aisha Khan","Mr. David Chen"][i],email:["sarah@example.com","michael@example.com","aisha@example.com","david@example.com"][i],status:["submitted","under_review","submitted","approved"][i]})),
-  users: Array.from({length:10},(_,i)=>({id:`u${i}`,full_name:["Alice Johnson","Bob Smith","Charlie Brown","Diana Ross","Edward Chen","Fiona Green","George Harris","Hannah Lee","Ivan Patel","Julia Kim"][i],email:[`alice${i}@example.com`,`bob${i}@example.com`,`charlie${i}@example.com`,`diana${i}@example.com`,`edward${i}@example.com`,`fiona${i}@example.com`,`george${i}@example.com`,`hannah${i}@example.com`,`ivan${i}@example.com`,`julia${i}@example.com`][i],role:["student","tutor","student","admin","student","tutor","student","parent","student","tutor"][i]})),
-  logs: Array.from({length:8},(_,i)=>({id:`l${i}`,action:["admin_session_started","application_approved","payout_failed","system_update_applied","new_course_published","tutor_suspended","payment_received","user_registered"][i],users:{full_name:["Admin","Reviewer","System","Admin","Content Team","Admin","Finance","System"][i]},details:{},created_at:new Date(Date.now()-i*3600000).toISOString()})),
-  flags: [{key:"operating_mode",value:"booking",description:"inquiry, booking, booking_payment"},{key:"teacher_applications",value:"enabled",description:"enabled, disabled"},{key:"reviews",value:"enabled",description:"enabled, disabled"},{key:"public_registration",value:"enabled",description:"enabled, disabled"}],
-  totalRevenue: 12580.50,
-};
-
 export default function AdminDashboard() {
   const [tab, setTab] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -52,25 +38,11 @@ export default function AdminDashboard() {
       const res = await fetch("/api/admin/dashboard");
       if (res.ok) {
         const apiData = await res.json();
-        // Merge API data with mock data for fields that are empty
-        setD({
-          ...mockData,
-          ...apiData,
-          tutors: apiData.tutors?.length ? apiData.tutors : mockData.tutors,
-          pendingTutors: apiData.pendingTutors?.length ? apiData.pendingTutors : mockData.pendingTutors,
-          bookings: apiData.bookings?.length ? apiData.bookings : mockData.bookings,
-          payments: apiData.payments?.length ? apiData.payments : mockData.payments,
-          messages: apiData.messages?.length ? apiData.messages : mockData.messages,
-          applications: apiData.applications?.length ? apiData.applications : mockData.applications,
-          users: apiData.users?.length ? apiData.users : mockData.users,
-          logs: apiData.logs?.length ? apiData.logs : mockData.logs,
-          flags: apiData.flags?.length ? apiData.flags : mockData.flags,
-          totalRevenue: apiData.totalRevenue || mockData.totalRevenue,
-        });
+        setD(apiData);
       } else {
-        setD(mockData);
+        setD({ tutors: [], pendingTutors: [], bookings: [], payments: [], messages: [], applications: [], users: [], logs: [], flags: [], totalRevenue: 0 });
       }
-    } catch { setD(mockData); }
+    } catch { setD({ tutors: [], pendingTutors: [], bookings: [], payments: [], messages: [], applications: [], users: [], logs: [], flags: [], totalRevenue: 0 }); }
     setLoading(false);
   };
   useEffect(() => { loadData(); }, []);
