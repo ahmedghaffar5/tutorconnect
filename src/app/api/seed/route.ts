@@ -23,10 +23,18 @@ export async function GET() {
       auth: { autoRefreshToken: false, persistSession: false },
     });
 
-    // Test connection
-    const { data: testData, error: testError } = await db.from("subjects").select("count", { count: "exact", head: true });
-    add(`Connection test: ${testError ? "FAIL - " + testError.message : "OK (subjects accessible)"}`);
-    if (testError) return NextResponse.json({ error: "Cannot connect to database. Run schema-v3.sql first.", logs });
+    // Test connection - simple query
+    try {
+      const { error: testError } = await db.from("subjects").select("id").limit(1);
+      if (testError) {
+        add(`Connection test: FAIL - ${testError.message || "Unknown error"}`);
+        return NextResponse.json({ error: "Cannot connect to database. Run schema-v3.sql first in Supabase SQL editor.", logs });
+      }
+      add("Connection test: OK (subjects accessible)");
+    } catch (e: any) {
+      add(`Connection test: EXCEPTION - ${e.message}`);
+      return NextResponse.json({ error: "Database connection error: " + e.message, logs });
+    }
 
     // Check if tutors already exist
     const { count: existingCount } = await db.from("tutors").select("*", { count: "exact", head: true });
