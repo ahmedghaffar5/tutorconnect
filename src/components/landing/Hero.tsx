@@ -9,7 +9,7 @@ const avatars = [
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden pt-16 pb-24 md:pt-24 md:pb-32">
+    <section className="relative overflow-hidden pt-16 pb-24 md:pt-24 md:pb-32 bg-[#f8f9ff]">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
         <div className="flex-1 text-center md:text-left">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">
@@ -22,7 +22,7 @@ export default function Hero() {
             <Link href="/tutors" className="bg-indigo-600 text-white px-12 py-4 rounded-lg font-semibold shadow-lg flex items-center justify-center gap-2 hover:bg-indigo-700 transition-colors group">
               Find a Tutor <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link href="/pricing" className="bg-gray-100 text-indigo-600 border border-gray-200 px-12 py-4 rounded-lg font-semibold hover:bg-gray-200 transition-colors">How it works</Link>
+            <Link href="/how-it-works" className="bg-gray-100 text-indigo-600 border border-gray-200 px-12 py-4 rounded-lg font-semibold hover:bg-gray-200 transition-colors">How it works</Link>
           </div>
           <div className="mt-10 flex items-center justify-center md:justify-start gap-4">
             <div className="flex -space-x-3">

@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Calendar, BookOpen, CheckCircle, Star, Zap } from "lucide-react";
+import { Calendar, BookOpen, CheckCircle, Star, Zap, ArrowRight } from "lucide-react";
 
 export default async function StudentDashboard() {
   const supabase = await createClient();
@@ -9,8 +9,14 @@ export default async function StudentDashboard() {
   if (!user) redirect("/login");
   const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
   const { data: bookings } = await supabase.from("bookings").select("*, subjects(name)").eq("student_id", user.id).order("created_at", { ascending: false });
+  const { data: goals } = await supabase.from("learning_goals").select("*").eq("student_id", user.id).eq("status", "active").limit(3);
+  const { data: assignments } = await supabase.from("assignments").select("*").eq("student_id", user.id).in("status", ["assigned", "in_progress"]).limit(3);
+  const { data: notifications } = await supabase.from("notifications").select("*").eq("user_id", user.id).eq("is_read", false).limit(5);
+
   const upcoming = bookings?.filter((b) => b.status === "confirmed" || b.status === "pending") || [];
+  const completed = bookings?.filter((b) => b.status === "completed") || [];
   const firstName = profile?.full_name?.split(" ")[0] || "Student";
+  const nextLesson = upcoming[0];
 
   return (
     <div className="bg-[#f8f9ff] min-h-screen pb-24 overflow-x-hidden">
@@ -20,7 +26,7 @@ export default async function StudentDashboard() {
         <div className="relative z-10 max-w-[1280px] mx-auto">
           <div className="flex justify-between items-start">
             <div><h1 className="text-3xl font-bold text-white">Hi, {firstName}!</h1><p className="text-sm text-indigo-200 mt-1">Ready for your next breakthrough?</p></div>
-            <div className="flex items-center gap-3"><img src="/images/stitch/student_dashboard_mobile-0.jpg" alt="" className="w-12 h-12 rounded-full border-2 border-white object-cover" /><span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-indigo-600 rounded-full"></span></div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl text-sm font-bold text-white"><Star className="h-4 w-4 fill-current" /> Level 7</div>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-4">
             <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 shadow-sm flex flex-col justify-between" style={{height:"128px"}}>
@@ -36,12 +42,19 @@ export default async function StudentDashboard() {
       </header>
 
       <main className="relative z-20 -mt-8 px-6 max-w-[1280px] mx-auto space-y-6">
+        {nextLesson && (
+          <div className="bg-white/70 backdrop-blur-sm p-4 rounded-xl shadow-lg border-l-4 border-indigo-600" style={{background:"rgba(255,255,255,0.7)",backdropFilter:"blur(12px)"}}>
+            <div className="flex items-center gap-3 mb-1"><span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">Next Lesson</span><span className="text-xs text-gray-400">{nextLesson.scheduled_at ? new Date(nextLesson.scheduled_at).toLocaleDateString() : ""}</span></div>
+            <div className="flex items-center justify-between"><div className="flex items-center gap-3"><img src="/images/stitch/student_dashboard_mobile-0.jpg" alt="" className="w-10 h-10 rounded-full object-cover" /><div><p className="font-semibold text-sm text-gray-900">{nextLesson.subjects?.name || "Class"}</p><p className="text-xs text-gray-400">{nextLesson.scheduled_at ? new Date(nextLesson.scheduled_at).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}) : ""}</p></div></div><button className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-indigo-700">Join</button></div>
+          </div>
+        )}
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: "Upcoming", value: upcoming.length, icon: Calendar, color: "bg-indigo-100 text-indigo-600" },
-            { label: "Completed", value: bookings?.filter(b=>b.status==="completed").length||0, icon: CheckCircle, color: "bg-emerald-100 text-emerald-600" },
-            { label: "Total", value: bookings?.length||0, icon: BookOpen, color: "bg-amber-100 text-amber-600" },
-            { label: "Book New", value: "", icon: Star, color: "bg-indigo-600 text-white isLink", href: "/book-trial" },
+            { label: "Completed", value: completed.length, icon: CheckCircle, color: "bg-emerald-100 text-emerald-600" },
+            { label: "Goals", value: goals?.length || 0, icon: Star, color: "bg-amber-100 text-amber-600" },
+            { label: "Book New", value: "", icon: BookOpen, color: "bg-indigo-600 text-white isLink", href: "/book-trial" },
           ].map((s) => {
             const I = s.icon;
             const content = (<div className={`bg-white rounded-xl p-5 shadow-sm border border-gray-100 ${s.href ? "hover:bg-indigo-700 transition-colors cursor-pointer" : ""}`}><div className={`p-3 ${s.color} rounded-lg inline-flex mb-3`}><I className="h-5 w-5" /></div>{s.value !== "" && <p className="text-2xl font-bold text-gray-900">{s.value}</p>}<p className="text-xs text-gray-400 mt-1">{s.label}</p></div>);
@@ -49,33 +62,28 @@ export default async function StudentDashboard() {
           })}
         </div>
 
-        <section>
-          <div className="flex justify-between items-center mb-4"><h2 className="text-xl font-bold text-gray-900">Upcoming Sessions</h2><button className="text-indigo-600 text-sm font-medium">See all</button></div>
-          <div className="space-y-4">
-            {upcoming.length > 0 ? upcoming.slice(0,2).map((b,i) => (
-              <div key={b.id} className={`bg-white/70 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-gray-100 ${i===0 ? "shadow-lg border-l-4 border-indigo-600" : ""}`} style={{background:"rgba(255,255,255,0.7)",backdropFilter:"blur(12px)"}}>
-                <div className="flex items-center gap-4 mb-3">
-                  <img src={`/images/stitch/student_dashboard_mobile-${i}.jpg`} alt="" className="w-14 h-14 rounded-full object-cover shadow-sm" />
-                  <div className="flex-1"><h3 className="font-semibold text-gray-900 text-sm">{b.subjects?.name || "Class"}</h3><p className="text-xs text-gray-400">{b.scheduled_at ? new Date(b.scheduled_at).toLocaleString() : "Date TBD"}</p></div>
-                  {i===0 && <span className="text-xs text-indigo-600 font-bold uppercase tracking-wider">In 15 Mins</span>}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <section>
+            <div className="flex justify-between items-center mb-4"><h2 className="text-lg font-bold text-gray-900">Upcoming Sessions</h2><Link href="/student/bookings" className="text-indigo-600 text-sm font-medium">See all</Link></div>
+            <div className="space-y-3">
+              {upcoming.length > 0 ? upcoming.slice(0,3).map((b,i) => (
+                <div key={b.id} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm flex items-center gap-3">
+                  <img src={`/images/stitch/student_dashboard_mobile-${i%2}.jpg`} alt="" className="w-12 h-12 rounded-full object-cover" />
+                  <div className="flex-1"><p className="font-semibold text-sm text-gray-900">{b.subjects?.name || "Class"}</p><p className="text-xs text-gray-400">{b.scheduled_at ? new Date(b.scheduled_at).toLocaleString() : "Date TBD"}</p><span className={`text-xs px-2 py-0.5 rounded-full mt-1 inline-block ${b.status === "confirmed" ? "bg-emerald-100 text-emerald-700" : "bg-yellow-100 text-yellow-700"}`}>{b.status}</span></div>
+                  <ArrowRight className="h-4 w-4 text-gray-300" />
                 </div>
-                {i===0 && <button className="w-full py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-semibold flex items-center justify-center gap-2">Join Classroom</button>}
-              </div>
-            )) : <div className="bg-white border border-dashed border-gray-200 rounded-xl p-8 text-center"><Calendar className="h-10 w-10 text-gray-300 mx-auto mb-3" /><p className="text-gray-400 text-sm">No upcoming sessions</p><Link href="/book-trial" className="mt-3 inline-block text-indigo-600 font-bold text-sm hover:underline">Book a Lesson →</Link></div>}
-          </div>
-        </section>
-
-        <section className="pb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Current Courses</h2>
-          <div className="space-y-4">
-            {[{name:"Fullstack Development Bootcamp",progress:70,completed:12,total:18},{name:"Business Communication",progress:25,completed:4,total:16}].map((c)=>(
-              <div key={c.name} className="bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-gray-100 shadow-sm flex items-center gap-4" style={{background:"rgba(255,255,255,0.7)",backdropFilter:"blur(12px)"}}>
-                <div className="relative w-16 h-16 flex-shrink-0"><svg className="w-full h-full progress-ring" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="none" stroke="#e5e7eb" strokeWidth="4"/><circle cx="32" cy="32" r="28" fill="none" stroke="#4f46e5" strokeWidth="4" strokeDasharray={`${c.progress*1.76} ${(100-c.progress)*1.76}`} strokeLinecap="round" transform="rotate(-90 32 32)"/></svg><div className="absolute inset-0 flex items-center justify-center"><span className="text-sm font-bold">{c.progress}%</span></div></div>
-                <div className="flex-1 overflow-hidden"><h4 className="text-sm font-semibold text-gray-900 truncate">{c.name}</h4><p className="text-xs text-gray-400">{c.completed} of {c.total} lessons completed</p><div className="flex gap-2 mt-2"><span className={`text-xs px-2 py-0.5 rounded-full ${c.progress > 50 ? "bg-emerald-100 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>{c.progress > 50 ? "Active" : "Started"}</span><span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-500 rounded-full">{c.total - c.completed}h left</span></div></div>
-              </div>
-            ))}
-          </div>
-        </section>
+              )) : <div className="bg-white border border-dashed border-gray-200 rounded-xl p-6 text-center"><p className="text-gray-400 text-sm">No upcoming sessions</p><Link href="/book-trial" className="mt-2 inline-block text-indigo-600 font-bold text-sm hover:underline">Book a Lesson →</Link></div>}
+            </div>
+          </section>
+          <section>
+            <div className="flex justify-between items-center mb-4"><h2 className="text-lg font-bold text-gray-900">Active Goals</h2><Link href="/dashboard/student/profile" className="text-indigo-600 text-sm font-medium">Manage</Link></div>
+            <div className="space-y-3">
+              {goals && goals.length > 0 ? goals.map((g:any) => (
+                <div key={g.id} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm"><div className="flex justify-between items-center mb-2"><p className="text-sm font-semibold text-gray-900">{g.title}</p><span className="text-xs font-bold text-indigo-600">{g.progress_pct}%</span></div><div className="w-full h-2 bg-gray-100 rounded-full"><div className="h-full bg-indigo-600 rounded-full" style={{width:`${g.progress_pct}%`}}></div></div></div>
+              )) : <div className="bg-white border border-dashed border-gray-200 rounded-xl p-6 text-center"><p className="text-gray-400 text-sm">No active goals</p></div>}
+            </div>
+          </section>
+        </div>
       </main>
     </div>
   );
