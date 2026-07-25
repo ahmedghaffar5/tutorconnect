@@ -195,7 +195,10 @@ function TutorsContent() {
                 <div key={tutor.id} className="glass-card rounded-2xl p-md flex flex-col hover:shadow-lg transition-all group" style={{ animationDelay: `${idx * 0.1}s` }}>
                   <div className="flex gap-md mb-md">
                     <div className="relative flex-shrink-0">
-                      <div className={`w-20 h-20 rounded-full ${getColor(idx)} flex items-center justify-center border-2 border-white shadow-sm text-lg font-bold`}>
+                      <img src={`/images/stitch/tutor_search_discovery-${idx % 6}.jpg`} alt={tutor.name}
+                        className="w-20 h-20 rounded-full border-2 border-white shadow-sm object-cover"
+                        onError={(e) => { (e.target as HTMLElement).style.display = 'none'; (e.target as HTMLElement).nextElementSibling?.classList.remove('hidden') }} />
+                      <div className={`hidden w-20 h-20 rounded-full ${getColor(idx)} items-center justify-center border-2 border-white shadow-sm text-lg font-bold absolute inset-0`}>
                         {tutor.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                       </div>
                       <div className="absolute bottom-0 right-0 w-5 h-5 bg-secondary border-2 border-white rounded-full"></div>
