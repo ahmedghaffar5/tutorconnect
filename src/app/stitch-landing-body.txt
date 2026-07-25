@@ -1,0 +1,292 @@
+
+<!-- TopNavBar -->
+<nav class="bg-surface fixed top-0 left-0 w-full z-[100] shadow-sm">
+<div class="flex justify-between items-center w-full px-lg md:px-xl max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-xl">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">TutorConnect</span>
+<div class="hidden md:flex items-center gap-lg">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-body-md text-body-md transition-all duration-200 ease-in-out" href="#">Find Tutors</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Courses</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md" href="#">Become a Tutor</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="hidden sm:block text-primary hover:bg-surface-container transition-colors px-md py-sm rounded-lg font-label-md text-label-md">Sign In</button>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity">Sign Up</button>
+</div>
+</div>
+</nav>
+<main class="pt-16">
+<!-- Hero Section -->
+<section class="relative overflow-hidden pt-2xl pb-3xl md:pt-3xl md:pb-[120px]">
+
+<div class="max-w-container-max mx-auto px-lg flex flex-col md:flex-row items-center gap-3xl">
+<div class="flex-1 text-center md:text-left">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-md">
+                        Master Any Subject with <span class="text-primary">Expert Tutors</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-2xl max-w-2xl mx-auto md:mx-0">
+                        Join over 50,000 learners achieving their academic goals through personalized 1-on-1 mentorship. Real experts, real results.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-md justify-center md:justify-start">
+<button class="bg-primary text-on-primary px-3xl py-md rounded-lg font-label-md text-label-md shadow-lg flex items-center justify-center gap-sm group">
+                            Find a Tutor
+                            <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<button class="bg-surface-container-low text-primary border border-outline-variant px-3xl py-md rounded-lg font-label-md text-label-md hover:bg-surface-container transition-colors">
+                            How it works
+                        </button>
+</div>
+<div class="mt-2xl flex items-center justify-center md:justify-start gap-md">
+<div class="flex -space-x-3">
+<img class="w-10 h-10 rounded-full border-2 border-surface object-cover" data-alt="A close-up, high-quality portrait of a professional smiling female tutor with glasses, set against a clean, softly lit modern office background. The lighting is warm and welcoming, reflecting a professional yet approachable academic atmosphere. The overall style is clean and high-end light mode." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpGT4PQniwLVqzjTW9Kg9gTPouqoKHUAduYQf2uO41gfRYv4YaNtpW7rlj_YWsxH3eELiTBdlV0l6wsjaqK-oSUOs363kSMU8V6F3MlS7dhjMffc6HsgKG8f_WmYkfEqRjyKBHI6yxd8eFK1slL5Q824gJ5QDs3BLusTaAjpZ4a-4BRo05k7-MLGlndWxddEH71AVjb_4u1FUV2uK7aUOIs7ErXeaPjYx2bocO07mpND5bQ-Zi6kqcuY7yJYBppemMzAUR3-Xax0xr"/>
+<img class="w-10 h-10 rounded-full border-2 border-surface object-cover" data-alt="A portrait of a young male student in a bright, modern university library setting, looking focused and positive. The environment features soft daylight and minimalist architectural elements. The aesthetic is professional, emphasizing academic growth and clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIzC-Yy9mBhB2HPPggCuVzT_GMG_l9ivAHtXSywxL6MmQMOWVqYCG2TOJN-osC4Ns8ZUyF_7Rno9jyo-LYfS6OBKEuAKByPMKEyl8Yhi0eeIiSrvH0ECRtVEeKOPvuybFyr8Twy2LFUDEwMofWQ7sVAY6_04PV6hBSMflISaJR2GZpJUpeebt1rALnTUCaWqVz24owyK5lgpO_I8GY4xN1LJblVK8WkozKau6C5_Zpwx8xkVyH6kI49bski0cYv1OEgQI1xXSKkg1r"/>
+<img class="w-10 h-10 rounded-full border-2 border-surface object-cover" data-alt="A friendly male educator in a minimal contemporary home office, dressed in a smart casual indigo shirt. The background is slightly blurred with soft bokeh from indoor plants. The lighting is bright and even, reinforcing a premium educational brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlartdVN_SosrXcsGEDvmMWRHMLFkzuOScBPguTEIAlS77Nq9yoQNVZNpgjbfza8cLcP3rvLW2yuSIXBba1J22cpmlTA43-nKhtUQBsK9eQrz0gf5xAa6kyYF6O3TvS0Q_bW192RG6HOMdWjdfu6DU1hYfcZjRZAYWeeF9FtYPhX1whyKeRaJ_8R6RGBRGs4kDh6VeUBR9VxHQ-uoV_dRu2zLMTPVmNjZV6gCn61WjsS-CvdzLse7JUAHeiHuyx9aZG80XHoE9baCz"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Rated 4.9/5 by 10k+ active students</span>
+</div>
+</div>
+<div class="flex-1 relative hidden lg:block">
+<div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-surface">
+<img class="w-full aspect-[4/3] object-cover" data-alt="A wide-angle professional shot of a digital learning session in progress. A student is seen from behind looking at a large high-resolution monitor showing a complex mathematical equation and a friendly tutor in a small video window. The desk is organized, minimalist, with a sleek keyboard and a soft lamp glow. High-end modern UI aesthetics." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgXNjqe26rWl2pzmSZEVauouURHFrmhU516v6jwq6i0iiUVkX_HYR_9sIotmHdI07yhWbqLAgDShRvaLhqVAeIau086YcboiVMGDeEh71gc3D7xCZwH8rzckRduu3b2Zn78X30XXUSpU8gbq5r9nGvmcGw8FIl7zyL8DOf-XYUdWA-gO7pUy1kdgIk2gWi1WiAOxKk97w-tUvvwhUEvCsr9JB8gC0DS2h1wacQktZLl52_EjUDG6-qyhdKL84LwcR5xwUBLYInW6TR"/>
+</div>
+<!-- Decorative Elements -->
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-primary-container/20 blur-3xl rounded-full -z-10"></div>
+<div class="absolute -bottom-12 -left-12 w-64 h-64 bg-secondary-container/20 blur-3xl rounded-full -z-10"></div>
+</div>
+</div>
+</section>
+<!-- Featured Subjects -->
+<section class="py-3xl bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-lg mb-2xl">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Explore Popular Subjects</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Whatever you want to learn, we have an expert for you.</p>
+</div>
+<a class="text-primary font-label-md text-label-md flex items-center gap-xs hover:underline" href="#">
+                        View all subjects <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Subject 1 -->
+<div class="group cursor-pointer">
+<div class="h-48 rounded-2xl overflow-hidden mb-md relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Close up of a hand writing complex calculus formulas on a pristine white glass board with a vibrant blue marker. The lighting is crisp and cool, representing clarity and focus in mathematics. Minimalist and professional composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4keSJXZvtc6Rs4Z0dMsba70NoXaE7Kva4mu5-ipN3M5YO70RULYzD8pIgdOovX0GbkKct9kmkY0w24fQ930JZ15MyANeWXzONKkRh2bvTmX2IEbp_w4qLKauhYSJqYoSQ44XWaAbcNjxK-BwjVmMmZfm1kzcwnYpaR7ubf9ZeS9UKit6PVJLfOEbdbgOSvcswkQaLcdw8kpp7fKcz5uMuR_vga6FeUVO9ZvY0SaItlmtbh4NMZqlIcyhIwAgvZNf__XEVUyG6ICvX"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent flex items-end p-md">
+<span class="text-on-primary font-headline-sm text-headline-sm">Mathematics</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Algebra, Calculus, Statistics, and Geometry.</p>
+</div>
+<!-- Subject 2 -->
+<div class="group cursor-pointer">
+<div class="h-48 rounded-2xl overflow-hidden mb-md relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A clean, cinematic shot of a laptop screen displaying elegant lines of code in a dark mode editor, with soft indigo and emerald highlights. The laptop is set on a minimalist wooden desk in a bright, modern room with a touch of greenery. Represents advanced software development." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZofKjt7VmfgH-8LndaDRNCKXAc8b_pPVHUM7lzTOgUyPSgPC2tUdC-iVX23q8B6unDWkMWzhWhGI_NN4AlWgr47OxFpGvhxSKGJSbPPQtHkCDl_wzSNj3rb-_wKPPjUjAnchnluaRwhJZt-TnjyyZSqGp10R5AW-8C2df3dwZClIS1ZQfcyjyQeay0qPf1KBAP1gJdYkx4F23L_vREB2F-spztWYlWacle07Z2UKF01KVqaUD99KJi6tOQDP-LWQGAaamvKR90AOZ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent flex items-end p-md">
+<span class="text-on-primary font-headline-sm text-headline-sm">Coding</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Python, JavaScript, Data Science, and AI.</p>
+</div>
+<!-- Subject 3 -->
+<div class="group cursor-pointer">
+<div class="h-48 rounded-2xl overflow-hidden mb-md relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="An artistic flat-lay of several open travel and language learning books, a coffee mug, and a world map on a light gray table. Soft morning sunlight filters through a window, creating a serene and inspirational mood for language studies." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiU7Z5dI7HTBYVvWaGi5pQgI-hVIWgmcOGfkvzkM00CgnUFWE0gWPOQHItk8RdWIYotEKi0f0B5TT9oPTmJQnlNuasvXM35-kQzoqvbb9_sluS5daZFa7G0dnvchc5CHRrw7YB-AtZYOBu5EKCQEXuBzxSBu5VVTB52-Tl7MylufA4NlYSSgpP5ildib44xgkhplUFBqfViPYWb7hua_CUECJohGwzKHO21h1GCtmHgImGEJlvSzUtuAT4fJrL1Zo4dL50tOdiZabO"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent flex items-end p-md">
+<span class="text-on-primary font-headline-sm text-headline-sm">Languages</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Spanish, French, Mandarin, and ESL.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Tutor Spotlight -->
+<section class="py-3xl">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="text-center mb-3xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Top-Rated Tutors</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">Vetted professionals with years of teaching experience from top global institutions.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+<!-- Tutor Card 1 -->
+<div class="bg-surface rounded-2xl p-md border border-outline-variant tutor-card-shadow flex flex-col items-center text-center">
+<img class="w-24 h-24 rounded-full object-cover mb-md border-4 border-surface-container" data-alt="Portrait of a friendly academic woman with a professional smile, wearing a blazer. She has a warm, inviting presence. The lighting is professional and bright. Set against a soft-focus library background. Corporate modern educational style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGT_MlQiGECWBbH4AB4o9yrh_GImG1ApmMTVSxA4RrW3xjCckU4pmMsz7B7aHkqF2t4-Hw6Q0x-MkSIp-n0HVE8qfgfmJ8W6VvEMF_ZzvpBrMCPQdLA6ayy_yD0L-NcC50X51Dpb3WYbCGlykoFOcq2ag2ErUUL0f0uIUn4uYuKH9bk8ytj3tk34OVz6q5nNJbqnBW3U54tsW1HF2ppVmUePSwekLuko1Mhos3MTAKvnKfmleNl9Ka2N-Ywusvc52a-9btzT9AkDIG"/>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Dr. Sarah Chen</h3>
+<span class="font-label-sm text-label-sm text-primary mb-sm">Mathematics Specialist</span>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold">4.9</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(128 reviews)</span>
+</div>
+<div class="flex flex-wrap justify-center gap-xs mb-lg">
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">Calculus</span>
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">SAT Prep</span>
+</div>
+<button class="mt-auto w-full py-sm border border-primary text-primary rounded-lg font-label-md text-label-md hover:bg-primary-fixed transition-colors">Book a Session</button>
+</div>
+<!-- Tutor Card 2 -->
+<div class="bg-surface rounded-2xl p-md border border-outline-variant tutor-card-shadow flex flex-col items-center text-center">
+<img class="w-24 h-24 rounded-full object-cover mb-md border-4 border-surface-container" data-alt="A portrait of a confident male software engineer with a beard, wearing a casual polo shirt. He looks helpful and experienced. Modern office background with slight technology-inspired bokeh. High-end aesthetic for a programming tutor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWNjK4XkX3ZMKC_8g14nH2b9Xtdy6T-KiOOPgjWvTix-XNkk5AvajMMaiwJ9AdojCJGIf2tjWZ1fRQm-S4WCHM00jUws_RDOvFXqKtD-Gu1Gilsx_-jdYGBKhVEvQjtbfATzPtR_6ufWa3HC4AU69jPoXlSn23tLDYQ1tmPx8KR73o-lH1DSAlKzR9Ju8Opkdyzui2unKybMUri27__IZcfcPBOeaqfuvrhkDBQGSIAXQa-Zqpdbl-5V8odMGCfeWGPJEPKXT-l0Ep"/>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">James Wilson</h3>
+<span class="font-label-sm text-label-sm text-primary mb-sm">Full-Stack Developer</span>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold">5.0</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(95 reviews)</span>
+</div>
+<div class="flex flex-wrap justify-center gap-xs mb-lg">
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">React</span>
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">Node.js</span>
+</div>
+<button class="mt-auto w-full py-sm border border-primary text-primary rounded-lg font-label-md text-label-md hover:bg-primary-fixed transition-colors">Book a Session</button>
+</div>
+<!-- Tutor Card 3 -->
+<div class="bg-surface rounded-2xl p-md border border-outline-variant tutor-card-shadow flex flex-col items-center text-center">
+<img class="w-24 h-24 rounded-full object-cover mb-md border-4 border-surface-container" data-alt="A professional portrait of a woman in her late 20s with a cheerful expression, wearing a minimalist silk blouse. She radiates positivity and patience. Bright, high-key photography style. Ideal for a language instructor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUV2WZjw-8lLDLI7fOgV1MaRM-W9pZ1Q00lcZQJE7ohE8oOikrUK2DpjycJ2xs7q1COC8GvTKSzSQ7aOT2HK4LLVSe0zcV2h0BzYXRBIeQkGSqOLIz23Fv4GhKXN1QYiqNs3saQkj1VdDHNNp6aSqWfZzGP4l1_fJ8rfeKVEtppYj0XlFinlt4_vzaWvC46AZAcu8WGPMBGB68COV5TOJjgUPXUacNupgEZMdpK1Uk6NKqVu7ihcnN_eTiLVFkgl9rcoLg5pv9pi5j"/>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Elena Rodriguez</h3>
+<span class="font-label-sm text-label-sm text-primary mb-sm">Spanish &amp; Linguistics</span>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold">4.8</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(210 reviews)</span>
+</div>
+<div class="flex flex-wrap justify-center gap-xs mb-lg">
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">Native Speaker</span>
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">Business Spanish</span>
+</div>
+<button class="mt-auto w-full py-sm border border-primary text-primary rounded-lg font-label-md text-label-md hover:bg-primary-fixed transition-colors">Book a Session</button>
+</div>
+<!-- Tutor Card 4 -->
+<div class="bg-surface rounded-2xl p-md border border-outline-variant tutor-card-shadow flex flex-col items-center text-center">
+<img class="w-24 h-24 rounded-full object-cover mb-md border-4 border-surface-container" data-alt="A portrait of a mature male professor with grey hair and a warm, intelligent gaze. He is wearing a tweed blazer, suggesting academic authority and trust. Soft, natural lighting in an office filled with books. Refined professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkPqpHuZf-9w-o21U3A1F4rFbq3G1yqJx2xu2C0qM3GsPHNxKbtsjm5neAnz9l_0RkvjU4RQ7ceyJ97G31SMKrFvO7cECMeyLuJGpk9DhzTuZemV7aqcI3AXQmT4evbHJFQq4-LlftkFJmZy-xcoR7K00ROjOtbuuMI0YEJO7U2qOI0phqUWJcKOBqD8OUQT4q2zRNtzr7-aKYc2Vs7ZnKm-diuZbqQU93YZZO4W9sSrwjIp7mH4m-UpuoP-WhFJq4E6SGbKfk4RzJ"/>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Prof. Michael Hart</h3>
+<span class="font-label-sm text-label-sm text-primary mb-sm">History &amp; Literature</span>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-tertiary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md font-bold">4.9</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(156 reviews)</span>
+</div>
+<div class="flex flex-wrap justify-center gap-xs mb-lg">
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">World History</span>
+<span class="px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-bold">Essay Writing</span>
+</div>
+<button class="mt-auto w-full py-sm border border-primary text-primary rounded-lg font-label-md text-label-md hover:bg-primary-fixed transition-colors">Book a Session</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Us -->
+<section class="py-3xl bg-surface-container-low overflow-hidden relative">
+<div class="max-w-container-max mx-auto px-lg relative z-10">
+<div class="text-center mb-3xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Why Students Trust Us</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Built on transparency, academic rigor, and student success.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-xl">
+<div class="glass-card p-xl rounded-3xl text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-lg">
+<span class="material-symbols-outlined text-primary text-3xl">verified_user</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-sm">Expert Vetting</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Every tutor undergoes a rigorous multi-step background and expertise verification process.</p>
+</div>
+<div class="glass-card p-xl rounded-3xl text-center">
+<div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-lg">
+<span class="material-symbols-outlined text-secondary text-3xl">trending_up</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-sm">Personalized Growth</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Custom lesson plans tailored to your specific learning style and academic objectives.</p>
+</div>
+<div class="glass-card p-xl rounded-3xl text-center">
+<div class="w-16 h-16 bg-tertiary-fixed/30 rounded-full flex items-center justify-center mx-auto mb-lg">
+<span class="material-symbols-outlined text-tertiary text-3xl">payments</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-sm">Fair &amp; Flexible</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Transparent pricing with no long-term contracts. Pay as you learn with our secure platform.</p>
+</div>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="absolute top-1/2 left-0 -translate-y-1/2 -translate-x-1/2 w-[800px] h-[800px] border border-outline-variant/30 rounded-full -z-0"></div>
+</section>
+<!-- CTA Section -->
+<section class="py-3xl">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="bg-primary-container rounded-[2rem] p-2xl md:p-3xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-xl">
+<div class="relative z-10 text-center md:text-left">
+<h2 class="font-display-lg-mobile md:font-headline-md text-on-primary-container mb-md">Ready to accelerate your learning?</h2>
+<p class="font-body-lg text-body-lg text-primary-fixed mb-xl max-w-lg">Get matched with your perfect tutor today and start your journey towards academic excellence.</p>
+<button class="bg-surface-container-lowest text-primary px-3xl py-md rounded-lg font-headline-sm text-headline-sm shadow-xl hover:scale-105 transition-transform">
+                            Get Started Now
+                        </button>
+</div>
+<div class="hidden lg:block relative z-10 w-1/3">
+<img class="w-full" data-alt="A stylized 3D isometric illustration of academic icons like a lightbulb, a graduation cap, and a laptop floating in a coordinated indigo and white space. The style is clean, modern, and high-tech, representing the intersection of education and technology." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByG8mLKLfG-heXe849q2VezqtFeP3l29y7sLbXHtOwqO41lk-vBeVIY2Bil9pWDhnl3Zvp7M-CbtNUgoq0T9ztkLt2MW-A1uUqbfMZPBGu6n8l8pRyr5HwRJZWo1nGhemmCxeZp8phuB-Y2FoO3TdRddpXMjsDATUI1RAtmtyUIQaDxbeGhm5H8jgH7aprIRpUhBOxlomJ0v7_o1zzUSvDvW0Ry4i-bA61KW4ZwYa-PIghY4qt3iLKB_kOlgTA_Crs5PLtao3RumNz"/>
+</div>
+
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest">
+<div class="w-full py-xl px-lg max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex flex-col items-center md:items-start gap-xs">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">TutorConnect</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant opacity-80">© 2024 TutorConnect. Empowering learners worldwide.</p>
+</div>
+<div class="flex items-center gap-lg">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">FAQ</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Support</a>
+</div>
+</div>
+</footer>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-md pt-sm md:hidden bg-surface shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="font-label-sm text-label-sm">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-highest transition-all duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for tutor cards
+        document.querySelectorAll('.tutor-card-shadow').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const btn = card.querySelector('button');
+                btn.classList.add('bg-primary', 'text-on-primary');
+                btn.classList.remove('text-primary');
+            });
+            card.addEventListener('mouseleave', () => {
+                const btn = card.querySelector('button');
+                btn.classList.remove('bg-primary', 'text-on-primary');
+                btn.classList.add('text-primary');
+            });
+        });
+
+        // Simple scroll spy for navbar shadow
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+
