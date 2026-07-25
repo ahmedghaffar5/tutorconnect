@@ -12,27 +12,27 @@ const subjects = [
 
 export default function SubjectsSection() {
   return (
-    <section className="py-3xl bg-surface-container-lowest">
-      <div className="max-w-container-max mx-auto px-lg">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-lg mb-2xl">
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <h2 className="font-headline-md text-on-surface mb-sm">Explore Popular Subjects</h2>
-            <p className="font-body-md text-on-surface-variant">Whatever you want to learn, we have an expert for you.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Explore Popular Subjects</h2>
+            <p className="text-base text-gray-500">Whatever you want to learn, we have an expert for you.</p>
           </div>
-          <Link href="/subjects" className="text-primary font-label-md flex items-center gap-xs hover:underline">
+          <Link href="/subjects" className="text-indigo-600 font-medium flex items-center gap-1 hover:underline">
             View all subjects <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-lg">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {subjects.map((s) => (
             <Link key={s.name} href={s.href} className="group cursor-pointer">
-              <div className="h-48 rounded-2xl overflow-hidden mb-md relative bg-gradient-to-br from-primary-container/10 to-secondary-container/10 border border-outline-variant flex items-center justify-center">
+              <div className="h-48 rounded-2xl overflow-hidden mb-4 relative bg-gradient-to-br from-indigo-50 to-emerald-50 border border-gray-100 flex items-center justify-center">
                 <span className="text-6xl transition-transform duration-500 group-hover:scale-110">{s.emoji}</span>
-                <div className="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent flex items-end p-md">
-                  <span className="text-on-primary font-headline-sm">{s.name}</span>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                  <span className="text-white text-xl font-semibold">{s.name}</span>
                 </div>
               </div>
-              <p className="font-body-sm text-on-surface-variant">{s.desc}</p>
+              <p className="text-sm text-gray-500">{s.desc}</p>
             </Link>
           ))}
         </div>
