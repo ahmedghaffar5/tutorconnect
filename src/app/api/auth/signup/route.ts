@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { isRoleSelfAssignable } from "@/lib/permissions";
 
 export async function POST(request: Request) {
   try {
     const { email, password, fullName, role } = await request.json();
+
+    // SECURITY: Only allow self-assignable roles (student, parent)
+    const safeRole = isRoleSelfAssignable(role) ? role : "student";
 
     const supabase = createAdminClient();
 
@@ -11,7 +15,7 @@ export async function POST(request: Request) {
       email,
       password,
       email_confirm: true,
-      user_metadata: { full_name: fullName, role },
+      user_metadata: { full_name: fullName, role: safeRole },
     });
 
     if (authError) {
@@ -26,14 +30,14 @@ export async function POST(request: Request) {
       user_id: authData.user.id,
       full_name: fullName,
       email,
-      role,
+      role: safeRole,
     });
 
     if (rpcError) {
       return NextResponse.json({ error: rpcError.message }, { status: 500 });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, role: safeRole });
   } catch (err) {
     return NextResponse.json(
       { error: err instanceof Error ? err.message : "Internal server error" },

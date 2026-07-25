@@ -1,10 +1,19 @@
 import { NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function GET() {
+  // SECURITY: Authenticate and authorize before any data access
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { data: profile } = await supabase.from("users").select("role").eq("id", user.id).single();
+  const userRole = profile?.role || (user.user_metadata as any)?.role;
+  if (userRole !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
   try {
     const admin = createAdminClient();
-
     const [students, tutors, bookings, flags, messages, apps, subjects, payments, logs, users] = await Promise.all([
       admin.from("users").select("*", { count: "exact", head: true }).eq("role", "student"),
       admin.from("tutors").select("*"),
