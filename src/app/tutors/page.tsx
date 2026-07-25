@@ -24,10 +24,10 @@ function TutorsContent() {
   const [sort, setSort] = useState("recommended");
 
   useEffect(() => {
-    fetch("/api/tutors").then(r => r.json()).then(data => {
+    fetch("/api/tutors").then(r => { if (!r.ok) throw new Error("API error: " + r.status); return r.json(); }).then(data => {
       setTutors(Array.isArray(data) ? data.map((t: Tutor) => ({ ...t, rating: 4.5 + Math.random() * 0.5, reviews: Math.floor(Math.random() * 200) + 20, students: Math.floor(Math.random() * 100) + 10 })) : []);
       setLoading(false);
-    }).catch(() => setLoading(false));
+    }).catch((e) => { console.error("Tutors fetch error:", e); setLoading(false); });
   }, []);
 
   const toggleSubject = (s: string) => setSubjects(p => p.includes(s) ? p.filter(x => x !== s) : [...p, s]);
