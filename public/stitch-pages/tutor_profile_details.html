@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tutor Profile | LuminaTutor</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .bento-item {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bento-item:hover {
+            transform: translateY(-4px);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#4edea3",
+                        "secondary-container": "#6cf8bb",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#4d44e3",
+                        "primary-container": "#4f46e5",
+                        "on-surface": "#0b1c30",
+                        "tertiary": "#684000",
+                        "outline-variant": "#c7c4d8",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "on-primary-fixed": "#0f0069",
+                        "surface-container": "#e5eeff",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-container": "#dad7ff",
+                        "on-surface-variant": "#464555",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-container": "#ffd4a4",
+                        "surface": "#f8f9ff",
+                        "on-secondary-container": "#00714d",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "outline": "#777587",
+                        "on-secondary-fixed": "#002113",
+                        "inverse-primary": "#c3c0ff",
+                        "surface-container-low": "#eff4ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "primary-fixed": "#e2dfff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-background": "#0b1c30",
+                        "on-secondary": "#ffffff",
+                        "primary": "#3525cd",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "tertiary-container": "#885500",
+                        "secondary": "#006c49",
+                        "on-primary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "surface-bright": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "3xl": "64px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Geist"],
+                        "headline-sm": ["Geist"],
+                        "label-md": ["Geist"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg-mobile": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["30px", {"lineHeight": "38px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed-dim selection:text-on-primary-fixed">
+<!-- Top Navigation Bar (Shared Component) -->
+<header class="bg-surface/80 backdrop-blur-md font-label-md text-label-md docked full-width top-0 sticky border-b border-outline-variant/30 shadow-sm z-50">
+<nav class="flex justify-between items-center px-gutter py-md w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-xl">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">LuminaTutor</span>
+<div class="hidden md:flex items-center gap-lg">
+<a class="text-primary border-b-2 border-primary pb-1 transition-colors" href="#">Find Tutors</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Courses</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Resources</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="px-md py-sm text-primary font-bold hover:opacity-80 transition-opacity">Log In</button>
+<button class="px-lg py-sm bg-primary text-on-primary rounded-lg font-bold hover:scale-[1.02] active:scale-95 transition-all">Sign Up</button>
+</div>
+</nav>
+</header>
+<main class="w-full max-w-container-max mx-auto px-gutter py-xl">
+<!-- Hero Section: Glassmorphic Interface -->
+<section class="relative grid grid-cols-1 lg:grid-cols-3 gap-lg mb-3xl">
+<div class="lg:col-span-2 space-y-lg">
+<!-- Profile Header -->
+<div class="glass-card rounded-2xl p-xl flex flex-col md:flex-row gap-lg items-center md:items-start relative overflow-hidden">
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl"></div>
+<!-- Profile Photo -->
+<div class="relative group">
+<div class="w-40 h-40 rounded-full border-4 border-surface overflow-hidden shadow-xl">
+<img class="w-full h-full object-cover" data-alt="A professional and friendly portrait of a female university professor in her late 30s. She is smiling warmly at the camera, wearing professional indigo-colored attire. The background is a brightly lit, modern office with soft-focus books and plants, maintaining a clean light-mode aesthetic with soft-professional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwI3QTylkBLAYDzKtGFc8DcODdp1jlbouVovVQKdTvNfYfS9YD4ozPM_Ownb8RTf7IJzj28KQvxZ6DtWrU3L6WOPMarpxoPBCMHzgURMuQ4rIGZbrvns1VMg23fABAkmKgYPActmq_8OMbwkVZ5T6kQaCEihr51Q4CGbGFSq6Hbg8h4CYKkM0Z6z3VptzVGtXSGSpcLvpfqHmXQ30demGDTVpQsYjUt8hHBM7Ed-6dqUzrhOgQGqNclLwJ9DDHq3J8Dd5FjSuHGPso"/>
+</div>
+<div class="absolute bottom-2 right-2 bg-secondary text-on-secondary p-1.5 rounded-full shadow-lg flex items-center justify-center border-2 border-surface">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<!-- Intro Info -->
+<div class="flex-1 text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-center gap-sm mb-xs">
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight">Dr. Elena Vance</h1>
+<span class="inline-flex items-center px-sm py-1 bg-surface-container-highest text-primary rounded-full font-label-sm text-label-sm w-fit mx-auto md:mx-0">
+<span class="material-symbols-outlined text-sm mr-1">star</span> 4.9 (142 Reviews)
+                            </span>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary mb-md">PhD in Theoretical Physics &amp; Mathematics</p>
+<div class="flex flex-wrap justify-center md:justify-start gap-sm">
+<span class="px-md py-1.5 bg-surface-container-low border border-outline-variant/30 rounded-full font-label-md text-label-md">Quantum Mechanics</span>
+<span class="px-md py-1.5 bg-surface-container-low border border-outline-variant/30 rounded-full font-label-md text-label-md">Advanced Calculus</span>
+<span class="px-md py-1.5 bg-surface-container-low border border-outline-variant/30 rounded-full font-label-md text-label-md">Data Science</span>
+</div>
+</div>
+</div>
+<!-- Video Intro Placeholder -->
+<div class="relative rounded-2xl overflow-hidden aspect-video shadow-lg group cursor-pointer">
+<div class="absolute inset-0 bg-on-surface/40 z-10 flex items-center justify-center group-hover:bg-on-surface/30 transition-all">
+<div class="w-20 h-20 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</div>
+</div>
+<img class="w-full h-full object-cover" data-alt="A high-resolution wide shot of a modern, minimal university workspace where a professional educator is gesturing towards a transparent glass chalkboard covered in complex equations. The lighting is bright, airy, and professional, characteristic of a high-end educational masterclass. The atmosphere is inspiring and intellectually stimulating, featuring cool indigo and slate tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt21R-vSuYhoGlvr8-mQK4j_qFSom77QGfAC4pmZmZOxzWkKOyLp8Q-FS3FyHmv9GW2Dk8wKM5PFDQqckHYwMabHhDP1D3HxqMidtqiBQipG0iv91GX8_Vv3HVQhSDqUqxmV87vqvSjXMnCPFJ8nXOBFAtazi52cFrAPe7XXVia3WMBN80HrFzy-okw9aMtutcXZ98ifSFCsW2fZy6xNI6VfldPbwA-otXr_DTyXP66EGL_7qeWVLJ8h3gTsMCuFKySzYQTApXdqN-"/>
+<div class="absolute bottom-md left-md z-20 glass-card px-md py-sm rounded-lg">
+<p class="font-label-md text-label-md font-bold text-on-surface">Intro: My Teaching Philosophy</p>
+</div>
+</div>
+</div>
+<!-- Booking Sidebar Card -->
+<aside class="lg:col-span-1">
+<div class="sticky top-28 space-y-md">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-xl shadow-md">
+<div class="flex justify-between items-end mb-lg">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Starting at</p>
+<p class="font-display-lg text-display-lg text-on-surface">$85<span class="text-headline-sm font-normal text-on-surface-variant">/hr</span></p>
+</div>
+<div class="text-right">
+<span class="bg-secondary-container text-on-secondary-container px-sm py-1 rounded text-label-sm font-bold">TOP RATED</span>
+</div>
+</div>
+<div class="space-y-md mb-xl">
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-xl border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary">schedule</span>
+<div>
+<p class="font-label-md text-label-md font-bold">Next Available</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tomorrow, 10:00 AM</p>
+</div>
+</div>
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-xl border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary">language</span>
+<div>
+<p class="font-label-md text-label-md font-bold">Languages</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">English (Native), German (Fluent)</p>
+</div>
+</div>
+</div>
+<button class="w-full py-md bg-primary text-on-primary rounded-xl font-bold text-lg hover:bg-primary/90 hover:shadow-lg transition-all active:scale-95 mb-md">
+                            Book Free Trial
+                        </button>
+<button class="w-full py-md border-2 border-primary text-primary rounded-xl font-bold text-lg hover:bg-primary-container transition-all">
+                            Send Message
+                        </button>
+<p class="text-center font-body-sm text-body-sm text-on-surface-variant mt-lg">
+<span class="material-symbols-outlined text-sm align-middle mr-1">history</span>
+                            Replied within 2 hours
+                        </p>
+</div>
+<div class="bg-surface-container-high rounded-2xl p-lg flex items-center gap-md border border-outline-variant/20">
+<div class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Lumina Secure</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">100% Money back guarantee</p>
+</div>
+</div>
+</div>
+</aside>
+</section>
+<!-- Bento Grid for Profile Details -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-lg mb-3xl">
+<!-- About Me -->
+<div class="md:col-span-8 bento-item bg-surface-container-lowest border border-outline-variant p-xl rounded-2xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-lg">About Me</h2>
+<div class="space-y-md text-on-surface-variant font-body-lg text-body-lg leading-relaxed">
+<p>With over 12 years of experience in both academia and the tech sector, I specialize in bridging the gap between theoretical physics and real-world application. I believe that anyone can master complex subjects if they are broken down into intuitive, manageable concepts.</p>
+<p>My journey began at MIT, where I completed my doctorate, followed by several years as a lead researcher at the Quantum Compute Lab. Today, I dedicate my time to helping students navigate the beautiful but challenging landscapes of advanced math and science.</p>
+</div>
+</div>
+<!-- Subject Mastery -->
+<div class="md:col-span-4 bento-item bg-primary-container text-on-primary-container p-xl rounded-2xl flex flex-col justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md mb-lg">Subject Mastery</h2>
+<ul class="space-y-md">
+<li class="flex items-center justify-between">
+<span class="font-label-md text-label-md">Physics</span>
+<div class="w-24 h-2 bg-on-primary-container/20 rounded-full overflow-hidden">
+<div class="w-full h-full bg-on-primary-container"></div>
+</div>
+</li>
+<li class="flex items-center justify-between">
+<span class="font-label-md text-label-md">Calculus</span>
+<div class="w-24 h-2 bg-on-primary-container/20 rounded-full overflow-hidden">
+<div class="w-full h-full bg-on-primary-container"></div>
+</div>
+</li>
+<li class="flex items-center justify-between">
+<span class="font-label-md text-label-md">Statistics</span>
+<div class="w-24 h-2 bg-on-primary-container/20 rounded-full overflow-hidden">
+<div class="w-[90%] h-full bg-on-primary-container"></div>
+</div>
+</li>
+<li class="flex items-center justify-between">
+<span class="font-label-md text-label-md">Python/Julia</span>
+<div class="w-24 h-2 bg-on-primary-container/20 rounded-full overflow-hidden">
+<div class="w-[85%] h-full bg-on-primary-container"></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="mt-xl pt-lg border-t border-on-primary-container/20">
+<p class="font-label-sm text-label-sm opacity-80 uppercase tracking-widest">Expertise Level</p>
+<p class="font-headline-sm text-headline-sm">Senior Consultant</p>
+</div>
+</div>
+<!-- Teaching Methodology -->
+<div class="md:col-span-4 bento-item bg-surface-container-high p-xl rounded-2xl">
+<span class="material-symbols-outlined text-primary text-[40px] mb-md">psychology</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-md">The "Socratic Deep-Dive"</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">I don't just provide answers. I guide you through the logical path to discover them yourself, ensuring permanent retention and deeper understanding of first principles.</p>
+</div>
+<!-- Education -->
+<div class="md:col-span-8 bento-item bg-surface-container-lowest border border-outline-variant p-xl rounded-2xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-lg">Education &amp; Certifications</h2>
+<div class="space-y-lg">
+<div class="flex items-start gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">school</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">PhD in Theoretical Physics</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Massachusetts Institute of Technology • 2012 - 2016</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">workspace_premium</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Google Professional Data Engineer</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Certified 2021 • Credential ID: GDE-88219</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">history_edu</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">M.Sc. in Mathematics</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">University of Cambridge • 2010 - 2012</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Student Reviews Wall -->
+<section class="space-y-xl mb-3xl">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Student Reviews</h2>
+<p class="text-on-surface-variant">Hear from those who transformed their learning journey.</p>
+</div>
+<button class="text-primary font-bold flex items-center gap-sm hover:underline">
+                    View all 142 reviews <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<!-- Review Masonry/Bento -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Review Card 1 -->
+<div class="p-lg bg-surface-container-lowest border border-outline-variant rounded-2xl flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-xs text-secondary-fixed-dim mb-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md italic mb-lg">"Dr. Vance transformed my fear of Quantum Mechanics into a genuine passion. Her sessions are intense but incredibly rewarding."</p>
+</div>
+<div class="flex items-center gap-md pt-md border-t border-outline-variant/30">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="A candid profile photo of a male college student wearing a casual grey hoodie, with a focus on his thoughtful expression. The lighting is soft and natural, suggesting a library setting. Professional photography style with a shallow depth of field, using colors consistent with a modern student interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJmTRCxCsTscDIWJfDQaaPDkhln3mY6TBPUh5PeqZekcjNgCAXeGakDmcSH_JhqWKVXHDXSeNu9iwbLHR9J4h8OR2qu2UcnLDccfilFlmVZG5Hy-G861w642gemvJUF7G3ov5n2LrdPkkdGad3-vJyQODhrjTPnLiITJy71wWB41gwXWnPv1oAvWJnHeXeIlAuoLnZFaWDIU_P60B_HL4bOWlwT2hRxcq9QrPTdfbEIAd6X6mMPzda1qqfSllWmKeMPCxP9nX69Aym"/>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Julian K.</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">verified</span> Verified Student
+                            </p>
+</div>
+</div>
+</div>
+<!-- Review Card 2 -->
+<div class="p-lg bg-surface-container-lowest border border-outline-variant rounded-2xl flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-xs text-secondary-fixed-dim mb-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md italic mb-lg">"Absolutely the best tutor for GRE prep. Her mathematical shortcuts saved me so much time during the actual exam."</p>
+</div>
+<div class="flex items-center gap-md pt-md border-t border-outline-variant/30">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="A high-quality portrait of a professional female graduate student in her late 20s, smiling brightly. She has a clean, minimalist aesthetic, wearing a white blazer against a neutral, airy background. Soft, flattering lighting that matches a corporate and modern educational brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClGvtG2pTasm3JrwzVorBPjNCgp6sLE6oOs3XGjzXfZ1GC45gGiyb1xKrxQd39hz7PPxEsEmYPAAwWjn6ROKL4m6ZCHha9Em6RE89kHIXIorB_CamTfT_QWCcDUZW9PU2D-EvfUCWLONxNSXfcZX17o5ShLtXrG7ME5rqEJfF0DRU-Hp4RseN4MwKZWHZwSQphNmfujcrl26Uug3YiUfvzap7_PoUH6js1-Vy_Uu-zsSgc9Mcxlo-5qQMpMMzkaQYUf4PlMQbFrjFP"/>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Sarah Chen</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">verified</span> Verified Student
+                            </p>
+</div>
+</div>
+</div>
+<!-- Review Card 3 -->
+<div class="p-lg bg-surface-container-lowest border border-outline-variant rounded-2xl flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-xs text-secondary-fixed-dim mb-md">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star_half</span>
+</div>
+<p class="font-body-md text-body-md italic mb-lg">"Very patient and articulate. Even when I struggled with basic concepts, she never made me feel out of place."</p>
+</div>
+<div class="flex items-center gap-md pt-md border-t border-outline-variant/30">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-dim">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male mature student in his 40s with glasses, looking approachable and friendly. He is in a brightly lit home-office environment with a clean background. The visual style is crisp, clear, and professional, utilizing the design system's slate and indigo tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzvNpCZISQwgiZPfJLe8jAOD76LJ2dWu5Yb8piUkO0U_hgwgHZqr7A-oswkLi4U_G6h2UxfqWvOcb_gRf2gi0ClWO8TRPa6u8lWDsYaUWkKq9c4PZnEdbil03-KR8CNbZiWdw3Kcqyd3XNCu-ZmzsCyXI2yiu64vpyQ3iXH-X9_-Pc8CEn_9uUqBJwCpSsnM3AfL3S9f12XcCZJVvv-N76RMe7g_TLo3eF23-yse20XB-iFSM09ToDCH2B-w1litzm2z0rsWP3PqQv"/>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold">Markus Weber</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-secondary">verified</span> Verified Student
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-highest font-body-sm text-body-sm full-width border-t border-outline-variant/50">
+<div class="w-full py-xl px-gutter grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg max-w-container-max mx-auto">
+<div class="space-y-md">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">LuminaTutor</span>
+<p class="text-on-surface-variant">Empowering global learners through elite mentorship and personalized growth paths.</p>
+</div>
+<div class="space-y-md">
+<h4 class="font-bold text-on-surface">Marketplace</h4>
+<nav class="flex flex-col gap-sm">
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Become a Tutor</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Student Discounts</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Affiliate Program</a>
+</nav>
+</div>
+<div class="space-y-md">
+<h4 class="font-bold text-on-surface">Support</h4>
+<nav class="flex flex-col gap-sm">
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Help Center</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Contact</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Safety Center</a>
+</nav>
+</div>
+<div class="space-y-md">
+<h4 class="font-bold text-on-surface">Legal</h4>
+<nav class="flex flex-col gap-sm">
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors" href="#">Sitemap</a>
+</nav>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-gutter py-lg border-t border-outline-variant/30 flex justify-between items-center text-on-surface-variant">
+<p>© 2024 LuminaTutor Marketplace. All rights reserved.</p>
+<div class="flex gap-md">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">language</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">public</span>
+</div>
+</div>
+</footer>
+<!-- Interactive Logic -->
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+
+        // Simple scroll appearance for navigation
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('header');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>
