@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { getSafeClient } from "@/lib/supabase/safe-admin";
 
 export async function GET() {
-  // SECURITY: Authenticate and authorize before any data access
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -13,18 +12,19 @@ export async function GET() {
   if (userRole !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   try {
-    const admin = createAdminClient();
+    const db = getSafeClient();
+
     const [students, tutors, bookings, flags, messages, apps, subjects, payments, logs, users] = await Promise.all([
-      admin.from("users").select("*", { count: "exact", head: true }).eq("role", "student"),
-      admin.from("tutors").select("*"),
-      admin.from("bookings").select("*").order("created_at", { ascending: false }).limit(50),
-      admin.from("feature_flags").select("*"),
-      admin.from("contact_messages").select("*").order("created_at", { ascending: false }).limit(20),
-      admin.from("teacher_applications").select("*").order("created_at", { ascending: false }).limit(50),
-      admin.from("subjects").select("*").order("name"),
-      admin.from("payments").select("*").order("created_at", { ascending: false }).limit(50),
-      admin.from("audit_logs").select("*, users(full_name, email)").order("created_at", { ascending: false }).limit(30),
-      admin.from("users").select("*").order("created_at", { ascending: false }),
+      db.from("users").select("*", { count: "exact", head: true }).eq("role", "student"),
+      db.from("tutors").select("*"),
+      db.from("bookings").select("*, subjects(name)").order("created_at", { ascending: false }).limit(50),
+      db.from("feature_flags").select("*"),
+      db.from("contact_messages").select("*").order("created_at", { ascending: false }).limit(20),
+      db.from("teacher_applications").select("*").order("created_at", { ascending: false }).limit(50),
+      db.from("subjects").select("*").order("name"),
+      db.from("payments").select("*").order("created_at", { ascending: false }).limit(50),
+      db.from("audit_logs").select("*, users(full_name, email)").order("created_at", { ascending: false }).limit(30),
+      db.from("users").select("*").order("created_at", { ascending: false }),
     ]);
 
     return NextResponse.json({

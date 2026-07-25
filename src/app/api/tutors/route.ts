@@ -1,65 +1,77 @@
 import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
 import { logAudit } from "@/lib/audit";
+
+// Use anon key client for public reads (works with RLS policies)
+const anonClient = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export async function GET(request: Request) {
   try {
-    const supabase = createAdminClient();
     const url = new URL(request.url);
     const subject = url.searchParams.get("subject");
 
-    // First get all approved tutors
-    let query = supabase
-      .from("tutors")
-      .select("*, users!inner(full_name, email)")
-      .eq("is_approved", true);
+    // Get approved tutors with user info using admin client if available, else anon
+    let tutorsData: any[] = [];
+    let tutorsError: any = null;
 
-    const { data: tutorsData, error: tutorsError } = await query;
+    // Try admin client first (bypasses RLS), fall back to anon (respects RLS)
+    try {
+      const admin = createAdminClient();
+      const { data, error } = await admin
+        .from("tutors")
+        .select("*, users(full_name, email), tutor_subjects(subjects(id, name))")
+        .eq("is_approved", true);
+      if (error) throw error;
+      tutorsData = data || [];
+    } catch {
+      // Fall back to anonymous client with simpler query
+      const { data, error } = await anonClient
+        .from("tutors")
+        .select("*, users!inner(full_name, email)")
+        .eq("is_approved", true);
+      if (error) throw error;
+      tutorsData = data || [];
 
-    if (tutorsError) {
-      console.error("Tutors query error:", tutorsError);
-      return NextResponse.json({ error: tutorsError.message }, { status: 500 });
-    }
-
-    // Get subjects for each tutor
-    const tutorIds = (tutorsData || []).map((t: any) => t.id);
-    let subjectsMap: Record<string, any[]> = {};
-
-    if (tutorIds.length > 0) {
-      const { data: tsData } = await supabase
-        .from("tutor_subjects")
-        .select("tutor_id, subjects(id, name)")
-        .in("tutor_id", tutorIds);
-
-      if (tsData) {
-        subjectsMap = (tsData as any[]).reduce((acc: any, item: any) => {
-          if (!acc[item.tutor_id]) acc[item.tutor_id] = [];
-          if (item.subjects) acc[item.tutor_id].push(item.subjects);
-          return acc;
-        }, {});
+      // Get subjects separately
+      if (tutorsData.length > 0) {
+        const ids = tutorsData.map((t: any) => t.id);
+        const { data: tsData } = await anonClient
+          .from("tutor_subjects")
+          .select("tutor_id, subjects(id, name)")
+          .in("tutor_id", ids);
+        if (tsData) {
+          const subjectsMap: Record<string, any[]> = {};
+          (tsData as any[]).forEach((item: any) => {
+            if (!subjectsMap[item.tutor_id]) subjectsMap[item.tutor_id] = [];
+            if (item.subjects) subjectsMap[item.tutor_id].push(item.subjects);
+          });
+          tutorsData = tutorsData.map((t: any) => ({
+            ...t,
+            tutor_subjects: (subjectsMap[t.id] || []).map((s: any) => ({ subjects: s })),
+          }));
+        }
       }
     }
 
-    const tutors = (tutorsData || []).map((t: any) => {
-      const tutorSubjects = subjectsMap[t.id] || [];
-      return {
-        id: t.id,
-        name: t.users?.full_name || "Unknown",
-        email: t.users?.email,
-        subjects: tutorSubjects.map((s: any) => s.name).filter(Boolean),
-        subjectIds: tutorSubjects.map((s: any) => s.id).filter(Boolean),
-        bio: t.bio || "Experienced tutor ready to help you achieve your goals.",
-        rate: t.hourly_rate || 0,
-        experience: t.experience_years || 0,
-        qualification: t.qualification || "",
-        languages: t.languages || "English",
-        image: t.profile_image_url,
-        is_approved: t.is_approved,
-      };
-    });
+    const tutors = (tutorsData || []).map((t: any) => ({
+      id: t.id,
+      name: t.users?.full_name || "Unknown",
+      email: t.users?.email,
+      subjects: (t.tutor_subjects || []).map((ts: any) => ts.subjects?.name).filter(Boolean),
+      subjectIds: (t.tutor_subjects || []).map((ts: any) => ts.subjects?.id).filter(Boolean),
+      bio: t.bio || "Experienced tutor ready to help.",
+      rate: t.hourly_rate || 0,
+      experience: t.experience_years || 0,
+      qualification: t.qualification || "",
+      languages: t.languages || "English",
+      image: t.profile_image_url,
+    }));
 
-    // Filter by subject if needed
     const filtered = subject
       ? tutors.filter((t: any) =>
           t.subjects.some((s: string) => s.toLowerCase().includes(subject.toLowerCase()))
@@ -74,7 +86,7 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-  const supabase = await createClient();
+  const supabase = await createServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
