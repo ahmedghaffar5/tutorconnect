@@ -23,18 +23,26 @@ export async function GET() {
       auth: { autoRefreshToken: false, persistSession: false },
     });
 
-    // Test connection - simple query
-    try {
-      const { error: testError } = await db.from("subjects").select("id").limit(1);
-      if (testError) {
-        add(`Connection test: FAIL - ${testError.message || "Unknown error"}`);
-        return NextResponse.json({ error: "Cannot connect to database. Run schema-v3.sql first in Supabase SQL editor.", logs });
-      }
-      add("Connection test: OK (subjects accessible)");
-    } catch (e: any) {
-      add(`Connection test: EXCEPTION - ${e.message}`);
-      return NextResponse.json({ error: "Database connection error: " + e.message, logs });
+    // Test connection
+    const { error: testErr } = await db.from("subjects").select("id").limit(1);
+    if (testErr) {
+      add(`ERROR: ${testErr.message}`);
+      add("");
+      add("The service role key is DENYING access to public tables.");
+      add("This usually means the key in Vercel is INCORRECT.");
+      add("");
+      add("FIX: Go to supabase.com → Project Settings → API");
+      add("Copy the 'service_role' key (starts with 'eyJhbGciOiJIUzI1NiIs...')");
+      add("It's the LONGER key, NOT the anon key.");
+      add("");
+      add("Then paste it in Vercel: tutorconnect-red → Settings → Environment Variables");
+      add("Update SUPABASE_SERVICE_ROLE_KEY value and REDEPLOY.");
+      add("");
+      add("ALTERNATIVE: If you can't fix the key, run this SQL in Supabase SQL Editor:");
+      add("  " + "supabase/seed-v3.sql (the SQL file in the project folder)");
+      return NextResponse.json({ error: "Service role key issue. See logs for fix.", logs });
     }
+    add("Connection OK");
 
     // Check if tutors already exist
     const { count: existingCount } = await db.from("tutors").select("*", { count: "exact", head: true });
