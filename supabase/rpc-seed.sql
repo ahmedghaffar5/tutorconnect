@@ -18,23 +18,23 @@ DECLARE
   parent_id UUID;
 BEGIN
 
-  -- Clean existing data
-  DELETE FROM notifications;
-  DELETE FROM audit_logs;
-  DELETE FROM reviews;
-  DELETE FROM submissions; DELETE FROM grades;
-  DELETE FROM assignment_attachments; DELETE FROM assignments;
-  DELETE FROM progress_records; DELETE FROM learning_goals;
-  DELETE FROM booking_participants; DELETE FROM booking_status_history;
-  DELETE FROM slot_holds; DELETE FROM attendance_records;
-  DELETE FROM session_notes; DELETE FROM tutor_product_prices;
-  DELETE FROM availability_rules; DELETE FROM tutor_subjects;
-  DELETE FROM tutors; DELETE FROM guardian_student_links;
-  DELETE FROM household_members; DELETE FROM households;
-  DELETE FROM admin_permissions; DELETE FROM user_sessions;
-  DELETE FROM consents; DELETE FROM bookings;
-  DELETE FROM contact_messages; DELETE FROM teacher_applications;
-  DELETE FROM favorites; DELETE FROM users;
+  -- Clean existing data (WHERE TRUE required for Supabase safe mode)
+  DELETE FROM notifications WHERE TRUE;
+  DELETE FROM audit_logs WHERE TRUE;
+  DELETE FROM reviews WHERE TRUE;
+  DELETE FROM submissions WHERE TRUE; DELETE FROM grades WHERE TRUE;
+  DELETE FROM assignment_attachments WHERE TRUE; DELETE FROM assignments WHERE TRUE;
+  DELETE FROM progress_records WHERE TRUE; DELETE FROM learning_goals WHERE TRUE;
+  DELETE FROM booking_participants WHERE TRUE; DELETE FROM booking_status_history WHERE TRUE;
+  DELETE FROM slot_holds WHERE TRUE; DELETE FROM attendance_records WHERE TRUE;
+  DELETE FROM session_notes WHERE TRUE; DELETE FROM tutor_product_prices WHERE TRUE;
+  DELETE FROM availability_rules WHERE TRUE; DELETE FROM tutor_subjects WHERE TRUE;
+  DELETE FROM tutors WHERE TRUE; DELETE FROM guardian_student_links WHERE TRUE;
+  DELETE FROM household_members WHERE TRUE; DELETE FROM households WHERE TRUE;
+  DELETE FROM admin_permissions WHERE TRUE; DELETE FROM user_sessions WHERE TRUE;
+  DELETE FROM consents WHERE TRUE; DELETE FROM bookings WHERE TRUE;
+  DELETE FROM contact_messages WHERE TRUE; DELETE FROM teacher_applications WHERE TRUE;
+  DELETE FROM favorites WHERE TRUE; DELETE FROM users WHERE TRUE;
 
   -- 1. Admin
   INSERT INTO users (full_name, email, role, account_status, timezone)
