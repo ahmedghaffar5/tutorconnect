@@ -31,6 +31,7 @@ export async function GET() {
       const { error: testErr } = await adminDb.from("subjects").select("id").limit(1);
       if (!testErr) {
         add("Service role key works! Seeding directly...");
+type LinkItem = [number, string[]];
         // Clear and seed using admin client
         const tables = ["notifications","audit_logs","reviews","submissions","grades","assignment_attachments","assignments","progress_records","learning_goals","booking_participants","booking_status_history","slot_holds","attendance_records","session_notes","tutor_product_prices","availability_rules","tutor_subjects","tutors","guardian_student_links","household_members","households","admin_permissions","bookings","contact_messages","teacher_applications","favorites"];
         for (const t of tables) { try { await adminDb.from(t).delete().neq("id", "00000000-0000-0000-0000-000000000000"); } catch {} }
@@ -58,7 +59,7 @@ export async function GET() {
         // Get subjects
         const { data: subs } = await adminDb.from("subjects").select("id,name");
         const subMap = Object.fromEntries((subs||[]).map((s:any)=>[s.name,s.id]));
-        const links = [[0,["Mathematics","Physics"]],[1,["Computer Science","Coding"]],[2,["English","Urdu"]],[3,["Physics","Chemistry","Mathematics"]],[4,["Computer Science","Coding"]]];
+        const links: LinkItem[] = [[0,["Mathematics","Physics"]],[1,["Computer Science","Coding"]],[2,["English","Urdu"]],[3,["Physics","Chemistry","Mathematics"]],[4,["Computer Science","Coding"]]];
         for (const [idx,subjs] of links) { for (const sub of subjs) { if(subMap[sub]&&tutors[idx]) await adminDb.from("tutor_subjects").insert({tutor_id:tutors[idx].id,subject_id:subMap[sub]}); } }
 
         // Students
