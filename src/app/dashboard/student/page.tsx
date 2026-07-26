@@ -10,8 +10,6 @@ export default async function StudentDashboard() {
   const { data: profile } = await supabase.from("users").select("*").eq("id", user.id).single();
   const { data: bookings } = await supabase.from("bookings").select("*, subjects(name)").eq("student_id", user.id).order("created_at", { ascending: false });
   const { data: goals } = await supabase.from("learning_goals").select("*").eq("student_id", user.id).eq("status", "active").limit(3);
-  const { data: assignments } = await supabase.from("assignments").select("*").eq("student_id", user.id).in("status", ["assigned", "in_progress"]).limit(3);
-  const { data: notifications } = await supabase.from("notifications").select("*").eq("user_id", user.id).eq("is_read", false).limit(5);
 
   const upcoming = bookings?.filter((b) => b.status === "confirmed" || b.status === "pending") || [];
   const completed = bookings?.filter((b) => b.status === "completed") || [];

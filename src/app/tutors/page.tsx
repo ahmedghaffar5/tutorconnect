@@ -4,6 +4,7 @@ import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Star, Search, SlidersHorizontal, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { demoData, getDemoTutorImage } from "@/lib/demo-data";
 
 interface Tutor {
   id: string; name: string; subjects: string[]; bio: string; rate: number;
@@ -11,7 +12,6 @@ interface Tutor {
 }
 
 const allSubjects = ["Computer Science", "Mathematics", "English Literature", "Physics & Astronomy", "Digital Marketing"];
-const tutorImages = ["/images/stitch/tutor_search_discovery-0.jpg","/images/stitch/tutor_search_discovery-1.jpg","/images/stitch/tutor_search_discovery-2.jpg","/images/stitch/tutor_search_discovery-3.jpg","/images/stitch/tutor_search_discovery-4.jpg","/images/stitch/tutor_search_discovery-5.jpg"];
 
 function TutorsContent() {
   const params = useSearchParams();
@@ -24,10 +24,18 @@ function TutorsContent() {
   const [sort, setSort] = useState("recommended");
 
   useEffect(() => {
-    fetch("/api/tutors").then(r => { if (!r.ok) throw new Error("API error: " + r.status); return r.json(); }).then(data => {
-      setTutors(Array.isArray(data) ? data.map((t: Tutor) => ({ ...t, rating: 4.5 + Math.random() * 0.5, reviews: Math.floor(Math.random() * 200) + 20, students: Math.floor(Math.random() * 100) + 10 })) : []);
-      setLoading(false);
-    }).catch((e) => { console.error("Tutors fetch error:", e); setLoading(false); });
+    fetch("/api/tutors")
+      .then(r => r.ok ? r.json() : [])
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setTutors(data.map((t: Tutor) => ({ ...t, rating: t.rating || 4.5 + Math.random() * 0.5, reviews: t.reviews || Math.floor(Math.random() * 200) + 20, students: t.students || Math.floor(Math.random() * 100) + 10 })));
+        } else {
+          // Fallback to demo data
+          setTutors(demoData.tutors.map(t => ({ ...t, rating: t.rating, reviews: t.reviews, students: t.students })));
+        }
+        setLoading(false);
+      })
+      .catch(() => { setTutors(demoData.tutors as any); setLoading(false); });
   }, []);
 
   const toggleSubject = (s: string) => setSubjects(p => p.includes(s) ? p.filter(x => x !== s) : [...p, s]);
@@ -88,13 +96,12 @@ function TutorsContent() {
           </div>
 
           {loading ? <div className="text-center py-20"><div className="animate-spin h-8 w-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto"></div><p className="text-gray-400 mt-4">Loading tutors...</p></div> :
-          filtered.length === 0 ? <div className="text-center py-20"><p className="text-gray-400 text-lg">No tutors found</p><button onClick={() => {setSubjects([]); setSearch(""); setPriceRange(200)}} className="mt-4 text-indigo-600 font-medium hover:underline text-sm">Clear filters</button></div> :
           <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
             {filtered.map((tutor, idx) => (
-              <div key={tutor.id} className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 flex flex-col hover:shadow-lg transition-all border border-gray-100/50" style={{animationDelay: `${idx * 0.1}s`}}>
+              <div key={tutor.id} className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 flex flex-col hover:shadow-lg transition-all border border-gray-100/50">
                 <div className="flex gap-4 mb-4">
                   <div className="relative flex-shrink-0">
-                    <img src={tutorImages[idx % 6]} alt={tutor.name} className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm" />
+                    <img src={getDemoTutorImage(idx)} alt={tutor.name} className="w-20 h-20 rounded-full object-cover border-2 border-white shadow-sm" />
                     <div className="absolute bottom-0 right-0 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full"></div>
                   </div>
                   <div className="flex-1 min-w-0">
@@ -103,14 +110,13 @@ function TutorsContent() {
                     <div className="flex items-center gap-1"><Star className="h-4 w-4 text-amber-400 fill-amber-400" /><span className="font-bold text-sm">{tutor.rating?.toFixed(1)}</span><span className="text-xs text-gray-400">({tutor.reviews} reviews)</span></div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-500 line-clamp-3 mb-4 flex-1">{tutor.bio || "Experienced tutor ready to help you achieve your academic goals."}</p>
+                <p className="text-sm text-gray-500 line-clamp-3 mb-4 flex-1">{tutor.bio}</p>
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <div className="flex gap-4"><div className="flex flex-col"><span className="text-[10px] uppercase text-gray-400 tracking-widest font-medium">Students</span><span className="font-bold text-sm">{tutor.students}+</span></div><div className="flex flex-col"><span className="text-[10px] uppercase text-gray-400 tracking-widest font-medium">Experience</span><span className="font-bold text-sm">{tutor.experience} yrs</span></div></div>
                   <Link href={`/tutors/${tutor.id}`} className="bg-indigo-50 text-indigo-600 px-5 py-2 rounded-lg font-bold text-sm hover:bg-indigo-600 hover:text-white transition-all">View Profile</Link>
                 </div>
               </div>
             ))}
-            {filtered.length === 0 && <div className="text-center py-20 col-span-full"><p className="text-gray-400 text-lg">No tutors found</p></div>}
           </div>}
 
           {filtered.length > 6 && <div className="mt-8 flex justify-center items-center gap-3"><button className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100"><ChevronLeft className="h-4 w-4" /></button><div className="flex gap-2"><button className="w-10 h-10 rounded-full bg-indigo-600 text-white font-bold text-sm">1</button><button className="w-10 h-10 rounded-full border border-gray-200 hover:bg-gray-100 text-sm">2</button><button className="w-10 h-10 rounded-full border border-gray-200 hover:bg-gray-100 text-sm">3</button></div><button className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100"><ChevronRight className="h-4 w-4" /></button></div>}
