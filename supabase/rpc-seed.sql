@@ -54,12 +54,12 @@ BEGIN
   )
   SELECT ARRAY_AGG(id) INTO tutor_ids FROM tutor_users;
 
-  INSERT INTO tutors (user_id, bio, experience_years, qualification, hourly_rate, is_approved, languages) VALUES
-    (tutor_ids[1], 'PhD in Mathematics from MIT. 15+ years teaching experience.', 15, 'PhD Mathematics, MIT', 65, TRUE, 'English, Mandarin'),
-    (tutor_ids[2], 'Full-stack developer and educator. Expert in React, Node.js, Python.', 10, 'MSc Computer Science, Stanford', 55, TRUE, 'English'),
-    (tutor_ids[3], 'Native Spanish speaker. Teaching languages for 8 years.', 8, 'MA Linguistics, Barcelona', 45, TRUE, 'Spanish, English, French'),
-    (tutor_ids[4], 'PhD in Physics, published researcher. Making science accessible.', 12, 'PhD Physics, Caltech', 60, TRUE, 'English'),
-    (tutor_ids[5], 'Software engineer teaching coding to beginners and advanced students.', 7, 'BSc Computer Science, MIT', 50, TRUE, 'English, Hindi');
+  INSERT INTO tutors (user_id, display_name, bio, experience_years, qualification, hourly_rate, is_approved, languages) VALUES
+    (tutor_ids[1], 'Dr. Sarah Chen', 'PhD in Mathematics from MIT. 15+ years teaching experience.', 15, 'PhD Mathematics, MIT', 65, TRUE, 'English, Mandarin'),
+    (tutor_ids[2], 'Prof. James Wilson', 'Full-stack developer and educator. Expert in React, Node.js, Python.', 10, 'MSc Computer Science, Stanford', 55, TRUE, 'English'),
+    (tutor_ids[3], 'Ms. Elena Rodriguez', 'Native Spanish speaker. Teaching languages for 8 years.', 8, 'MA Linguistics, Barcelona', 45, TRUE, 'Spanish, English, French'),
+    (tutor_ids[4], 'Dr. Michael Hart', 'PhD in Physics, published researcher. Making science accessible.', 12, 'PhD Physics, Caltech', 60, TRUE, 'English'),
+    (tutor_ids[5], 'Prof. Alex Rivera', 'Software engineer teaching coding to beginners and advanced students.', 7, 'BSc Computer Science, MIT', 50, TRUE, 'English, Hindi');
 
   -- 3. Subject links
   INSERT INTO tutor_subjects (tutor_id, subject_id)

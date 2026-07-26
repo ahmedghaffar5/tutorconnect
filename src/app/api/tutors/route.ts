@@ -14,35 +14,14 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const subject = url.searchParams.get("subject");
 
-    // Use anon client directly (works with RLS policies)
-    // Query tutors and manually resolve user names
+    // Query tutors - uses display_name from the tutors table (no users join needed)
     const { data: tutorsData, error: tutorsError } = await anonClient
       .from("tutors")
-      .select("id, user_id, bio, experience_years, qualification, hourly_rate, is_approved, languages, profile_image_url")
+      .select("id, display_name, bio, experience_years, qualification, hourly_rate, is_approved, languages, profile_image_url")
       .eq("is_approved", true);
 
     if (tutorsError) {
       return NextResponse.json({ error: tutorsError.message }, { status: 500 });
-    }
-
-    // Get user names for tutors (try admin client first, fall back to individual lookups)
-    let userMap: Record<string, any> = {};
-
-    // Try admin client for user names
-    try {
-      const admin = createAdminClient();
-      const { data: users } = await admin.from("users").select("id, full_name, email").in("id", (tutorsData || []).map((t: any) => t.user_id));
-      if (users) {
-        userMap = Object.fromEntries(users.map((u: any) => [u.id, u]));
-      }
-    } catch {
-      // Admin client failed - try reading user names via anon client (RLS permitting)
-      for (const t of tutorsData || []) {
-        try {
-          const { data: u } = await anonClient.from("users").select("full_name, email").eq("id", t.user_id).single();
-          if (u) userMap[t.user_id] = u;
-        } catch {}
-      }
     }
 
     // Get subjects for tutors
@@ -63,12 +42,10 @@ export async function GET(request: Request) {
     }
 
     const tutors = (tutorsData || []).map((t: any) => {
-      const userInfo = userMap[t.user_id] || {};
       const tutorSubjects = subjectsMap[t.id] || [];
       return {
         id: t.id,
-        name: userInfo.full_name || "Tutor",
-        email: userInfo.email,
+        name: t.display_name || "Tutor",
         subjects: tutorSubjects.map((s: any) => s.name).filter(Boolean),
         subjectIds: tutorSubjects.map((s: any) => s.id).filter(Boolean),
         bio: t.bio || "Experienced tutor ready to help.",
@@ -98,8 +75,7 @@ export async function PATCH(request: Request) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { data: profile } = await supabase.from("users").select("role").eq("id", user.id).maybeSingle();
-  const meta = user.user_metadata as Record<string, string> | undefined;
-  if ((profile?.role || meta?.role) !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (profile?.role !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   const { tutorId, isApproved } = await request.json();
   const admin = createAdminClient();
