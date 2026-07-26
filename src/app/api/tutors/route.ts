@@ -4,7 +4,6 @@ import { createClient as createServerClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { logAudit } from "@/lib/audit";
 
-// Use anon key client for public reads (works with RLS policies)
 const anonClient = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -15,62 +14,71 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const subject = url.searchParams.get("subject");
 
-    // Get approved tutors with user info using admin client if available, else anon
-    let tutorsData: any[] = [];
-    let tutorsError: any = null;
+    // Use anon client directly (works with RLS policies)
+    // Query tutors and manually resolve user names
+    const { data: tutorsData, error: tutorsError } = await anonClient
+      .from("tutors")
+      .select("id, user_id, bio, experience_years, qualification, hourly_rate, is_approved, languages, profile_image_url")
+      .eq("is_approved", true);
 
-    // Try admin client first (bypasses RLS), fall back to anon (respects RLS)
+    if (tutorsError) {
+      return NextResponse.json({ error: tutorsError.message }, { status: 500 });
+    }
+
+    // Get user names for tutors (try admin client first, fall back to individual lookups)
+    let userMap: Record<string, any> = {};
+
+    // Try admin client for user names
     try {
       const admin = createAdminClient();
-      const { data, error } = await admin
-        .from("tutors")
-        .select("*, users(full_name, email), tutor_subjects(subjects(id, name))")
-        .eq("is_approved", true);
-      if (error) throw error;
-      tutorsData = data || [];
+      const { data: users } = await admin.from("users").select("id, full_name, email").in("id", (tutorsData || []).map((t: any) => t.user_id));
+      if (users) {
+        userMap = Object.fromEntries(users.map((u: any) => [u.id, u]));
+      }
     } catch {
-      // Fall back to anonymous client with simpler query
-      const { data, error } = await anonClient
-        .from("tutors")
-        .select("*, users!inner(full_name, email)")
-        .eq("is_approved", true);
-      if (error) throw error;
-      tutorsData = data || [];
-
-      // Get subjects separately
-      if (tutorsData.length > 0) {
-        const ids = tutorsData.map((t: any) => t.id);
-        const { data: tsData } = await anonClient
-          .from("tutor_subjects")
-          .select("tutor_id, subjects(id, name)")
-          .in("tutor_id", ids);
-        if (tsData) {
-          const subjectsMap: Record<string, any[]> = {};
-          (tsData as any[]).forEach((item: any) => {
-            if (!subjectsMap[item.tutor_id]) subjectsMap[item.tutor_id] = [];
-            if (item.subjects) subjectsMap[item.tutor_id].push(item.subjects);
-          });
-          tutorsData = tutorsData.map((t: any) => ({
-            ...t,
-            tutor_subjects: (subjectsMap[t.id] || []).map((s: any) => ({ subjects: s })),
-          }));
-        }
+      // Admin client failed - try reading user names via anon client (RLS permitting)
+      for (const t of tutorsData || []) {
+        try {
+          const { data: u } = await anonClient.from("users").select("full_name, email").eq("id", t.user_id).single();
+          if (u) userMap[t.user_id] = u;
+        } catch {}
       }
     }
 
-    const tutors = (tutorsData || []).map((t: any) => ({
-      id: t.id,
-      name: t.users?.full_name || "Unknown",
-      email: t.users?.email,
-      subjects: (t.tutor_subjects || []).map((ts: any) => ts.subjects?.name).filter(Boolean),
-      subjectIds: (t.tutor_subjects || []).map((ts: any) => ts.subjects?.id).filter(Boolean),
-      bio: t.bio || "Experienced tutor ready to help.",
-      rate: t.hourly_rate || 0,
-      experience: t.experience_years || 0,
-      qualification: t.qualification || "",
-      languages: t.languages || "English",
-      image: t.profile_image_url,
-    }));
+    // Get subjects for tutors
+    const tutorIds = (tutorsData || []).map((t: any) => t.id);
+    let subjectsMap: Record<string, any[]> = {};
+    if (tutorIds.length > 0) {
+      const { data: tsData } = await anonClient
+        .from("tutor_subjects")
+        .select("tutor_id, subjects(id, name)")
+        .in("tutor_id", tutorIds);
+      if (tsData) {
+        subjectsMap = (tsData as any[]).reduce((acc: any, item: any) => {
+          if (!acc[item.tutor_id]) acc[item.tutor_id] = [];
+          if (item.subjects) acc[item.tutor_id].push(item.subjects);
+          return acc;
+        }, {});
+      }
+    }
+
+    const tutors = (tutorsData || []).map((t: any) => {
+      const userInfo = userMap[t.user_id] || {};
+      const tutorSubjects = subjectsMap[t.id] || [];
+      return {
+        id: t.id,
+        name: userInfo.full_name || "Tutor",
+        email: userInfo.email,
+        subjects: tutorSubjects.map((s: any) => s.name).filter(Boolean),
+        subjectIds: tutorSubjects.map((s: any) => s.id).filter(Boolean),
+        bio: t.bio || "Experienced tutor ready to help.",
+        rate: t.hourly_rate || 0,
+        experience: t.experience_years || 0,
+        qualification: t.qualification || "",
+        languages: t.languages || "English",
+        image: t.profile_image_url,
+      };
+    });
 
     const filtered = subject
       ? tutors.filter((t: any) =>
@@ -80,7 +88,6 @@ export async function GET(request: Request) {
 
     return NextResponse.json(filtered);
   } catch (e: any) {
-    console.error("Tutors API error:", e);
     return NextResponse.json({ error: e.message || "Internal error" }, { status: 500 });
   }
 }
